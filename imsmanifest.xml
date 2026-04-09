@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<manifest identifier="CP4807-IntroMicrocontrollers"
+          version="1.0"
+          xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
+          xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_rootv1p2"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.imsproject.org/xsd/imscp_rootv1p1p2 imscp_rootv1p1p2.xsd
+                              http://www.adlnet.org/xsd/adlcp_rootv1p2 adlcp_rootv1p2.xsd">
+
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>1.2</schemaversion>
+  </metadata>
+
+  <organizations default="CP4807-org">
+    <organization identifier="CP4807-org">
+      <title>CP4807 - Introduction to Microcontrollers</title>
+
+      <!-- Bronze Tier -->
+      <item identifier="ITEM-BRONZE" isvisible="true">
+        <title>Bronze - Fundamentals</title>
+
+        <item identifier="ITEM-WS1" identifierref="RES-WS1">
+          <title>Worksheet 1: First Program</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS2" identifierref="RES-WS2">
+          <title>Worksheet 2: Performing Calculations</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS3" identifierref="RES-WS3">
+          <title>Worksheet 3: Connection Points</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS4" identifierref="RES-WS4">
+          <title>Worksheet 4: Digital Inputs</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS5" identifierref="RES-WS5">
+          <title>Worksheet 5: Making Decisions</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS6" identifierref="RES-WS6">
+          <title>Worksheet 6: Macros / Subroutines</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS7" identifierref="RES-WS7">
+          <title>Worksheet 7: Using Prototype Boards</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+      </item>
+
+      <!-- Silver Tier -->
+      <item identifier="ITEM-SILVER" isvisible="true">
+        <title>Silver - Intermediate</title>
+
+        <item identifier="ITEM-WS8" identifierref="RES-WS8">
+          <title>Worksheet 8: Colour Graphical Displays</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS9" identifierref="RES-WS9">
+          <title>Worksheet 9: Pin Interrupts</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS10" identifierref="RES-WS10">
+          <title>Worksheet 10: Timer Interrupts</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+      </item>
+
+      <!-- Gold Tier -->
+      <item identifier="ITEM-GOLD" isvisible="true">
+        <title>Gold - Advanced</title>
+
+        <item identifier="ITEM-WS11" identifierref="RES-WS11">
+          <title>Worksheet 11: Touch Control Systems</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+
+        <item identifier="ITEM-WS12" identifierref="RES-WS12">
+          <title>Worksheet 12: Web Mirror</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore>
+        </item>
+      </item>
+
+    </organization>
+  </organizations>
+
+  <resources>
+    <resource identifier="RES-WS1" type="webcontent" adlcp:scormtype="sco" href="index.html#ws1">
+      <file href="index.html"/>
+      <file href="scorm/scorm-api.js"/>
+      <file href="Assets/Media/first program.jpg"/>
+      <file href="Assets/Media/flashing light.jpg"/>
+      <file href="Assets/Media/Flowcode Embedded introduction.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS2" type="webcontent" adlcp:scormtype="sco" href="index.html#ws2">
+      <file href="index.html"/>
+      <file href="Assets/Media/binary-numbers-data-matrix-on-screen-2025-01-29-08-07-35-utc.jpg"/>
+      <file href="Assets/Media/binary.jpg"/>
+      <file href="Assets/Media/counter.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS3" type="webcontent" adlcp:scormtype="sco" href="index.html#ws3">
+      <file href="index.html"/>
+      <file href="Assets/Media/traffic lights.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS4" type="webcontent" adlcp:scormtype="sco" href="index.html#ws4">
+      <file href="index.html"/>
+      <file href="Assets/Media/Digital inputs.jpg"/>
+      <file href="Assets/Media/electronics board.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS5" type="webcontent" adlcp:scormtype="sco" href="index.html#ws5">
+      <file href="index.html"/>
+      <file href="Assets/Media/making decisions.jpg"/>
+      <file href="Assets/Media/control panel.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS6" type="webcontent" adlcp:scormtype="sco" href="index.html#ws6">
+      <file href="index.html"/>
+      <file href="Assets/Media/Macros.jpg"/>
+      <file href="Assets/Media/music panel.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS7" type="webcontent" adlcp:scormtype="sco" href="index.html#ws7">
+      <file href="index.html"/>
+      <file href="Assets/Media/prototype board.jpg"/>
+      <file href="Assets/Media/proto board with parts.png"/>
+      <file href="Assets/Media/project diagram.png"/>
+    </resource>
+
+    <resource identifier="RES-WS8" type="webcontent" adlcp:scormtype="sco" href="index.html#ws8">
+      <file href="index.html"/>
+      <file href="Assets/Media/colour touch screen.jpg"/>
+      <file href="Assets/Media/hardware control.png"/>
+      <file href="Assets/Media/hardware tracker.png"/>
+    </resource>
+
+    <resource identifier="RES-WS9" type="webcontent" adlcp:scormtype="sco" href="index.html#ws9">
+      <file href="index.html"/>
+      <file href="Assets/Media/pin interrupts.png"/>
+      <file href="Assets/Media/stop switch.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS10" type="webcontent" adlcp:scormtype="sco" href="index.html#ws10">
+      <file href="index.html"/>
+      <file href="Assets/Media/timer interrupts.png"/>
+      <file href="Assets/Media/stop watch.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS11" type="webcontent" adlcp:scormtype="sco" href="index.html#ws11">
+      <file href="index.html"/>
+      <file href="Assets/Media/touch screen control.jpg"/>
+      <file href="Assets/Media/touch screen.jpg"/>
+    </resource>
+
+    <resource identifier="RES-WS12" type="webcontent" adlcp:scormtype="sco" href="index.html#ws12">
+      <file href="index.html"/>
+      <file href="Assets/Media/web mirror.jpg"/>
+      <file href="Assets/Media/web mirror candy.jpg"/>
+    </resource>
+
+    <!-- Shared Assets -->
+    <resource identifier="RES-SHARED" type="webcontent" adlcp:scormtype="asset">
+      <file href="Assets/Media/e-blocks3 logo.png"/>
+      <file href="Assets/Media/logo.png"/>
+      <file href="Assets/Media/youtube logo.png"/>
+      <file href="Assets/Media/intro to micros cover.jpg"/>
+      <file href="Assets/Media/PIC development centre.png"/>
+      <file href="Assets/Media/BLXXXX programming Arduino microcontrollers.png"/>
+    </resource>
+  </resources>
+
+</manifest>

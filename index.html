@@ -1,0 +1,2972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CP4807 - Introduction to Microcontrollers | LMS</title>
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-dark: #f5f6fa;
+      --bg-card: #ffffff;
+      --bg-sidebar: #ffffff;
+      --bg-hover: #f0f1f5;
+      --bg-input: #f0f1f5;
+      --accent: #6c5ce7;
+      --accent-light: #5a4bd1;
+      --accent-glow: rgba(108, 92, 231, 0.12);
+      --bronze: #b5651d;
+      --silver: #6b7280;
+      --gold: #d4a017;
+      --green: #00a884;
+      --green-light: #00c49a;
+      --red: #e17055;
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --text-dim: #9ca3af;
+      --border: #e5e7eb;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --sidebar-width: 320px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ===== LAYOUT ===== */
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: var(--bg-sidebar);
+      border-right: 1px solid var(--border);
+      box-shadow: 2px 0 12px rgba(0,0,0,0.06);
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition);
+    }
+
+    .sidebar-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .sidebar-logo img {
+      height: 36px;
+      width: auto;
+    }
+
+    .sidebar-logo span {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .sidebar-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .sidebar-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Overall progress in sidebar */
+    .overall-progress {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .overall-progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+    }
+
+    .overall-progress-pct {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--bg-hover);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transition: width 0.5s ease;
+      width: 0%;
+    }
+
+    /* Nav sections */
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 0;
+    }
+
+    .nav-tier {
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-tier-label {
+      padding: 8px 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-tier-label .tier-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .tier-bronze .tier-dot { background: var(--bronze); }
+    .tier-silver .tier-dot { background: var(--silver); }
+    .tier-gold .tier-dot { background: var(--gold); }
+    .tier-bronze { color: var(--bronze); }
+    .tier-silver { color: var(--silver); }
+    .tier-gold { color: var(--gold); }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all var(--transition);
+      text-decoration: none;
+      color: var(--text);
+      font-size: 13px;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-hover);
+    }
+
+    .nav-item.active {
+      background: var(--accent-glow);
+      color: var(--accent);
+    }
+
+    .nav-item-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      background: var(--bg-hover);
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+
+    .nav-item.active .nav-item-num {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .nav-item.completed .nav-item-num {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .nav-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .nav-item-title {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-item-progress {
+      margin-top: 4px;
+    }
+
+    .nav-item-progress .progress-bar {
+      height: 3px;
+    }
+
+    /* ===== MAIN CONTENT ===== */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      min-height: 100vh;
+    }
+
+    /* Top bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(245, 246, 250, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .breadcrumb {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .breadcrumb span {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      color: var(--bg-dark);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-hover);
+      color: var(--text);
+    }
+
+    .btn-success {
+      background: var(--green);
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: var(--green-light);
+      color: var(--bg-dark);
+    }
+
+    /* Content area */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 32px 80px;
+    }
+
+    /* Worksheet section */
+    .worksheet {
+      display: none;
+    }
+
+    .worksheet.active {
+      display: block;
+    }
+
+    /* Hero section per worksheet */
+    .ws-hero {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 32px;
+      background: #1a1a2e;
+      border: 1px solid var(--border);
+    }
+
+    .ws-hero-img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.45;
+    }
+
+    .ws-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(26,26,46,0.97) 0%, rgba(26,26,46,0.6) 50%, rgba(26,26,46,0.35) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 32px;
+    }
+
+    .ws-hero-tier {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      width: fit-content;
+      margin-bottom: 12px;
+    }
+
+    .tier-badge-bronze {
+      background: rgba(205, 127, 50, 0.25);
+      color: #e8a44a;
+      border: 1px solid rgba(205, 127, 50, 0.4);
+    }
+
+    .tier-badge-silver {
+      background: rgba(200, 200, 210, 0.2);
+      color: #d1d5db;
+      border: 1px solid rgba(200, 200, 210, 0.35);
+    }
+
+    .tier-badge-gold {
+      background: rgba(255, 215, 0, 0.25);
+      color: #fbbf24;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+    }
+
+    .ws-hero-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    .ws-hero-desc {
+      color: rgba(255,255,255,0.7);
+      font-size: 15px;
+      max-width: 600px;
+    }
+
+    /* Section progress bar */
+    .ws-progress-bar {
+      padding: 20px 24px;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+    }
+
+    .ws-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .ws-progress-header span {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .ws-progress-header strong {
+      color: var(--accent);
+      font-size: 15px;
+    }
+
+    .ws-progress-bar .progress-bar {
+      height: 10px;
+      border-radius: 5px;
+    }
+
+    .ws-progress-bar .progress-bar-fill {
+      border-radius: 5px;
+    }
+
+    /* Cards */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 24px;
+      transition: border-color var(--transition);
+    }
+
+    .card:hover {
+      border-color: var(--accent-glow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .card-icon.video { background: rgba(255, 71, 87, 0.15); color: #ff4757; }
+    .card-icon.task { background: rgba(108, 92, 231, 0.15); color: var(--accent-light); }
+    .card-icon.info { background: rgba(0, 184, 148, 0.15); color: var(--green); }
+    .card-icon.hint { background: rgba(253, 203, 110, 0.15); color: #fdcb6e; }
+    .card-icon.image { background: rgba(116, 185, 255, 0.15); color: #74b9ff; }
+    .card-icon.prep { background: rgba(162, 155, 254, 0.15); color: var(--accent-light); }
+
+    .card-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .card p, .card li {
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .card ul, .card ol {
+      padding-left: 20px;
+      margin: 8px 0;
+    }
+
+    .card li { margin-bottom: 4px; }
+
+    .card strong, .card code {
+      color: var(--text);
+    }
+
+    .card code {
+      background: var(--bg-hover);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    /* Video embed */
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin: 16px 0;
+      background: #000;
+    }
+
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Image gallery */
+    .image-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .gallery-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: transform var(--transition), opacity var(--transition);
+      border: 1px solid var(--border);
+    }
+
+    .gallery-img:hover {
+      transform: scale(1.03);
+      opacity: 0.9;
+    }
+
+    .single-img {
+      width: 100%;
+      max-width: 600px;
+      max-height: 280px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      margin: 16px 0;
+      cursor: pointer;
+    }
+
+    /* Challenge checkboxes */
+    .challenge-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .challenge-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+      transition: background var(--transition);
+      cursor: pointer;
+    }
+
+    .challenge-item:hover {
+      background: var(--bg-hover);
+    }
+
+    .challenge-check {
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid var(--border);
+      border-radius: 6px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      cursor: pointer;
+      position: relative;
+      transition: all var(--transition);
+      background: var(--bg-input);
+    }
+
+    .challenge-check:checked {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .challenge-check:checked::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 6px;
+      width: 6px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .challenge-text {
+      font-size: 14px;
+      color: #374151;
+      line-height: 1.6;
+      transition: all var(--transition);
+    }
+
+    .challenge-item.done .challenge-text {
+      text-decoration: line-through;
+      color: var(--text-dim);
+    }
+
+    /* Hints collapsible */
+    .hints-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: #fef9ee;
+      border: 1px solid #fde68a;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #92400e;
+      margin-top: 12px;
+      width: 100%;
+      text-align: left;
+      transition: all var(--transition);
+    }
+
+    .hints-toggle:hover {
+      background: #fef3c7;
+    }
+
+    .hints-toggle .arrow {
+      transition: transform var(--transition);
+      font-size: 10px;
+    }
+
+    .hints-toggle.open .arrow {
+      transform: rotate(90deg);
+    }
+
+    .hints-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .hints-content.open {
+      max-height: 500px;
+    }
+
+    .hints-content-inner {
+      padding: 16px;
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .hints-content-inner ul {
+      padding-left: 20px;
+    }
+
+    .hints-content-inner li {
+      margin-bottom: 6px;
+    }
+
+    /* Important callout */
+    .callout {
+      padding: 16px 20px;
+      border-radius: var(--radius-sm);
+      margin: 16px 0;
+      font-size: 14px;
+      border-left: 4px solid;
+    }
+
+    .callout-warning {
+      background: #fef9ee;
+      border-color: #d97706;
+      color: #92400e;
+    }
+
+    .callout-info {
+      background: #eff6ff;
+      border-color: #3b82f6;
+      color: #1e40af;
+    }
+
+    .callout-note {
+      background: #f5f3ff;
+      border-color: var(--accent);
+      color: #4c1d95;
+    }
+
+    /* Section divider */
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 32px 0;
+    }
+
+    /* Lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: zoom-out;
+    }
+
+    .lightbox.open {
+      display: flex;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: var(--radius);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #fff;
+      font-size: 32px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Welcome screen */
+    .welcome-hero {
+      text-align: center;
+      padding: 60px 20px 40px;
+    }
+
+    .welcome-hero > img {
+      width: 100%;
+      max-width: 500px;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+    }
+
+    .welcome-hero h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .welcome-hero p {
+      color: #4b5563;
+      font-size: 16px;
+      max-width: 550px;
+      margin: 0 auto 32px;
+    }
+
+    .welcome-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .stat-value.bronze { color: var(--bronze); }
+    .stat-value.silver { color: var(--silver); }
+    .stat-value.gold { color: var(--gold); }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .welcome-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 16px;
+    }
+
+    .welcome-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .welcome-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .welcome-card-num {
+      font-size: 11px;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .welcome-card-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .welcome-card-progress {
+      margin-top: 12px;
+    }
+
+    .welcome-card-progress .progress-bar { height: 4px; }
+
+    /* Reset progress button */
+    .reset-bar {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .btn-reset {
+      width: 100%;
+      padding: 8px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-reset:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* Mobile overlay */
+    .sidebar-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .sidebar-overlay.open {
+        display: block;
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      .content {
+        padding: 24px 16px 60px;
+      }
+
+      .ws-hero-title {
+        font-size: 24px;
+      }
+
+      .welcome-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-hero h1 {
+        font-size: 26px;
+      }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #d1d5db;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #9ca3af;
+    }
+
+    /* Nav/prev buttons at bottom */
+    .ws-nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+
+    .ws-nav-buttons .btn {
+      padding: 12px 24px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar Overlay (mobile) -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <a href="https://www.flowcode.co.uk/" target="_blank" rel="noopener" class="sidebar-logo" style="text-decoration:none;">
+        <img src="Assets/Media/e-blocks3 logo.png" alt="E-Blocks 3">
+        <span>Learning Platform</span>
+      </a>
+      <div class="sidebar-title">CP4807</div>
+      <div class="sidebar-subtitle">Introduction to Microcontrollers</div>
+    </div>
+
+    <div class="overall-progress">
+      <div class="overall-progress-label">
+        <span>Overall Progress</span>
+        <span class="overall-progress-pct" id="overallPct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-bar-fill" id="overallBar"></div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav">
+      <!-- Welcome -->
+      <div class="nav-tier" style="padding-bottom: 4px;">
+        <a class="nav-item active" data-ws="welcome" onclick="navigateTo('welcome')">
+          <div class="nav-item-num" style="background:var(--accent);color:#fff;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Dashboard</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Bronze -->
+      <div class="nav-tier">
+        <div class="nav-tier-label tier-bronze"><span class="tier-dot"></span> Bronze</div>
+        <a class="nav-item" data-ws="ws1" onclick="navigateTo('ws1')">
+          <div class="nav-item-num">1</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">First Program</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws1"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws2" onclick="navigateTo('ws2')">
+          <div class="nav-item-num">2</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Performing Calculations</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws2"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws3" onclick="navigateTo('ws3')">
+          <div class="nav-item-num">3</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Connection Points</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws3"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws4" onclick="navigateTo('ws4')">
+          <div class="nav-item-num">4</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Digital Inputs</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws4"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws5" onclick="navigateTo('ws5')">
+          <div class="nav-item-num">5</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Making Decisions</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws5"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws6" onclick="navigateTo('ws6')">
+          <div class="nav-item-num">6</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Macros / Subroutines</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws6"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws7" onclick="navigateTo('ws7')">
+          <div class="nav-item-num">7</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Prototype Boards</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws7"></div></div></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Silver -->
+      <div class="nav-tier">
+        <div class="nav-tier-label tier-silver"><span class="tier-dot"></span> Silver</div>
+        <a class="nav-item" data-ws="ws8" onclick="navigateTo('ws8')">
+          <div class="nav-item-num">8</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Colour Graphical Displays</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws8"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws9" onclick="navigateTo('ws9')">
+          <div class="nav-item-num">9</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Pin Interrupts</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws9"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws10" onclick="navigateTo('ws10')">
+          <div class="nav-item-num">10</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Timer Interrupts</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws10"></div></div></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Gold -->
+      <div class="nav-tier">
+        <div class="nav-tier-label tier-gold"><span class="tier-dot"></span> Gold</div>
+        <a class="nav-item" data-ws="ws11" onclick="navigateTo('ws11')">
+          <div class="nav-item-num">11</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Touch Control Systems</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws11"></div></div></div>
+          </div>
+        </a>
+        <a class="nav-item" data-ws="ws12" onclick="navigateTo('ws12')">
+          <div class="nav-item-num">12</div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">Web Mirror</div>
+            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws12"></div></div></div>
+          </div>
+        </a>
+      </div>
+
+      <!-- SCORM Info -->
+      <div class="nav-tier" style="margin-top: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
+        <a class="nav-item" data-ws="scorm" onclick="navigateTo('scorm')">
+          <div class="nav-item-num" style="background: #eff6ff; color: #3b82f6; font-size: 10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+          </div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">SCORM Compliance</div>
+          </div>
+        </a>
+      </div>
+    </nav>
+
+    <div class="reset-bar">
+      <button class="btn-reset" onclick="resetProgress()">Reset All Progress</button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">&#9776;</button>
+        <div class="breadcrumb" id="breadcrumb">
+          CP4807 &rsaquo; <span>Dashboard</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <button class="btn btn-ghost" onclick="navigatePrev()" id="btnPrev" style="display:none;">&#8592; Previous</button>
+        <button class="btn btn-primary" onclick="navigateNext()" id="btnNext">Start Learning &#8594;</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ==================== WELCOME / DASHBOARD ==================== -->
+      <div class="worksheet active" id="page-welcome">
+        <div class="welcome-hero">
+          <img src="Assets/Media/intro to micros cover.jpg" alt="Introduction to Microcontrollers">
+          <h1>Introduction to Microcontrollers</h1>
+          <p>A comprehensive course in microcontroller programming using Flowcode Embedded and E-blocks 3 hardware. Work through 12 worksheets from fundamentals to advanced projects.</p>
+        </div>
+
+        <div class="welcome-stats">
+          <div class="stat-card">
+            <div class="stat-value bronze">7</div>
+            <div class="stat-label">Bronze Worksheets</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value silver">3</div>
+            <div class="stat-label">Silver Worksheets</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value gold">2</div>
+            <div class="stat-label">Gold Worksheets</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 32px;">
+          <div class="card-header">
+            <div class="card-icon prep">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Before You Start</div>
+              <div class="card-title">Preparation</div>
+            </div>
+          </div>
+          <p>Before tackling the worksheets you will need to understand some basic information:</p>
+          <ul>
+            <li><strong>Microcontroller basics</strong> &mdash; a basic explanation of how microcontrollers work</li>
+            <li><strong>Introduction to E-blocks</strong> &mdash; how the E-blocks system works</li>
+            <li><strong>E-blocks datasheet</strong> &mdash; full schematics of all E-blocks 3 circuit boards</li>
+            <li><strong>Flowcode Embedded getting started guide</strong> &mdash; construct your first program from scratch</li>
+          </ul>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/_9WAcrK9LjE" title="Introduction to Flowcode Embedded" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="callout callout-warning" style="margin-top: 16px;">
+            <strong>IMPORTANT:</strong> Before you start using Flowcode, make sure you have the latest libraries by selecting HELP &rarr; LIBRARY UPDATES &rarr; FULL DATABASE (FILES IN USE DROP BOX) &rarr; DOWNLOAD.
+          </div>
+        </div>
+
+        <div class="card" style="margin-bottom: 32px; display: flex; align-items: center; gap: 16px; padding: 20px 24px;">
+          <img src="Assets/Media/youtube logo.png" alt="YouTube" style="height: 32px; width: auto;">
+          <div style="flex:1;">
+            <div style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">More Videos on Our YouTube Channel</div>
+            <p style="margin:0; font-size: 13px;">Watch all course videos, tutorials and walkthroughs on the Matrix Multimedia YouTube channel.</p>
+          </div>
+          <a href="https://www.youtube.com/user/MatrixMultimediaLtd" target="_blank" rel="noopener" class="btn btn-primary" style="white-space: nowrap;">Visit Channel &rarr;</a>
+        </div>
+
+        <div class="card" style="margin-bottom: 32px; display: flex; align-items: center; gap: 16px; padding: 20px 24px;">
+          <div class="card-icon prep" style="width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <div style="flex:1;">
+            <div style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">Download Flowcode Software</div>
+            <p style="margin:0; font-size: 13px;">Download and install Flowcode on your computer to complete the worksheets and build your own programs.</p>
+          </div>
+          <a href="https://www.flowcode.co.uk/download/login/" target="_blank" rel="noopener" class="btn btn-success" style="white-space: nowrap;">Download &darr;</a>
+        </div>
+
+        <div class="card" style="margin-bottom: 32px;">
+          <div class="card-header">
+            <div class="card-icon info">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Reference</div>
+              <div class="card-title">Flowcode Wiki &amp; Documentation</div>
+            </div>
+          </div>
+          <p>The Flowcode Wiki is your go-to reference for everything about the software &mdash; from getting started to advanced component creation. Use these resources alongside the worksheets.</p>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 16px;">
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Main_Page" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Wiki Home</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=About_Flowcode" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">About Flowcode</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Flowcode_Embedded" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Flowcode Embedded</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Flowcode_App_Developer" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">App Developer</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Using_Flowcode" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Using Flowcode</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Examples_and_Tutorials" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Examples &amp; Tutorials</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Component_Library" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Component Library</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Flowcode_Debugging" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Debugging</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Simulation_Library" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Simulation Library</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Component_Creation" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Component Creation</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=What%27s_New" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">What's New</a>
+            <a href="https://www.flowcode.co.uk/wiki/index.php?title=Glossary" target="_blank" rel="noopener" style="display:block; padding: 12px 16px; background: #f0f1f5; border-radius: 8px; text-decoration: none; color: var(--text); font-size: 13px; font-weight: 600; transition: background 0.2s;">Glossary</a>
+          </div>
+        </div>
+
+        <div class="image-gallery" style="margin-bottom: 32px;">
+          <img src="Assets/Media/PIC development centre.png" alt="PIC Development Centre" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/BLXXXX programming Arduino microcontrollers.png" alt="Arduino Microcontrollers" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/electronics board.jpg" alt="Electronics Board" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <h3 style="margin-bottom: 16px; font-size: 18px;">Your Worksheets</h3>
+        <div class="welcome-grid" id="welcomeGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 1: FIRST PROGRAM ==================== -->
+      <div class="worksheet" id="page-ws1">
+        <div class="ws-hero">
+          <img src="Assets/Media/first program.jpg" alt="First Program" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 1: First Program</h2>
+            <p class="ws-hero-desc">This first program introduces you to several programming commands: OUTPUT, LOOP and DELAY.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header">
+            <span>Section Progress</span>
+            <strong id="ws1-pct">0%</strong>
+          </div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws1-bar"></div></div>
+        </div>
+
+        <!-- Video -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: First Program</div>
+            </div>
+          </div>
+          <p>Watch the video on the Flowcode YouTube site to understand how the first program works.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/h8-7BsXBpLc" title="First Program" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- Images -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon image">&#128247;</div>
+            <div>
+              <div class="card-label">Reference</div>
+              <div class="card-title">Hardware &amp; Program</div>
+            </div>
+          </div>
+          <p>Load the file "First program". Set up the hardware appropriately, download it, and make sure you understand it. The program flashes a single LED on the combo board.</p>
+          <div class="image-gallery">
+            <img src="Assets/Media/flashing light.jpg" alt="Flashing Light" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/Media/Flowcode Embedded introduction.jpg" alt="Flowcode Embedded" class="gallery-img" onclick="openLightbox(this)">
+          </div>
+        </div>
+
+        <!-- Challenges -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws1" data-idx="0"><span class="challenge-text"><strong>Delay:</strong> Alter the delay period. Make sure you understand how the Delay command works.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws1" data-idx="1"><span class="challenge-text"><strong>Output:</strong> Change the output to work with port A and port B. Select Advanced options and alter the bit that is flashed.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws1" data-idx="2"><span class="challenge-text"><strong>Loop:</strong> Experiment with the loop dialogue box. Flash the LED for only 10 times.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws1" data-idx="3"><span class="challenge-text"><strong>Advanced:</strong> Alter the program so that it flashes Port 1 bit 0 for 10 times, then Port 2 bit 1 for 9 times, then Port 2 bit 2 for 8 times.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>You can use three loops one after the other. Alter the Loop count in each one.</li>
+                <li>Use the Advanced options in the Output icon to control which output bit is used.</li>
+                <li>Examples are available from within Flowcode: FILE &rarr; NEW PROJECT &rarr; OPEN EXAMPLE OR TEMPLATE.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('welcome')">&#8592; Dashboard</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws2')">Worksheet 2 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 2: PERFORMING CALCULATIONS ==================== -->
+      <div class="worksheet" id="page-ws2">
+        <div class="ws-hero">
+          <img src="Assets/Media/binary-numbers-data-matrix-on-screen-2025-01-29-08-07-35-utc.jpg" alt="Binary Numbers" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 2: Performing Calculations</h2>
+            <p class="ws-hero-desc">Explore calculations, binary and hexadecimal numbering systems. Microcontroller brains are not wired like human beings.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws2-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws2-bar"></div></div>
+        </div>
+
+        <!-- Part 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Part 1 &mdash; Watch</div>
+              <div class="card-title">Binary, Hex and Magic Numbers</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/iEkocOsMj6Q" title="Binary, Hex and Magic Numbers" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "Binary Hex and magic numbers". This is a simulation only program. There are commands you won't yet understand &mdash; just look at the results of the simulation.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/binary.jpg" alt="Binary" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/counter.jpg" alt="Counter" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <!-- Part 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Part 2 &mdash; Watch</div>
+              <div class="card-title">Flowcode Embedded: A Counter</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/T7VX-QNLzeQ" title="A Counter" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "Counter". Set up the hardware appropriately, download it, and make sure you understand it. The program counts in binary on a port of the microcontroller.</p>
+        </div>
+
+        <div class="callout callout-info">
+          <strong>Note:</strong> If you are using an ESP32 microcontroller this worksheet will present difficulties as the ESP32 is a 32 bit system and chip input output connections are complex.
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="0"><span class="challenge-text">Simulate the program and pause it or slow it down to help you understand.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="1"><span class="challenge-text">Make sure you understand conversion between Binary, Hex and Decimal.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="2"><span class="challenge-text">Select 3 decimal numbers between 0 and 100 and convert them to binary.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="3"><span class="challenge-text">Convert 3 binary 8-bit numbers into decimal.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="4"><span class="challenge-text">Slow down the counter program by altering a delay. Understand the counting sequence.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="5"><span class="challenge-text">Investigate variable Types: Bool, Int and Uint.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="6"><span class="challenge-text">Set Count = 1 and change calculation to Count = Count * 2. Explain what happens.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws2" data-idx="7"><span class="challenge-text">After the 7th LED is lit, make the program light bit 6, then bit 5 etc.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>The Flowcode Wiki contains information on variable types.</li>
+                <li>Use the Loop count so that the first loop executes 7 times. At this point bit 7 is lit up.</li>
+                <li>Add a second loop that executes 7 times but use the divide "/" operator rather than the times "*" operator.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws1')">&#8592; Worksheet 1</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws3')">Worksheet 3 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 3: CONNECTION POINTS ==================== -->
+      <div class="worksheet" id="page-ws3">
+        <div class="ws-hero">
+          <img src="Assets/Media/traffic lights.jpg" alt="Traffic Lights" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 3: Connection Points</h2>
+            <p class="ws-hero-desc">Explore two ways of making a program: using connection points and loops.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws3-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws3-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon info">&#9432;</div>
+            <div>
+              <div class="card-label">Information</div>
+              <div class="card-title">No Video for This Worksheet</div>
+            </div>
+          </div>
+          <p>There are always multiple ways of making a program. Sometimes this is down to personal preference, sometimes down to good programming technique.</p>
+          <p style="margin-top:8px;">Load the results of the previous worksheet. You should have a program that lights up the LEDs on a port in sequence going from bit 0 to 7 and then bit 7 to 0. Use connection points to make the program run forever.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/close-up-of-a-yellow-construction-sign-for-traffic-2025-02-03-16-16-23-utc.jpg" alt="Traffic Sign" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/view-of-city-traffic-with-traffic-lights-in-the-f-2025-03-16-12-41-45-utc.jpg" alt="Traffic Lights" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws3" data-idx="0"><span class="challenge-text">Use connection points to make the LED sequence program run forever.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws3" data-idx="1"><span class="challenge-text"><strong>Traffic Lights:</strong> Create a program that loops between Red (10s), Amber (1s), Green (10s), Amber (1s) using connection points.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws3" data-idx="2"><span class="challenge-text">Repeat the traffic light exercise without connection points &mdash; just use Loops.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws3" data-idx="3"><span class="challenge-text">Determine which approach is the easiest program to understand.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Add a connection point at the start of the program.</li>
+                <li>At the end of the program add a Goto Connection point.</li>
+                <li>Traffic lights: use a single loop with Output commands and delays to achieve the result.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws2')">&#8592; Worksheet 2</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws4')">Worksheet 4 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 4: DIGITAL INPUTS ==================== -->
+      <div class="worksheet" id="page-ws4">
+        <div class="ws-hero">
+          <img src="Assets/Media/Digital inputs.jpg" alt="Digital Inputs" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 4: Digital Inputs</h2>
+            <p class="ws-hero-desc">Learn how to get command data into a microcontroller using different types of switches.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws4-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws4-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Digital Inputs</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/Xvs7-iTPXcQ" title="Digital Inputs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "Digital inputs". The program reflects the input on one 8-bit port to another by storing the port status into a variable and then sending that to the output of another port.</p>
+        </div>
+
+        <img src="Assets/Media/electronics board.jpg" alt="Electronics Board" class="single-img" onclick="openLightbox(this)">
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws4" data-idx="0"><span class="challenge-text">Alter the program to work on only the least significant input bit using a Boolean variable.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws4" data-idx="1"><span class="challenge-text">Reflect the state of the least significant bit input to the most significant bit of the same port.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws4" data-idx="2"><span class="challenge-text">Add <code>input_bit1</code> &mdash; light bit 7 only when both <code>input_bit0</code> AND <code>input_bit1</code> are logic high.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws4" data-idx="3"><span class="challenge-text">Experiment with operators OR, XOR, and NOT and make sure you understand how they are used.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Setup a new variable called <code>input_bit0</code> of Type Boolean.</li>
+                <li>Use the Advanced options of the Input command to read the state of the switch on bit 0.</li>
+                <li>Change the Output icon so it outputs <code>input_bit0</code> to bit 7 of the same port.</li>
+                <li>Use the AND operator in the Output statement: <code>input_bit0 AND input_bit1</code></li>
+                <li>Look up Mathematical operators in the Flowcode Wiki: HELP &rarr; WIKI.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws3')">&#8592; Worksheet 3</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws5')">Worksheet 5 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 5: MAKING DECISIONS ==================== -->
+      <div class="worksheet" id="page-ws5">
+        <div class="ws-hero">
+          <img src="Assets/Media/making decisions.jpg" alt="Making Decisions" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 5: Making Decisions</h2>
+            <p class="ws-hero-desc">Explore how decisions are made in microcontroller programs using IF and SWITCH statements.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws5-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws5-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Making Decisions</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/jBTPa4wSFsI" title="Making Decisions" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "Making decisions". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/control panel.jpg" alt="Control Panel" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/red-and-green-round-lamps-and-buttons-on-black-con-2024-12-17-00-11-57-utc.jpg" alt="Control Buttons" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws5" data-idx="0"><span class="challenge-text">Alter the program so that when switch A.0 and switch A.4 are pressed all LEDs on port B are lit.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws5" data-idx="1"><span class="challenge-text">Use a SWITCH command with 8 branches: A.0 pressed &rarr; LED B.7, A.1 &rarr; B.6, etc.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use your knowledge of binary to work out the input when A0 AND A4 are pressed.</li>
+                <li>Write down the binary input for each switch press.</li>
+                <li>Set up a SWITCH statement with 8 branches which tests for each switch press.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws4')">&#8592; Worksheet 4</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws6')">Worksheet 6 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 6: MACROS / SUBROUTINES ==================== -->
+      <div class="worksheet" id="page-ws6">
+        <div class="ws-hero">
+          <img src="Assets/Media/Macros.jpg" alt="Macros" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 6: Macros / Subroutines</h2>
+            <p class="ws-hero-desc">Simplify development with software macros, subroutines, and pre-written hardware libraries.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws6-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws6-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Macros</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/hNBSxdb72v4" title="Macros" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "how to use macros". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+        </div>
+
+        <img src="Assets/Media/music panel.jpg" alt="Music Panel" class="single-img" onclick="openLightbox(this)">
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws6" data-idx="0"><span class="challenge-text">Print "Count is: " then the count number.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws6" data-idx="1"><span class="challenge-text">Print the number on the second line of the display rather than the first.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws6" data-idx="2"><span class="challenge-text">Assign the text to a string variable and use it in your program.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws6" data-idx="3"><span class="challenge-text">Add a second software macro called "Initialise". Move the Start command to it.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws6" data-idx="4"><span class="challenge-text">Use 7-segment displays on the Combo board to display the value of Count.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws6" data-idx="5"><span class="challenge-text">Create a document that tells someone new to your project how it works.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use the hardware macro <code>PrintString</code> to print a string (use inverted commas in the dialogue box).</li>
+                <li>Add a new variable <code>mystring</code> of Type String and length 20.</li>
+                <li>Use the <code>Cursor</code> hardware macro to alter the print position.</li>
+                <li>Use a BL0114 Combo board component and the <code>Seg_Showdigit</code> macro.</li>
+                <li>Use three variables: Units, Tens, Hundreds. Investigate the MOD mathematical function.</li>
+                <li>Use FILE &rarr; EXPORT &rarr; as HTML to create documentation.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws5')">&#8592; Worksheet 5</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws7')">Worksheet 7 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 7: PROTOTYPE BOARDS ==================== -->
+      <div class="worksheet" id="page-ws7">
+        <div class="ws-hero">
+          <img src="Assets/Media/prototype board.jpg" alt="Prototype Board" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
+            <h2 class="ws-hero-title">Worksheet 7: Using Prototype Boards</h2>
+            <p class="ws-hero-desc">Create your own circuits with prototype boards that link to E-Blocks for connections and power.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws7-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws7-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon info">&#9432;</div>
+            <div>
+              <div class="card-label">Information</div>
+              <div class="card-title">No Video for This Worksheet</div>
+            </div>
+          </div>
+          <p>So far you have developed programs using boards which are manufactured for you. At some point you will need to create your own circuits. A prototype board links to E-Blocks very easily to provide connections and power supplies.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/proto board with parts.png" alt="Proto Board with Parts" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/project diagram.png" alt="Project Diagram" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/protoboard.svg" alt="Protoboard Diagram" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Build &amp; Program</div>
+            </div>
+          </div>
+          <p style="margin-bottom:12px;">Build the circuit: two switches (active high and active low), a single LED and a buzzer. Add it to your upstream E-blocks system on any port.</p>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws7" data-idx="0"><span class="challenge-text">Build the prototype circuit with two switches, LED and buzzer.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws7" data-idx="1"><span class="challenge-text">Program: when both switches are pressed, activate the buzzer.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws7" data-idx="2"><span class="challenge-text">Program: flash the LED once a second.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>You can start from scratch or from a previous program &mdash; perhaps Digital Inputs.</li>
+                <li>The main problem is two functions at the same time. Set up a loop with a 10ms delay. 100 loops = 1 second.</li>
+                <li>Set up a variable to track when a second has elapsed. Use this to change the LED state.</li>
+                <li>Use the <code>&amp;&amp;</code> operator for both switches pressed. One switch is active high, the other active low.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws6')">&#8592; Worksheet 6</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws8')">Worksheet 8 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 8: COLOUR GRAPHICAL DISPLAYS ==================== -->
+      <div class="worksheet" id="page-ws8">
+        <div class="ws-hero">
+          <img src="Assets/Media/colour touch screen.jpg" alt="Colour Display" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-silver">Silver</div>
+            <h2 class="ws-hero-title">Worksheet 8: Colour Graphical Displays</h2>
+            <p class="ws-hero-desc">Extend functionality with graphical displays &mdash; tables, graphics, and graphs.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws8-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws8-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Colour Graphical Displays</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/wBFTZGid_Ck" title="Colour Graphical Displays" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the program "Colour graphical displays". Set up the hardware appropriately, download it, and make sure you understand how the program works.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/hardware control.png" alt="Hardware Control" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/hardware tracker.png" alt="Hardware Tracker" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws8" data-idx="0"><span class="challenge-text">Display the status of 8 switches using coloured ellipses (red = off, green = on).</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws8" data-idx="1"><span class="challenge-text">Show the value of a potentiometer on an XY graph.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws8" data-idx="2"><span class="challenge-text">Use text fields appropriately to label your components.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws8" data-idx="3"><span class="challenge-text">Modify colours on all components to make your screen look great.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws8" data-idx="4"><span class="challenge-text">Create a bitmap using a graphics package and use the Bitmap drawer component.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws8" data-idx="5"><span class="challenge-text">Refresh the graph every 60 seconds.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Each ellipse has a <code>ModifyColour</code> macro &mdash; use red (255,0,0) for off and green (0,255,0) for on.</li>
+                <li>Use the graph component to show potentiometer values. You may need the Sensors worksheet for this.</li>
+                <li>You don't need to clear the whole display when refreshing the graph.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws7')">&#8592; Worksheet 7</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws9')">Worksheet 9 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 9: PIN INTERRUPTS ==================== -->
+      <div class="worksheet" id="page-ws9">
+        <div class="ws-hero">
+          <img src="Assets/Media/pin interrupts.png" alt="Pin Interrupts" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-silver">Silver</div>
+            <h2 class="ws-hero-title">Worksheet 9: Pin Interrupts</h2>
+            <p class="ws-hero-desc">When critical events happen &mdash; like a kill switch &mdash; interrupts let your program stop and take action immediately.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws9-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws9-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Pin Interrupts</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/imTq19jX408" title="Pin Interrupts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "pin interrupts". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/stop switch.jpg" alt="Stop Switch" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/a-red-and-yellow-button-with-a-yellow-box-2025-03-14-19-12-07-utc.jpg" alt="Emergency Button" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws9" data-idx="0"><span class="challenge-text">Alter the program so that an LED output flashes during normal operation.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws9" data-idx="1"><span class="challenge-text">When the stop switch is activated, wait until a "clear" switch is pushed before continuing.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Put a flashing LED routine in the main loop.</li>
+                <li>In the Interrupt routine insert a While-until loop.</li>
+                <li>Use a variable to track the status of the "clear" switch.</li>
+                <li>In the loop test for the "clear" switch being pressed.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws8')">&#8592; Worksheet 8</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws10')">Worksheet 10 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 10: TIMER INTERRUPTS ==================== -->
+      <div class="worksheet" id="page-ws10">
+        <div class="ws-hero">
+          <img src="Assets/Media/timer interrupts.png" alt="Timer Interrupts" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-silver">Silver</div>
+            <h2 class="ws-hero-title">Worksheet 10: Timer Interrupts</h2>
+            <p class="ws-hero-desc">Dedicated internal hardware counts clock pulses and converts them into time. Master timer-based code.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws10-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws10-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Timer Interrupts</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/E5SWKxIjvno" title="Timer Interrupts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "timer interrupts". Set up the hardware appropriately.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/stop watch.jpg" alt="Stopwatch" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/hand-holding-a-stopwatch-2025-02-10-06-05-41-utc.jpg" alt="Stopwatch in Hand" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws10" data-idx="0"><span class="challenge-text">Calculate the hours, minutes and seconds that have elapsed.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws10" data-idx="1"><span class="challenge-text">Use a switch and a pin interrupt to clear the timer.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Create variables <code>hour_count</code> and <code>minute_count</code>.</li>
+                <li>Use IF statements to track when <code>second_count</code> &gt; 60, reset to 0 and increment <code>minute_count</code>. Similarly for hours.</li>
+                <li>Keep programming in the interrupt routine to a minimum &mdash; it is good practice.</li>
+                <li>Create a new routine for a pin interrupt and use code from the previous exercise for the reset function.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws9')">&#8592; Worksheet 9</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws11')">Worksheet 11 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 11: TOUCH CONTROL SYSTEMS ==================== -->
+      <div class="worksheet" id="page-ws11">
+        <div class="ws-hero">
+          <img src="Assets/Media/touch screen control.jpg" alt="Touch Control" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-gold">Gold</div>
+            <h2 class="ws-hero-title">Worksheet 11: Touch Control Systems</h2>
+            <p class="ws-hero-desc">Touchscreen systems replace switches, potentiometers and LEDs &mdash; reducing costs and enhancing functionality.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws11-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws11-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Touch Screen Control</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/vS7P8RzybKc" title="Touch Screen Control" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "Touch screen control". Set up the hardware appropriately. Download the file and make sure you understand how the program works.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/touch screen.jpg" alt="Touch Screen" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/controlling-smart-devices-with-a-digital-tablet-at-2025-03-14-12-33-14-utc.jpg" alt="Smart Devices" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws11" data-idx="0"><span class="challenge-text">Take your Colour Graphical Displays program and add two touch buttons: "+" and "-" with a text field.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws11" data-idx="1"><span class="challenge-text">Control an output variable (0-255) and show it on a port of 8 LEDs.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use a new variable: <code>Output</code></li>
+                <li>Use the touch screen routine to detect when "+" and "-" text fields are touched.</li>
+                <li>Modify the variable <code>Output</code> accordingly and write it to a port.</li>
+                <li>Note: the <code>DC_touched</code> macro is called by each display primitive as it is touched &mdash; set in the Touch callback property.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws10')">&#8592; Worksheet 10</button>
+          <button class="btn btn-primary" onclick="navigateTo('ws12')">Worksheet 12 &#8594;</button>
+        </div>
+      </div>
+
+      <!-- ==================== WORKSHEET 12: WEB MIRROR ==================== -->
+      <div class="worksheet" id="page-ws12">
+        <div class="ws-hero">
+          <img src="Assets/Media/web mirror.jpg" alt="Web Mirror" class="ws-hero-img">
+          <div class="ws-hero-overlay">
+            <div class="ws-hero-tier tier-badge-gold">Gold</div>
+            <h2 class="ws-hero-title">Worksheet 12: Web Mirror</h2>
+            <p class="ws-hero-desc">Develop a complex touch screen system with web connectivity &mdash; control hardware from your mobile phone over the internet.</p>
+          </div>
+        </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="ws12-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="ws12-bar"></div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Web Mirror</div>
+            </div>
+          </div>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/rdSOYW6AXn0" title="Web Mirror" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <p>Load the file "Web mirror". Set up the hardware appropriately. Change the EB3 Web Mirror settings of the Touch screen component and enter the name and password of your local server. Use your mobile phone camera to grab the URL from the displayed QR code.</p>
+        </div>
+
+        <div class="image-gallery">
+          <img src="Assets/Media/web mirror candy.jpg" alt="Web Mirror Candy" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/Media/holding-digital-tablet-in-cozy-living-room-with-fi-2025-01-08-11-37-09-utc.jpg" alt="Digital Tablet Control" class="gallery-img" onclick="openLightbox(this)">
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws12" data-idx="0"><span class="challenge-text">Take your Touch control systems program and change EB3 Web Mirror settings to "Yes".</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws12" data-idx="1"><span class="challenge-text">Enter the name and password of your local server.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws12" data-idx="2"><span class="challenge-text">Compile the program to hardware.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="ws12" data-idx="3"><span class="challenge-text">Control and monitor your hardware from your mobile phone over the internet.</span></li>
+          </ul>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('ws11')">&#8592; Worksheet 11</button>
+          <button class="btn btn-success" onclick="navigateTo('welcome')">Back to Dashboard</button>
+        </div>
+      </div>
+
+      <!-- ==================== SCORM COMPLIANCE PAGE ==================== -->
+      <div class="worksheet" id="page-scorm">
+        <div class="ws-hero" style="background: #0c2d6b;">
+          <div style="width:100%;height:280px;background:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#6366f1 100%);opacity:0.5;"></div>
+          <div class="ws-hero-overlay" style="background: linear-gradient(to top, rgba(12,45,107,0.97) 0%, rgba(12,45,107,0.5) 50%, rgba(12,45,107,0.3) 100%);">
+            <div class="ws-hero-tier" style="background:rgba(59,130,246,0.25);color:#93c5fd;border:1px solid rgba(59,130,246,0.4);">SCORM 1.2</div>
+            <h2 class="ws-hero-title">SCORM Compliance</h2>
+            <p class="ws-hero-desc">How and why this LMS meets the Sharable Content Object Reference Model standard.</p>
+          </div>
+        </div>
+
+        <!-- What is SCORM -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Overview</div>
+              <div class="card-title">What is SCORM?</div>
+            </div>
+          </div>
+          <p><strong>SCORM (Sharable Content Object Reference Model)</strong> is a set of technical standards developed by the ADL Initiative that governs how e-learning content and Learning Management Systems communicate. It defines three things:</p>
+          <ol>
+            <li><strong>How content is packaged</strong> &mdash; so any SCORM-compliant LMS can import it</li>
+            <li><strong>How content is launched</strong> &mdash; within an LMS environment</li>
+            <li><strong>How content and the LMS talk at runtime</strong> &mdash; tracking progress, scores, time, and completion</li>
+          </ol>
+          <p style="margin-top:12px;">This LMS implements <strong>SCORM 1.2</strong>, the most widely adopted version, supported by virtually all authoring tools and learning platforms worldwide.</p>
+        </div>
+
+        <!-- Why SCORM -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(0,168,132,0.12);color:#00a884;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Benefits</div>
+              <div class="card-title">Why SCORM Compliance Matters</div>
+            </div>
+          </div>
+          <ul>
+            <li><strong>Interoperability</strong> &mdash; Content authored in Articulate Storyline, Adobe Captivate, Adapt, H5P, or any SCORM-compliant tool can be imported and delivered through this LMS</li>
+            <li><strong>Portability</strong> &mdash; Our course content can be exported as a SCORM package and delivered on Moodle, Blackboard, Canvas, SCORM Cloud, or any other compliant platform</li>
+            <li><strong>Standardised tracking</strong> &mdash; Learner progress, scores, completion status, session time, and bookmarking all follow the same specification regardless of the authoring tool</li>
+            <li><strong>Institutional acceptance</strong> &mdash; Educational institutions and corporate training departments require SCORM support as a baseline for any LMS</li>
+            <li><strong>Future-proof</strong> &mdash; SCORM 1.2 has been the stable standard since 2001 with universal support, providing a solid foundation to later add xAPI or cmi5</li>
+          </ul>
+        </div>
+
+        <!-- The Three Pillars -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(108,92,231,0.12);color:#6c5ce7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Architecture</div>
+              <div class="card-title">Three Pillars of SCORM Compliance</div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; margin-top:12px;">
+            <div style="padding:20px; background:#f0f1f5; border-radius:10px;">
+              <div style="font-weight:700; font-size:15px; margin-bottom:8px; color:var(--text);">1. Content Aggregation Model</div>
+              <p style="font-size:13px;">Defines how content is structured and packaged. Our LMS includes a valid <code>imsmanifest.xml</code> that declares all 12 worksheets as Sharable Content Objects (SCOs) within a hierarchical organisation (Bronze / Silver / Gold tiers).</p>
+            </div>
+            <div style="padding:20px; background:#f0f1f5; border-radius:10px;">
+              <div style="font-weight:700; font-size:15px; margin-bottom:8px; color:var(--text);">2. Runtime Environment</div>
+              <p style="font-size:13px;">Defines how SCOs communicate with the LMS during a session. Our LMS exposes the <code>window.API</code> JavaScript object with all 8 required methods. SCOs find this via the standard window hierarchy search.</p>
+            </div>
+            <div style="padding:20px; background:#f0f1f5; border-radius:10px;">
+              <div style="font-weight:700; font-size:15px; margin-bottom:8px; color:var(--text);">3. Sequencing &amp; Navigation</div>
+              <p style="font-size:13px;">Defines how learners move between SCOs. Our LMS supports free navigation (learners can jump to any worksheet) with prerequisite awareness via the Bronze &rarr; Silver &rarr; Gold tier structure.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Runtime API -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(255,71,87,0.12);color:#ff4757;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Runtime API</div>
+              <div class="card-title">SCORM 1.2 API Implementation</div>
+            </div>
+          </div>
+          <p>Our LMS exposes the <code>window.API</code> object that SCOs discover and call. All 8 required methods are implemented:</p>
+
+          <div style="overflow-x:auto; margin-top:16px;">
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border); text-align:left;">
+                  <th style="padding:10px 12px; color:var(--text); font-weight:700;">Method</th>
+                  <th style="padding:10px 12px; color:var(--text); font-weight:700;">Purpose</th>
+                  <th style="padding:10px 12px; color:var(--text); font-weight:700; text-align:center;">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSInitialize("")</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Begin a learning session</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSFinish("")</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">End the session, accumulate time</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSGetValue(element)</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Read a data model element</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSSetValue(element, value)</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Write a data model element</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSCommit("")</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Persist data to storage</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSGetLastError()</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Return last error code</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr style="border-bottom:1px solid var(--border);">
+                  <td style="padding:10px 12px;"><code>LMSGetErrorString(code)</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Human-readable error message</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+                <tr>
+                  <td style="padding:10px 12px;"><code>LMSGetDiagnostic(code)</code></td>
+                  <td style="padding:10px 12px; color:#4b5563;">Detailed diagnostic information</td>
+                  <td style="padding:10px 12px; text-align:center; color:#00a884; font-weight:700;">Implemented</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Data Model -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(253,203,110,0.15);color:#d97706;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/><polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Data Model</div>
+              <div class="card-title">What We Track (cmi.core)</div>
+            </div>
+          </div>
+          <p>The SCORM 1.2 data model defines exactly what information flows between each worksheet (SCO) and the LMS. Every element below is supported:</p>
+
+          <div style="overflow-x:auto; margin-top:16px;">
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border); text-align:left;">
+                  <th style="padding:8px 12px; color:var(--text); font-weight:700;">Element</th>
+                  <th style="padding:8px 12px; color:var(--text); font-weight:700;">Access</th>
+                  <th style="padding:8px 12px; color:var(--text); font-weight:700;">Description</th>
+                </tr>
+              </thead>
+              <tbody style="color:#4b5563;">
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.student_id</code></td><td style="padding:8px 12px;">Read</td><td style="padding:8px 12px;">Unique learner identifier</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.student_name</code></td><td style="padding:8px 12px;">Read</td><td style="padding:8px 12px;">Learner's name</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.lesson_location</code></td><td style="padding:8px 12px;">Read/Write</td><td style="padding:8px 12px;">Bookmark &mdash; where learner left off</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.lesson_status</code></td><td style="padding:8px 12px;">Read/Write</td><td style="padding:8px 12px;">passed / completed / failed / incomplete / browsed / not attempted</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.score.raw</code></td><td style="padding:8px 12px;">Read/Write</td><td style="padding:8px 12px;">Learner's score (challenge completion %)</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.score.max</code></td><td style="padding:8px 12px;">Read/Write</td><td style="padding:8px 12px;">Maximum possible score (100)</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.total_time</code></td><td style="padding:8px 12px;">Read</td><td style="padding:8px 12px;">Cumulative time across all sessions</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.session_time</code></td><td style="padding:8px 12px;">Write</td><td style="padding:8px 12px;">Time spent in current session</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.entry</code></td><td style="padding:8px 12px;">Read</td><td style="padding:8px 12px;">ab-initio (new) or resume (returning)</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.core.exit</code></td><td style="padding:8px 12px;">Write</td><td style="padding:8px 12px;">How learner leaves (suspend / logout)</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.suspend_data</code></td><td style="padding:8px 12px;">Read/Write</td><td style="padding:8px 12px;">Free-form state preserved between sessions (up to 4096 chars)</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 12px;"><code>cmi.interactions.n.*</code></td><td style="padding:8px 12px;">Write</td><td style="padding:8px 12px;">Per-challenge interaction tracking (id, type, result, latency)</td></tr>
+                <tr><td style="padding:8px 12px;"><code>cmi.objectives.n.*</code></td><td style="padding:8px 12px;">Read/Write</td><td style="padding:8px 12px;">Per-objective tracking (id, score, status)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Content Package -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(108,92,231,0.12);color:#6c5ce7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Packaging</div>
+              <div class="card-title">Content Aggregation Model</div>
+            </div>
+          </div>
+          <p>The course is packaged with a valid <code>imsmanifest.xml</code> that declares:</p>
+          <ul>
+            <li><strong>12 SCOs</strong> &mdash; each worksheet is a Sharable Content Object with its own tracking lifecycle</li>
+            <li><strong>3-tier organisation</strong> &mdash; Bronze (WS 1&ndash;7), Silver (WS 8&ndash;10), Gold (WS 11&ndash;12)</li>
+            <li><strong>Mastery score</strong> &mdash; 40% minimum across all SCOs (Bronze threshold)</li>
+            <li><strong>Resource declarations</strong> &mdash; every HTML file, image, and script file is listed with correct types</li>
+            <li><strong>Asset resources</strong> &mdash; shared media (logos, cover images) declared as non-trackable assets</li>
+          </ul>
+
+          <div class="callout callout-info" style="margin-top:16px;">
+            <strong>Manifest location:</strong> <code>imsmanifest.xml</code> in the package root, following the IMS Content Packaging 1.1.2 specification with ADL SCORM 1.2 extensions.
+          </div>
+        </div>
+
+        <!-- How Our Worksheets Work as SCOs -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(0,168,132,0.12);color:#00a884;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Session Lifecycle</div>
+              <div class="card-title">How Each Worksheet Communicates</div>
+            </div>
+          </div>
+          <p>When a learner opens a worksheet, the following SCORM session lifecycle executes:</p>
+          <ol>
+            <li><strong>LMSInitialize("")</strong> &mdash; Session begins, previous state is restored (bookmark, suspend data, scores)</li>
+            <li><strong>LMSGetValue("cmi.core.entry")</strong> &mdash; Check if this is a new attempt or a resume</li>
+            <li><strong>Learner interacts</strong> &mdash; Completing challenges triggers <code>LMSSetValue</code> for scores, interactions, and status</li>
+            <li><strong>LMSSetValue("cmi.core.lesson_status", ...)</strong> &mdash; Status updates: "incomplete" while working, "completed" when all challenges are done</li>
+            <li><strong>LMSSetValue("cmi.interactions.n.*", ...)</strong> &mdash; Each challenge is logged as a SCORM interaction with ID, type, and result</li>
+            <li><strong>LMSCommit("")</strong> &mdash; Data persisted to storage after each change</li>
+            <li><strong>LMSFinish("")</strong> &mdash; Session time calculated and accumulated into total_time</li>
+          </ol>
+        </div>
+
+        <!-- Error Handling -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(225,112,85,0.12);color:#e17055;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Error Handling</div>
+              <div class="card-title">SCORM 1.2 Error Codes</div>
+            </div>
+          </div>
+          <p>The API returns correct error codes for every failure condition:</p>
+
+          <div style="overflow-x:auto; margin-top:12px;">
+            <table style="width:100%; border-collapse:collapse; font-size:13px;">
+              <thead>
+                <tr style="border-bottom:2px solid var(--border); text-align:left;">
+                  <th style="padding:8px 12px; color:var(--text); font-weight:700;">Code</th>
+                  <th style="padding:8px 12px; color:var(--text); font-weight:700;">Meaning</th>
+                </tr>
+              </thead>
+              <tbody style="color:#4b5563;">
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>0</code></td><td style="padding:6px 12px;">No error</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>101</code></td><td style="padding:6px 12px;">General exception</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>201</code></td><td style="padding:6px 12px;">Invalid argument error</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>202</code></td><td style="padding:6px 12px;">Element cannot have children</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>203</code></td><td style="padding:6px 12px;">Element not an array</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>301</code></td><td style="padding:6px 12px;">Not initialized</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>401</code></td><td style="padding:6px 12px;">Not implemented error</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>402</code></td><td style="padding:6px 12px;">Invalid set value (keyword)</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>403</code></td><td style="padding:6px 12px;">Element is read only</td></tr>
+                <tr style="border-bottom:1px solid var(--border);"><td style="padding:6px 12px;"><code>404</code></td><td style="padding:6px 12px;">Element is write only</td></tr>
+                <tr><td style="padding:6px 12px;"><code>405</code></td><td style="padding:6px 12px;">Incorrect data type</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Conformance Level -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Conformance</div>
+              <div class="card-title">ADL Conformance Level</div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap:12px; margin-top:12px;">
+            <div style="padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; text-align:center;">
+              <div style="font-weight:800; font-size:18px; color:#15803d;">LMS-RTE3</div>
+              <div style="font-size:12px; color:#4b5563; margin-top:4px;">Full Runtime Environment</div>
+              <div style="font-size:11px; color:#00a884; margin-top:4px; font-weight:600;">All 8 API methods + full data model + interactions</div>
+            </div>
+            <div style="padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:10px; text-align:center;">
+              <div style="font-weight:800; font-size:18px; color:#15803d;">LMS-CAM1</div>
+              <div style="font-size:12px; color:#4b5563; margin-top:4px;">Content Aggregation</div>
+              <div style="font-size:11px; color:#00a884; margin-top:4px; font-weight:600;">Valid imsmanifest.xml with organisations &amp; resources</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course Structure Mapping -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(108,92,231,0.12);color:#6c5ce7;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Course Mapping</div>
+              <div class="card-title">CP4807 as SCORM SCOs</div>
+            </div>
+          </div>
+          <p>Each worksheet maps to a SCORM Sharable Content Object with its own tracking lifecycle:</p>
+
+          <div style="margin-top:16px; font-size:13px; font-family: 'Courier New', monospace; background:#f8f9fa; padding:20px; border-radius:8px; border:1px solid var(--border); line-height:1.8; color:#374151; overflow-x:auto; white-space:pre;">CP4807 - Introduction to Microcontrollers
+|
++-- Bronze (Organisation Item)
+|   +-- WS1:  First Program .............. SCO  [trackable]
+|   +-- WS2:  Performing Calculations .... SCO  [trackable]
+|   +-- WS3:  Connection Points .......... SCO  [trackable]
+|   +-- WS4:  Digital Inputs ............. SCO  [trackable]
+|   +-- WS5:  Making Decisions ........... SCO  [trackable]
+|   +-- WS6:  Macros / Subroutines ....... SCO  [trackable]
+|   +-- WS7:  Using Prototype Boards ..... SCO  [trackable]
+|
++-- Silver (Organisation Item)
+|   +-- WS8:  Colour Graphical Displays .. SCO  [trackable]
+|   +-- WS9:  Pin Interrupts ............. SCO  [trackable]
+|   +-- WS10: Timer Interrupts ........... SCO  [trackable]
+|
++-- Gold (Organisation Item)
+|   +-- WS11: Touch Control Systems ...... SCO  [trackable]
+|   +-- WS12: Web Mirror ................. SCO  [trackable]
+|
++-- Shared Assets ........................ Asset [not tracked]
+    (logos, cover images, media files)</div>
+        </div>
+
+        <!-- Pipeline Integration -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.32 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Build Pipeline</div>
+              <div class="card-title">From Source DOCX to SCORM Package</div>
+            </div>
+          </div>
+          <p>The course content originates from a tagged Word document (<code>CP4807 - Introduction to microcontrollers.docx</code>) and is processed through a defined pipeline:</p>
+
+          <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap:12px; margin-top:16px;">
+            <div style="padding:16px; background:#f0f1f5; border-radius:10px; text-align:center;">
+              <div style="font-size:24px; margin-bottom:8px;">1</div>
+              <div style="font-weight:700; font-size:13px; color:var(--text);">Analyse</div>
+              <div style="font-size:11px; color:#4b5563; margin-top:4px;">Find tagged blocks, validate filenames, identify warnings</div>
+            </div>
+            <div style="padding:16px; background:#f0f1f5; border-radius:10px; text-align:center;">
+              <div style="font-size:24px; margin-bottom:8px;">2</div>
+              <div style="font-weight:700; font-size:13px; color:var(--text);">Extract</div>
+              <div style="font-size:11px; color:#4b5563; margin-top:4px;">Clean text from each block, strip wrappers and teacher notes</div>
+            </div>
+            <div style="padding:16px; background:#f0f1f5; border-radius:10px; text-align:center;">
+              <div style="font-size:24px; margin-bottom:8px;">3</div>
+              <div style="font-weight:700; font-size:13px; color:var(--text);">Build</div>
+              <div style="font-size:11px; color:#4b5563; margin-top:4px;">Render learner-facing HTML with SCORM API integration</div>
+            </div>
+            <div style="padding:16px; background:#f0f1f5; border-radius:10px; text-align:center;">
+              <div style="font-size:24px; margin-bottom:8px;">4</div>
+              <div style="font-weight:700; font-size:13px; color:var(--text);">Validate</div>
+              <div style="font-size:11px; color:#4b5563; margin-top:4px;">Check for missing files, broken references, duplicates</div>
+            </div>
+            <div style="padding:16px; background:#f0f1f5; border-radius:10px; text-align:center;">
+              <div style="font-size:24px; margin-bottom:8px;">5</div>
+              <div style="font-weight:700; font-size:13px; color:var(--text);">Package</div>
+              <div style="font-size:11px; color:#4b5563; margin-top:4px;">Generate imsmanifest.xml and bundle as SCORM ZIP</div>
+            </div>
+          </div>
+
+          <div class="callout callout-note" style="margin-top:16px;">
+            <strong>Pipeline rule:</strong> SCORM packaging only runs when all five required decisions are defined: version, launch file, tracking model, completion model, and navigation rules. Otherwise packaging stops safely.
+          </div>
+        </div>
+
+        <!-- Live SCORM Status -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon" style="background:rgba(0,168,132,0.12);color:#00a884;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+            </div>
+            <div>
+              <div class="card-label">Live Status</div>
+              <div class="card-title">Current SCORM Tracking Data</div>
+            </div>
+          </div>
+          <p>Real-time view of the SCORM data model for each worksheet. This data is persisted via the <code>LMSCommit</code> and <code>LMSFinish</code> lifecycle.</p>
+          <div id="scormStatusTable" style="margin-top:16px; overflow-x:auto;"></div>
+        </div>
+
+        <div class="ws-nav-buttons">
+          <button class="btn btn-ghost" onclick="navigateTo('welcome')">&#8592; Dashboard</button>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">&times;</button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script src="scorm/scorm-api.js"></script>
+<script>
+// ===== DATA =====
+const WORKSHEETS = [
+  { id: 'ws1',  title: 'First Program',            tier: 'bronze', challenges: 4 },
+  { id: 'ws2',  title: 'Performing Calculations',   tier: 'bronze', challenges: 8 },
+  { id: 'ws3',  title: 'Connection Points',         tier: 'bronze', challenges: 4 },
+  { id: 'ws4',  title: 'Digital Inputs',             tier: 'bronze', challenges: 4 },
+  { id: 'ws5',  title: 'Making Decisions',           tier: 'bronze', challenges: 2 },
+  { id: 'ws6',  title: 'Macros / Subroutines',      tier: 'bronze', challenges: 6 },
+  { id: 'ws7',  title: 'Prototype Boards',           tier: 'bronze', challenges: 3 },
+  { id: 'ws8',  title: 'Colour Graphical Displays',  tier: 'silver', challenges: 6 },
+  { id: 'ws9',  title: 'Pin Interrupts',             tier: 'silver', challenges: 2 },
+  { id: 'ws10', title: 'Timer Interrupts',           tier: 'silver', challenges: 2 },
+  { id: 'ws11', title: 'Touch Control Systems',      tier: 'gold',   challenges: 2 },
+  { id: 'ws12', title: 'Web Mirror',                 tier: 'gold',   challenges: 4 },
+];
+
+const NAV_ORDER = ['welcome', ...WORKSHEETS.map(w => w.id), 'scorm'];
+
+let currentPage = 'welcome';
+
+// ===== SCORM API INTEGRATION =====
+const scormApi = window.ScormAPI ? new window.ScormAPI() : null;
+if (scormApi) {
+  window.API = scormApi; // Expose for SCO discovery (SCORM 1.2)
+}
+
+let scormSessionTimers = {}; // Track session start per SCO
+
+function scormStartSession(wsId) {
+  if (!scormApi) return;
+  scormApi.configureSCO(wsId, {
+    id: 'student-001',
+    name: 'Student, Default',
+    credit: 'credit',
+    mode: 'normal'
+  }, '');
+  scormApi.LMSInitialize('');
+  scormSessionTimers[wsId] = Date.now();
+}
+
+function scormEndSession(wsId) {
+  if (!scormApi || !scormApi.isInitialized()) return;
+  scormApi.LMSSetValue('cmi.core.exit', 'suspend');
+  scormApi.LMSFinish('');
+  delete scormSessionTimers[wsId];
+}
+
+function scormUpdateChallenge(wsId, idx, checked, totalChallenges) {
+  if (!scormApi || !scormApi.isInitialized()) return;
+
+  // Log as interaction
+  scormApi.LMSSetValue('cmi.interactions.' + idx + '.id', wsId + '-challenge-' + idx);
+  scormApi.LMSSetValue('cmi.interactions.' + idx + '.type', 'performance');
+  scormApi.LMSSetValue('cmi.interactions.' + idx + '.result', checked ? 'correct' : 'wrong');
+  const now = new Date();
+  scormApi.LMSSetValue('cmi.interactions.' + idx + '.time',
+    String(now.getHours()).padStart(2,'0') + ':' +
+    String(now.getMinutes()).padStart(2,'0') + ':' +
+    String(now.getSeconds()).padStart(2,'0'));
+
+  // Calculate score
+  const prog = getWSProgress(wsId);
+  const done = prog.filter(Boolean).length;
+  const score = Math.round((done / totalChallenges) * 100);
+
+  scormApi.LMSSetValue('cmi.core.score.raw', String(score));
+  scormApi.LMSSetValue('cmi.core.score.max', '100');
+  scormApi.LMSSetValue('cmi.core.score.min', '0');
+
+  // Update status
+  if (done === totalChallenges) {
+    scormApi.LMSSetValue('cmi.core.lesson_status', score >= 40 ? 'passed' : 'completed');
+  } else if (done > 0) {
+    scormApi.LMSSetValue('cmi.core.lesson_status', 'incomplete');
+  }
+
+  // Save bookmark
+  scormApi.LMSSetValue('cmi.core.lesson_location', 'challenge-' + idx);
+
+  // Save challenge state as suspend_data
+  scormApi.LMSSetValue('cmi.suspend_data', JSON.stringify(prog));
+
+  scormApi.LMSCommit('');
+}
+
+function renderScormStatusTable() {
+  const container = document.getElementById('scormStatusTable');
+  if (!container) return;
+
+  let html = '<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+  html += '<thead><tr style="border-bottom:2px solid var(--border);text-align:left;">';
+  html += '<th style="padding:8px 10px;color:var(--text);font-weight:700;">Worksheet</th>';
+  html += '<th style="padding:8px 10px;color:var(--text);font-weight:700;">Status</th>';
+  html += '<th style="padding:8px 10px;color:var(--text);font-weight:700;">Score</th>';
+  html += '<th style="padding:8px 10px;color:var(--text);font-weight:700;">Total Time</th>';
+  html += '<th style="padding:8px 10px;color:var(--text);font-weight:700;">Entry</th>';
+  html += '</tr></thead><tbody style="color:#4b5563;">';
+
+  WORKSHEETS.forEach((ws, i) => {
+    const key = 'scorm_student-001_' + ws.id;
+    let status = 'not attempted', score = '—', time = '—', entry = '—';
+    try {
+      const stored = localStorage.getItem(key);
+      if (stored) {
+        const d = JSON.parse(stored);
+        status = d['cmi.core.lesson_status'] || 'not attempted';
+        score = d['cmi.core.score.raw'] ? d['cmi.core.score.raw'] + '%' : '—';
+        time = d['cmi.core.total_time'] || '—';
+        entry = d['cmi.core.entry'] || 'ab-initio';
+      }
+    } catch(e) {}
+
+    const statusColor = status === 'passed' || status === 'completed' ? '#00a884' :
+                         status === 'incomplete' ? '#d97706' :
+                         status === 'failed' ? '#e17055' : '#9ca3af';
+
+    html += '<tr style="border-bottom:1px solid var(--border);">';
+    html += '<td style="padding:6px 10px;font-weight:600;">' + (i+1) + '. ' + ws.title + '</td>';
+    html += '<td style="padding:6px 10px;"><span style="color:' + statusColor + ';font-weight:600;">' + status + '</span></td>';
+    html += '<td style="padding:6px 10px;">' + score + '</td>';
+    html += '<td style="padding:6px 10px;font-family:monospace;font-size:11px;">' + time + '</td>';
+    html += '<td style="padding:6px 10px;">' + entry + '</td>';
+    html += '</tr>';
+  });
+
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// ===== STORAGE =====
+function getProgress() {
+  try {
+    return JSON.parse(localStorage.getItem('lms-progress') || '{}');
+  } catch { return {}; }
+}
+
+function saveProgress(progress) {
+  localStorage.setItem('lms-progress', JSON.stringify(progress));
+}
+
+function getWSProgress(wsId) {
+  const progress = getProgress();
+  return progress[wsId] || [];
+}
+
+function setChallenge(wsId, idx, checked) {
+  const progress = getProgress();
+  if (!progress[wsId]) progress[wsId] = [];
+  progress[wsId][idx] = checked;
+  saveProgress(progress);
+
+  // SCORM: track this interaction
+  const ws = WORKSHEETS.find(w => w.id === wsId);
+  if (ws) scormUpdateChallenge(wsId, idx, checked, ws.challenges);
+
+  updateAllUI();
+}
+
+function resetProgress() {
+  if (confirm('Reset all progress? This cannot be undone.')) {
+    localStorage.removeItem('lms-progress');
+    document.querySelectorAll('.challenge-check').forEach(c => c.checked = false);
+    document.querySelectorAll('.challenge-item').forEach(i => i.classList.remove('done'));
+    updateAllUI();
+  }
+}
+
+// ===== NAVIGATION =====
+function navigateTo(pageId) {
+  // End SCORM session on previous page if it was a worksheet
+  if (currentPage && currentPage.startsWith('ws')) {
+    scormEndSession(currentPage);
+  }
+
+  currentPage = pageId;
+
+  // Start SCORM session if navigating to a worksheet
+  if (pageId.startsWith('ws') && pageId !== 'scorm') {
+    scormStartSession(pageId);
+  }
+
+  // Update SCORM status table if on scorm page
+  if (pageId === 'scorm') {
+    setTimeout(renderScormStatusTable, 50);
+  }
+
+  // Hide all worksheets
+  document.querySelectorAll('.worksheet').forEach(ws => ws.classList.remove('active'));
+  const target = document.getElementById('page-' + pageId);
+  if (target) target.classList.add('active');
+
+  // Update nav items
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.toggle('active', n.getAttribute('data-ws') === pageId);
+  });
+
+  // Update breadcrumb
+  const ws = WORKSHEETS.find(w => w.id === pageId);
+  const breadcrumbSpan = document.querySelector('#breadcrumb span');
+  if (pageId === 'welcome') {
+    breadcrumbSpan.textContent = 'Dashboard';
+  } else if (pageId === 'scorm') {
+    breadcrumbSpan.textContent = 'SCORM Compliance';
+  } else if (ws) {
+    breadcrumbSpan.textContent = 'Worksheet ' + (WORKSHEETS.indexOf(ws) + 1) + ': ' + ws.title;
+  }
+
+  // Update prev/next buttons
+  const idx = NAV_ORDER.indexOf(pageId);
+  const btnPrev = document.getElementById('btnPrev');
+  const btnNext = document.getElementById('btnNext');
+
+  btnPrev.style.display = idx > 0 ? '' : 'none';
+  btnNext.style.display = idx < NAV_ORDER.length - 1 ? '' : 'none';
+
+  if (idx > 0) {
+    const prevId = NAV_ORDER[idx - 1];
+    const prevWs = WORKSHEETS.find(w => w.id === prevId);
+    btnPrev.textContent = prevId === 'welcome' ? '\u2190 Dashboard' : '\u2190 ' + (prevWs ? prevWs.title : '');
+  }
+
+  if (idx < NAV_ORDER.length - 1) {
+    const nextId = NAV_ORDER[idx + 1];
+    const nextWs = WORKSHEETS.find(w => w.id === nextId);
+    btnNext.textContent = (nextWs ? nextWs.title : 'Dashboard') + ' \u2192';
+  }
+
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Close mobile sidebar
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+function navigatePrev() {
+  const idx = NAV_ORDER.indexOf(currentPage);
+  if (idx > 0) navigateTo(NAV_ORDER[idx - 1]);
+}
+
+function navigateNext() {
+  const idx = NAV_ORDER.indexOf(currentPage);
+  if (idx < NAV_ORDER.length - 1) navigateTo(NAV_ORDER[idx + 1]);
+}
+
+// ===== UI UPDATES =====
+function calcWSPercent(wsId) {
+  const ws = WORKSHEETS.find(w => w.id === wsId);
+  if (!ws) return 0;
+  const prog = getWSProgress(wsId);
+  const done = prog.filter(Boolean).length;
+  return Math.round((done / ws.challenges) * 100);
+}
+
+function updateAllUI() {
+  const progress = getProgress();
+
+  // Per-worksheet progress
+  WORKSHEETS.forEach(ws => {
+    const pct = calcWSPercent(ws.id);
+
+    // Section progress bar
+    const bar = document.getElementById(ws.id + '-bar');
+    const pctEl = document.getElementById(ws.id + '-pct');
+    if (bar) bar.style.width = pct + '%';
+    if (pctEl) pctEl.textContent = pct + '%';
+
+    // Nav progress bar
+    const navBar = document.getElementById('nav-bar-' + ws.id);
+    if (navBar) navBar.style.width = pct + '%';
+
+    // Nav completed state
+    const navItem = document.querySelector('.nav-item[data-ws="' + ws.id + '"]');
+    if (navItem) {
+      navItem.classList.toggle('completed', pct === 100);
+    }
+  });
+
+  // Overall progress
+  const totalChallenges = WORKSHEETS.reduce((sum, ws) => sum + ws.challenges, 0);
+  let totalDone = 0;
+  WORKSHEETS.forEach(ws => {
+    const prog = getWSProgress(ws.id);
+    totalDone += prog.filter(Boolean).length;
+  });
+  const overallPct = Math.round((totalDone / totalChallenges) * 100);
+  document.getElementById('overallPct').textContent = overallPct + '%';
+  document.getElementById('overallBar').style.width = overallPct + '%';
+
+  // Welcome grid
+  updateWelcomeGrid();
+}
+
+function updateWelcomeGrid() {
+  const grid = document.getElementById('welcomeGrid');
+  if (!grid) return;
+
+  grid.innerHTML = WORKSHEETS.map((ws, i) => {
+    const pct = calcWSPercent(ws.id);
+    const tierClass = ws.tier === 'bronze' ? 'bronze' : ws.tier === 'silver' ? 'silver' : 'gold';
+    const tierColor = ws.tier === 'bronze' ? 'var(--bronze)' : ws.tier === 'silver' ? 'var(--silver)' : 'var(--gold)';
+    return `
+      <div class="welcome-card" onclick="navigateTo('${ws.id}')">
+        <div class="welcome-card-num" style="color:${tierColor}">${ws.tier.toUpperCase()} &bull; WORKSHEET ${i + 1}</div>
+        <div class="welcome-card-title">${ws.title}</div>
+        <div class="welcome-card-progress">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim);margin-bottom:4px;">
+            <span>${pct}% complete</span>
+            <span>${(getWSProgress(ws.id).filter(Boolean).length)}/${ws.challenges}</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-bar-fill" style="width:${pct}%;${pct === 100 ? 'background:var(--green)' : ''}"></div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ===== EVENTS =====
+// Checkbox changes
+document.addEventListener('change', function(e) {
+  if (e.target.classList.contains('challenge-check')) {
+    const wsId = e.target.getAttribute('data-ws');
+    const idx = parseInt(e.target.getAttribute('data-idx'));
+    setChallenge(wsId, idx, e.target.checked);
+    e.target.closest('.challenge-item').classList.toggle('done', e.target.checked);
+  }
+});
+
+// Click on challenge item (not just checkbox)
+document.addEventListener('click', function(e) {
+  const item = e.target.closest('.challenge-item');
+  if (item && !e.target.classList.contains('challenge-check')) {
+    const checkbox = item.querySelector('.challenge-check');
+    checkbox.checked = !checkbox.checked;
+    checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+});
+
+// Hints toggle
+function toggleHints(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+  btn.querySelector('.arrow').textContent = content.classList.contains('open') ? '\u25BC' : '\u25B6';
+  const label = content.classList.contains('open') ? 'Hide Hints' : 'Show Hints';
+  btn.innerHTML = '<span class="arrow">' + (content.classList.contains('open') ? '\u25BC' : '\u25B6') + '</span> ' + label;
+}
+
+// Lightbox
+function openLightbox(imgEl) {
+  document.getElementById('lightboxImg').src = imgEl.src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+// Mobile sidebar
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+document.getElementById('sidebarOverlay').addEventListener('click', function() {
+  document.getElementById('sidebar').classList.remove('open');
+  this.classList.remove('open');
+});
+
+// ===== INIT =====
+function init() {
+  // Restore checkbox states
+  const progress = getProgress();
+  document.querySelectorAll('.challenge-check').forEach(cb => {
+    const wsId = cb.getAttribute('data-ws');
+    const idx = parseInt(cb.getAttribute('data-idx'));
+    const wsProgress = progress[wsId] || [];
+    if (wsProgress[idx]) {
+      cb.checked = true;
+      cb.closest('.challenge-item').classList.add('done');
+    }
+  });
+
+  updateAllUI();
+
+  // SCORM: commit data when leaving the page
+  window.addEventListener('beforeunload', function() {
+    if (currentPage && currentPage.startsWith('ws')) {
+      scormEndSession(currentPage);
+    }
+  });
+}
+
+init();
+</script>
+
+</body>
+</html>
