@@ -1224,6 +1224,235 @@
         right: 16px;
       }
     }
+
+    /* ==================== Dopamine animations & gamification ==================== */
+    @keyframes checkbox-pop {
+      0%   { transform: scale(1); }
+      40%  { transform: scale(1.32); }
+      100% { transform: scale(1); }
+    }
+    @keyframes challenge-flash {
+      0%   { background: rgba(0,168,132,0); }
+      30%  { background: rgba(0,168,132,0.18); }
+      100% { background: rgba(0,168,132,0); }
+    }
+    @keyframes progress-glow {
+      0%   { box-shadow: 0 0 0 rgba(0, 168, 132, 0); }
+      50%  { box-shadow: 0 0 18px 2px rgba(0, 168, 132, 0.55); }
+      100% { box-shadow: 0 0 0 rgba(0, 168, 132, 0); }
+    }
+    @keyframes float-up-fade {
+      0%   { transform: translate(-50%, 0) scale(0.9); opacity: 0; }
+      15%  { transform: translate(-50%, -4px) scale(1.05); opacity: 1; }
+      100% { transform: translate(-50%, -52px) scale(1); opacity: 0; }
+    }
+    @keyframes badge-shimmer {
+      0%, 100% { transform: scale(1) rotate(0); filter: drop-shadow(0 0 2px rgba(245,158,11,0.5)); }
+      50%      { transform: scale(1.14) rotate(4deg); filter: drop-shadow(0 0 10px rgba(245,158,11,0.95)); }
+    }
+    @keyframes badge-shine {
+      0%, 100% { left: -100%; }
+      50%      { left: 100%; }
+    }
+    @keyframes badge-unlock {
+      0%   { transform: scale(0.85); }
+      40%  { transform: scale(1.18); }
+      100% { transform: scale(1); }
+    }
+
+    /* Smooth progress fill */
+    .progress-bar-fill {
+      transition: width 700ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Checkbox pop on tick */
+    .challenge-check.just-checked {
+      animation: checkbox-pop 360ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .challenge-item.just-completed {
+      animation: challenge-flash 850ms ease-out;
+    }
+
+    /* Strikethrough draws across the text */
+    .challenge-item .challenge-text {
+      background-image: linear-gradient(currentColor, currentColor);
+      background-position: 0 60%;
+      background-repeat: no-repeat;
+      background-size: 0% 1.5px;
+      transition: background-size 380ms ease-out, color 380ms ease;
+    }
+    .challenge-item.done .challenge-text {
+      background-size: 100% 1.5px;
+      text-decoration: none;
+    }
+
+    /* Override the default strike-through so the animation owns it */
+    .challenge-item.done .challenge-text { text-decoration: none !important; }
+
+    /* Progress bar glow when it just advanced */
+    .ws-progress-bar.just-advanced .progress-bar-fill {
+      animation: progress-glow 1300ms ease-out;
+    }
+
+    /* Floating "+1" indicator */
+    .point-floater {
+      position: absolute;
+      pointer-events: none;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--green);
+      text-shadow: 0 2px 8px rgba(255,255,255,0.95), 0 0 1px rgba(0,0,0,0.2);
+      animation: float-up-fade 1250ms ease-out forwards;
+      z-index: 1000;
+    }
+
+    /* Confetti particle */
+    .confetti-particle {
+      position: fixed;
+      width: 9px;
+      height: 9px;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 1px;
+      will-change: transform, opacity;
+    }
+
+    /* Achievement toast */
+    .achievement-toast {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 200;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border: 2px solid #f59e0b;
+      border-radius: 14px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 280px;
+      max-width: 360px;
+      box-shadow: 0 14px 40px rgba(245, 158, 11, 0.4);
+      transform: translateX(420px);
+      transition: transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .achievement-toast.show { transform: translateX(0); }
+    .achievement-toast .toast-icon {
+      font-size: 38px;
+      flex-shrink: 0;
+      animation: badge-shimmer 1.5s ease-in-out infinite;
+    }
+    .achievement-toast .toast-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      color: #92400e;
+      text-transform: uppercase;
+    }
+    .achievement-toast .toast-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #78350f;
+      margin: 2px 0;
+    }
+    .achievement-toast .toast-desc {
+      font-size: 12px;
+      color: #92400e;
+      line-height: 1.3;
+    }
+
+    /* Achievements section on dashboard */
+    .achievements-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      margin-bottom: 32px;
+    }
+    .achievements-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 18px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .achievements-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .achievements-counter {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-glow);
+      padding: 6px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+    .achievements-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .achievement-badge {
+      padding: 14px 12px 12px;
+      border-radius: 12px;
+      text-align: center;
+      border: 1.5px solid var(--border);
+      transition: transform 0.25s, box-shadow 0.25s;
+      background: var(--bg-dark);
+      position: relative;
+      overflow: hidden;
+    }
+    .achievement-badge.locked {
+      opacity: 0.42;
+      filter: grayscale(0.85);
+    }
+    .achievement-badge.unlocked {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+      box-shadow: 0 4px 14px rgba(245, 158, 11, 0.18);
+    }
+    .achievement-badge.unlocked.just-unlocked {
+      animation: badge-unlock 700ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .achievement-badge.unlocked::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
+      animation: badge-shine 4.5s ease-in-out infinite;
+    }
+    .achievement-icon {
+      font-size: 32px;
+      display: block;
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+    .achievement-name {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 3px;
+    }
+    .achievement-desc {
+      font-size: 10px;
+      color: #6b7280;
+      line-height: 1.35;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .checkbox-pop, .challenge-flash, .progress-glow,
+      .float-up-fade, .badge-shimmer, .badge-shine, .badge-unlock { animation: none !important; }
+      .progress-bar-fill { transition: none; }
+    }
   </style>
 </head>
 <body>
@@ -1406,6 +1635,14 @@
           <img src="Assets/Media/intro to micros cover.jpg" alt="Introduction to Microcontrollers">
           <h1>Introduction to Microcontrollers</h1>
           <p>A comprehensive course in microcontroller programming using Flowcode Embedded and E-blocks 3 hardware. Work through 12 worksheets from fundamentals to advanced projects.</p>
+        </div>
+
+        <div class="achievements-card">
+          <div class="achievements-header">
+            <div class="achievements-title">&#127942; Achievements</div>
+            <div class="achievements-counter" id="achievementsCounter">0 / 12 unlocked</div>
+          </div>
+          <div class="achievements-grid" id="achievementsGrid"></div>
         </div>
 
         <div class="welcome-stats">
@@ -3123,9 +3360,11 @@ function setChallenge(wsId, idx, checked) {
 function resetProgress() {
   if (confirm('Reset all progress? This cannot be undone.')) {
     localStorage.removeItem('lms-progress');
+    localStorage.removeItem('lms-achievements');
     document.querySelectorAll('.challenge-check').forEach(c => c.checked = false);
     document.querySelectorAll('.challenge-item').forEach(i => i.classList.remove('done'));
     updateAllUI();
+    renderAchievements();
   }
 }
 
@@ -3227,7 +3466,7 @@ function updateAllUI() {
     const bar = document.getElementById(ws.id + '-bar');
     const pctEl = document.getElementById(ws.id + '-pct');
     if (bar) bar.style.width = pct + '%';
-    if (pctEl) pctEl.textContent = pct + '%';
+    if (pctEl) animateNumberText(pctEl, pct);
 
     // Nav progress bar
     const navBar = document.getElementById('nav-bar-' + ws.id);
@@ -3248,7 +3487,7 @@ function updateAllUI() {
     totalDone += prog.filter(Boolean).length;
   });
   const overallPct = Math.round((totalDone / totalChallenges) * 100);
-  document.getElementById('overallPct').textContent = overallPct + '%';
+  animateNumberText(document.getElementById('overallPct'), overallPct);
   document.getElementById('overallBar').style.width = overallPct + '%';
 
   // Welcome grid
@@ -3281,14 +3520,251 @@ function updateWelcomeGrid() {
   }).join('');
 }
 
+// ===== ACHIEVEMENTS & GAMIFICATION =====
+const ACHIEVEMENTS = [
+  { id: 'first_steps',     icon: '\ud83c\udfaf', name: 'First Steps',      desc: 'Tick your first challenge' },
+  { id: 'getting_started', icon: '\u26a1',       name: 'Getting Started',  desc: 'Complete 5 challenges' },
+  { id: 'page_turner',     icon: '\ud83d\udcd8', name: 'Page Turner',      desc: 'Finish your first worksheet' },
+  { id: 'on_a_roll',       icon: '\ud83d\udd25', name: 'On a Roll',        desc: '3 challenges in 60 seconds' },
+  { id: 'hint_seeker',     icon: '\ud83d\udca1', name: 'Hint Seeker',      desc: 'Reveal hints on any worksheet' },
+  { id: 'tier_trifecta',   icon: '\ud83c\udf08', name: 'Tier Trifecta',    desc: 'A worksheet from each tier' },
+  { id: 'halfway_there',   icon: '\ud83c\udfaf', name: 'Halfway There',    desc: 'Reach 50% overall progress' },
+  { id: 'bronze_champion', icon: '\ud83e\udd49', name: 'Bronze Champion',  desc: 'All Bronze worksheets done' },
+  { id: 'silver_champion', icon: '\ud83e\udd48', name: 'Silver Champion',  desc: 'All Silver worksheets done' },
+  { id: 'gold_champion',   icon: '\ud83e\udd47', name: 'Gold Champion',    desc: 'All Gold worksheets done' },
+  { id: 'perfectionist',   icon: '\ud83c\udf1f', name: 'Perfectionist',    desc: 'Tick every challenge in every WS' },
+  { id: 'course_master',   icon: '\ud83c\udf93', name: 'Course Master',    desc: 'Reach 100% completion' },
+];
+
+function getUnlockedAchievements() {
+  try { return JSON.parse(localStorage.getItem('lms-achievements') || '[]'); }
+  catch { return []; }
+}
+function isUnlocked(id) { return getUnlockedAchievements().includes(id); }
+let suppressAchievementToasts = false;
+function unlockAchievement(id) {
+  if (isUnlocked(id)) return;
+  const list = getUnlockedAchievements();
+  list.push(id);
+  localStorage.setItem('lms-achievements', JSON.stringify(list));
+  const def = ACHIEVEMENTS.find(a => a.id === id);
+  if (def && !suppressAchievementToasts) showAchievementToast(def);
+  renderAchievements(id);
+}
+
+function renderAchievements(justUnlockedId) {
+  const grid = document.getElementById('achievementsGrid');
+  if (!grid) return;
+  const unlocked = getUnlockedAchievements();
+  grid.innerHTML = ACHIEVEMENTS.map(a => {
+    const isOn = unlocked.includes(a.id);
+    const just = (a.id === justUnlockedId) ? ' just-unlocked' : '';
+    return '<div class="achievement-badge ' + (isOn ? 'unlocked' + just : 'locked') + '">' +
+           '<div class="achievement-icon">' + a.icon + '</div>' +
+           '<div class="achievement-name">' + a.name + '</div>' +
+           '<div class="achievement-desc">' + a.desc + '</div>' +
+           '</div>';
+  }).join('');
+  document.getElementById('achievementsCounter').textContent =
+    unlocked.length + ' / ' + ACHIEVEMENTS.length + ' unlocked';
+}
+
+function checkAchievements() {
+  const progress = getProgress();
+  let totalDone = 0, totalChallenges = 0;
+  const tier = {
+    bronze: { done: 0, total: 0, anyComplete: false },
+    silver: { done: 0, total: 0, anyComplete: false },
+    gold:   { done: 0, total: 0, anyComplete: false }
+  };
+  let completedWorksheets = 0;
+
+  WORKSHEETS.forEach(ws => {
+    const wsDone = (progress[ws.id] || []).filter(Boolean).length;
+    totalDone += wsDone;
+    totalChallenges += ws.challenges;
+    tier[ws.tier].total += ws.challenges;
+    tier[ws.tier].done += wsDone;
+    if (wsDone === ws.challenges) {
+      completedWorksheets++;
+      tier[ws.tier].anyComplete = true;
+    }
+  });
+
+  if (totalDone >= 1) unlockAchievement('first_steps');
+  if (totalDone >= 5) unlockAchievement('getting_started');
+  if (completedWorksheets >= 1) unlockAchievement('page_turner');
+
+  if (tier.bronze.total > 0 && tier.bronze.done === tier.bronze.total) unlockAchievement('bronze_champion');
+  if (tier.silver.total > 0 && tier.silver.done === tier.silver.total) unlockAchievement('silver_champion');
+  if (tier.gold.total > 0 && tier.gold.done === tier.gold.total) unlockAchievement('gold_champion');
+
+  const overallPct = totalChallenges ? (totalDone / totalChallenges) * 100 : 0;
+  if (overallPct >= 50) unlockAchievement('halfway_there');
+  if (totalDone === totalChallenges && totalChallenges > 0) {
+    unlockAchievement('perfectionist');
+    unlockAchievement('course_master');
+  }
+
+  if (tier.bronze.anyComplete && tier.silver.anyComplete && tier.gold.anyComplete) {
+    unlockAchievement('tier_trifecta');
+  }
+}
+
+// On-a-Roll streak detection (resets on page refresh — session only)
+const streakTimes = [];
+function trackStreak() {
+  const now = Date.now();
+  streakTimes.push(now);
+  while (streakTimes.length && streakTimes[0] < now - 60000) streakTimes.shift();
+  if (streakTimes.length >= 3) unlockAchievement('on_a_roll');
+}
+
+// ===== TOAST NOTIFICATION =====
+function showAchievementToast(achievement) {
+  const toast = document.createElement('div');
+  toast.className = 'achievement-toast';
+  toast.innerHTML =
+    '<div class="toast-icon"></div>' +
+    '<div>' +
+      '<div class="toast-label">Achievement Unlocked</div>' +
+      '<div class="toast-title"></div>' +
+      '<div class="toast-desc"></div>' +
+    '</div>';
+  toast.querySelector('.toast-icon').textContent = achievement.icon;
+  toast.querySelector('.toast-title').textContent = achievement.name;
+  toast.querySelector('.toast-desc').textContent = achievement.desc;
+  document.body.appendChild(toast);
+  const stackOffset = document.querySelectorAll('.achievement-toast.show').length * 110;
+  toast.style.top = (24 + stackOffset) + 'px';
+  setTimeout(function() { toast.classList.add('show'); }, 50);
+  setTimeout(function() {
+    toast.classList.remove('show');
+    setTimeout(function() { toast.remove(); }, 600);
+  }, 4500);
+  // celebratory confetti from the top-right
+  burstConfetti(window.innerWidth - 160, 90, 36);
+}
+
+// ===== CONFETTI =====
+function burstConfetti(x, y, count) {
+  if (count == null) count = 14;
+  const colors = ['#6c5ce7', '#00a884', '#f59e0b', '#e17055', '#3b82f6', '#ec4899', '#fbbf24'];
+  for (let i = 0; i < count; i++) {
+    const p = document.createElement('div');
+    p.className = 'confetti-particle';
+    p.style.left = x + 'px';
+    p.style.top = y + 'px';
+    p.style.background = colors[Math.floor(Math.random() * colors.length)];
+    document.body.appendChild(p);
+    const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.6;
+    const dist = 60 + Math.random() * 110;
+    const vx = Math.cos(angle) * dist;
+    const vy = Math.sin(angle) * dist - 60;
+    const duration = 850 + Math.random() * 500;
+    const start = performance.now();
+    (function animate(particle, vx, vy, duration, start) {
+      function step(t) {
+        const e = (t - start) / duration;
+        if (e >= 1) { particle.remove(); return; }
+        const ee = 1 - Math.pow(1 - e, 2);
+        const px = vx * ee;
+        const py = vy * ee + 0.5 * 260 * ee * ee; // gravity
+        particle.style.transform = 'translate(' + px + 'px, ' + py + 'px) rotate(' + (e * 540) + 'deg)';
+        particle.style.opacity = String(1 - e);
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    })(p, vx, vy, duration, start);
+  }
+}
+
+// ===== "+1" FLOATER =====
+function floatPoint(target) {
+  const f = document.createElement('div');
+  f.className = 'point-floater';
+  f.textContent = '+1';
+  const rect = target.getBoundingClientRect();
+  f.style.left = (rect.left + rect.width / 2) + 'px';
+  f.style.top = (rect.top + window.scrollY - 10) + 'px';
+  document.body.appendChild(f);
+  setTimeout(function() { f.remove(); }, 1300);
+}
+
+// ===== Number count-up animation =====
+function animateNumberText(el, toPct) {
+  if (!el) return;
+  const fromMatch = (el.textContent || '').match(/(\d+)/);
+  const from = fromMatch ? parseInt(fromMatch[1]) : 0;
+  if (from === toPct) { el.textContent = toPct + '%'; return; }
+  const start = performance.now();
+  const duration = 650;
+  function step(t) {
+    const e = Math.min(1, (t - start) / duration);
+    const ee = 1 - Math.pow(1 - e, 3);
+    el.textContent = Math.round(from + (toPct - from) * ee) + '%';
+    if (e < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
 // ===== EVENTS =====
 // Checkbox changes
 document.addEventListener('change', function(e) {
   if (e.target.classList.contains('challenge-check')) {
     const wsId = e.target.getAttribute('data-ws');
     const idx = parseInt(e.target.getAttribute('data-idx'));
-    setChallenge(wsId, idx, e.target.checked);
-    e.target.closest('.challenge-item').classList.toggle('done', e.target.checked);
+    const wasChecked = e.target.checked;
+    setChallenge(wsId, idx, wasChecked);
+    const item = e.target.closest('.challenge-item');
+    item.classList.toggle('done', wasChecked);
+
+    if (wasChecked) {
+      // Checkbox pop animation
+      e.target.classList.add('just-checked');
+      setTimeout(function() { e.target.classList.remove('just-checked'); }, 400);
+
+      // Row flash
+      item.classList.add('just-completed');
+      setTimeout(function() { item.classList.remove('just-completed'); }, 900);
+
+      // Confetti at the checkbox
+      const r = e.target.getBoundingClientRect();
+      burstConfetti(r.left + r.width / 2, r.top + r.height / 2, 14);
+
+      // "+1" floater
+      floatPoint(e.target);
+
+      // Streak tracker
+      trackStreak();
+
+      // Pulse the worksheet's progress bar
+      const wsEl = e.target.closest('.worksheet');
+      if (wsEl) {
+        const pb = wsEl.querySelector('.ws-progress-bar');
+        if (pb) {
+          pb.classList.add('just-advanced');
+          setTimeout(function() { pb.classList.remove('just-advanced'); }, 1400);
+        }
+      }
+
+      // Bigger celebration if this just completed the whole worksheet
+      const ws = WORKSHEETS.find(function(w) { return w.id === wsId; });
+      if (ws) {
+        const done = (getProgress()[wsId] || []).filter(Boolean).length;
+        if (done === ws.challenges) {
+          setTimeout(function() {
+            const pb = wsEl ? wsEl.querySelector('.ws-progress-bar') : null;
+            if (pb) {
+              const pr = pb.getBoundingClientRect();
+              burstConfetti(pr.left + pr.width / 2, pr.top + pr.height / 2, 50);
+            }
+          }, 60);
+        }
+      }
+    }
+
+    checkAchievements();
   }
 });
 
@@ -3310,6 +3786,9 @@ function toggleHints(btn) {
   btn.querySelector('.arrow').textContent = content.classList.contains('open') ? '\u25BC' : '\u25B6';
   const label = content.classList.contains('open') ? 'Hide Hints' : 'Show Hints';
   btn.innerHTML = '<span class="arrow">' + (content.classList.contains('open') ? '\u25BC' : '\u25B6') + '</span> ' + label;
+  if (content.classList.contains('open') && typeof unlockAchievement === 'function') {
+    unlockAchievement('hint_seeker');
+  }
 }
 
 // Lightbox
@@ -3352,6 +3831,12 @@ function init() {
   });
 
   updateAllUI();
+  // Replay any achievements the user already had — silently — so the grid is correct
+  // without showing toasts for things they've already earned in past sessions.
+  suppressAchievementToasts = true;
+  checkAchievements();
+  renderAchievements();
+  suppressAchievementToasts = false;
 
   // SCORM: commit data when leaving the page
   window.addEventListener('beforeunload', function() {
