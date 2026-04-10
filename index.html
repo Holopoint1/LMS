@@ -1437,6 +1437,161 @@
       .float-up-fade, .badge-shimmer, .badge-shine, .badge-unlock { animation: none !important; }
       .progress-bar-fill { transition: none; }
     }
+
+    /* ==================== Multi-course picker ==================== */
+    .course-tabs {
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-sidebar);
+    }
+    .course-tabs-label {
+      font-size: 10px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+    .course-tab {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 6px;
+      border: 1.5px solid var(--border);
+      background: var(--bg-card);
+      transition: background 0.18s, border-color 0.18s, transform 0.18s;
+    }
+    .course-tab:hover {
+      background: var(--bg-hover);
+      transform: translateX(2px);
+    }
+    .course-tab.active {
+      background: linear-gradient(135deg, var(--accent-glow) 0%, rgba(108,92,231,0.05) 100%);
+      border-color: var(--accent);
+      box-shadow: 0 4px 14px rgba(108, 92, 231, 0.14);
+    }
+    .course-tab-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 1px solid var(--border);
+    }
+    .course-tab-info { flex: 1; min-width: 0; }
+    .course-tab-code {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+    }
+    .course-tab-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+    .course-tab-progress {
+      font-size: 10px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    /* Home / course picker page */
+    .home-hero {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+    .home-hero h1 {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .home-hero p {
+      color: #4b5563;
+      font-size: 15px;
+      max-width: 560px;
+      margin: 0 auto 36px;
+    }
+    .course-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 22px;
+      padding-bottom: 40px;
+    }
+    .course-picker-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+    }
+    .course-picker-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.14);
+    }
+    .course-picker-card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      display: block;
+      background: #e5e7eb;
+    }
+    .course-picker-card-body { padding: 20px 22px 22px; }
+    .course-picker-card-code {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .course-picker-card-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+    .course-picker-card-desc {
+      font-size: 13px;
+      color: #4b5563;
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .course-picker-card-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+    .course-picker-card-stat {
+      font-size: 11px;
+      color: #6b7280;
+    }
+    .course-picker-card-stat strong {
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .course-picker-card-progress {
+      flex: 1;
+      margin-left: 14px;
+    }
+    .course-picker-card-progress .progress-bar { height: 6px; }
   </style>
 </head>
 <body>
@@ -1449,11 +1604,17 @@
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <a href="https://holopoint1.github.io/LMS/" class="sidebar-logo" style="text-decoration:none;">
-        <img src="Assets/Media/e-blocks3 logo.png" alt="E-Blocks 3">
-        <span>Learning Platform</span>
+        <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/e-blocks3 logo.png" alt="Learning Platform">
+        <span>Matrix Learning</span>
       </a>
-      <div class="sidebar-title">CP4807</div>
-      <div class="sidebar-subtitle">Introduction to Microcontrollers</div>
+      <div class="sidebar-title" id="sidebarCourseCode">CP4807</div>
+      <div class="sidebar-subtitle" id="sidebarCourseTitle">Introduction to Microcontrollers</div>
+    </div>
+
+    <!-- Course tabs -->
+    <div class="course-tabs" id="courseTabs">
+      <div class="course-tabs-label">Courses</div>
+      <!-- Populated by JS -->
     </div>
 
     <div class="overall-progress">
@@ -1467,6 +1628,18 @@
     </div>
 
     <nav class="sidebar-nav" id="sidebarNav">
+      <!-- Home -->
+      <div class="nav-tier" style="padding-bottom: 4px;">
+        <a class="nav-item" data-ws="home" onclick="navigateTo('home')">
+          <div class="nav-item-num" style="background:#f0f1f5;color:var(--text);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+          </div>
+          <div class="nav-item-info">
+            <div class="nav-item-title">All Courses</div>
+          </div>
+        </a>
+      </div>
+
       <!-- Welcome -->
       <div class="nav-tier" style="padding-bottom: 4px;">
         <a class="nav-item active" data-ws="welcome" onclick="navigateTo('welcome')">
@@ -1474,7 +1647,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </div>
           <div class="nav-item-info">
-            <div class="nav-item-title">Dashboard</div>
+            <div class="nav-item-title">Course Home</div>
           </div>
         </a>
       </div>
@@ -1613,18 +1786,29 @@
 
     <div class="content">
 
-      <!-- ==================== WELCOME / DASHBOARD ==================== -->
-      <div class="worksheet active" id="page-welcome">
+      <!-- ==================== HOME / COURSE PICKER ==================== -->
+      <div class="worksheet active" id="page-home">
+        <div class="home-hero">
+          <h1>Matrix Learning Platform</h1>
+          <p>Choose a course to get started. Your progress is saved separately for each course.</p>
+        </div>
+        <div class="course-picker-grid" id="coursePickerGrid">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- ==================== WELCOME / COURSE HOME ==================== -->
+      <div class="worksheet" id="page-welcome">
         <div class="welcome-hero">
-          <img src="Assets/Media/intro to micros cover.jpg" alt="Introduction to Microcontrollers">
-          <h1>Introduction to Microcontrollers</h1>
-          <p>A comprehensive course in microcontroller programming using Flowcode Embedded and E-blocks 3 hardware. Work through 12 worksheets from fundamentals to advanced projects.</p>
+          <img id="welcomeHeroImg" src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/intro to micros cover.jpg" alt="Course Hero">
+          <h1 id="welcomeHeroTitle">Introduction to Microcontrollers</h1>
+          <p id="welcomeHeroDesc">A comprehensive course in microcontroller programming using Flowcode Embedded and E-blocks 3 hardware. Work through 12 worksheets from fundamentals to advanced projects.</p>
         </div>
 
         <div class="achievements-card">
           <div class="achievements-header">
             <div class="achievements-title">&#127942; Achievements</div>
-            <div class="achievements-counter" id="achievementsCounter">0 / 12 unlocked</div>
+            <div class="achievements-counter" id="achievementsCounter">0 unlocked</div>
           </div>
           <div class="achievements-grid" id="achievementsGrid"></div>
         </div>
@@ -1670,7 +1854,7 @@
         </div>
 
         <div class="card" style="margin-bottom: 32px; display: flex; align-items: center; gap: 16px; padding: 20px 24px;">
-          <img src="Assets/Media/youtube logo.png" alt="YouTube" style="height: 32px; width: auto;">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/youtube logo.png" alt="YouTube" style="height: 32px; width: auto;">
           <div style="flex:1;">
             <div style="font-weight: 700; font-size: 15px; margin-bottom: 2px;">More Videos on Our YouTube Channel</div>
             <p style="margin:0; font-size: 13px;">Watch all course videos, tutorials and walkthroughs on the Matrix Multimedia YouTube channel.</p>
@@ -1717,9 +1901,9 @@
         </div>
 
         <div class="image-gallery" style="margin-bottom: 32px;">
-          <img src="Assets/Media/PIC development centre.png" alt="PIC Development Centre" class="gallery-img" onclick="openLightbox(this)">
-          <img src="Assets/Media/BLXXXX programming Arduino microcontrollers.png" alt="Arduino Microcontrollers" class="gallery-img" onclick="openLightbox(this)">
-          <img src="Assets/Media/electronics board.jpg" alt="Electronics Board" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/PIC development centre.png" alt="PIC Development Centre" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/BLXXXX programming Arduino microcontrollers.png" alt="Arduino Microcontrollers" class="gallery-img" onclick="openLightbox(this)">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/electronics board.jpg" alt="Electronics Board" class="gallery-img" onclick="openLightbox(this)">
         </div>
 
         <h3 style="margin-bottom: 16px; font-size: 18px;">Your Worksheets</h3>
@@ -1731,7 +1915,7 @@
       <!-- ==================== WORKSHEET 1: FIRST PROGRAM ==================== -->
       <div class="worksheet" id="page-ws1">
         <div class="ws-hero">
-          <img src="Assets/Media/first program.jpg" alt="First Program" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/first program.jpg" alt="First Program" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 1: First Program</h2>
@@ -1761,8 +1945,8 @@
           <p>Load the file "First program". Set up the hardware appropriately, download it, and make sure you understand it.</p>
           <p>The program flashes a single LED on the combo board.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/flashing light.jpg" alt="Flashing Light" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/Flowcode Embedded introduction.jpg" alt="Flowcode Embedded" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/flashing light.jpg" alt="Flashing Light" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Flowcode Embedded introduction.jpg" alt="Flowcode Embedded" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -1820,7 +2004,7 @@
       <!-- ==================== WORKSHEET 2: PERFORMING CALCULATIONS ==================== -->
       <div class="worksheet" id="page-ws2">
         <div class="ws-hero">
-          <img src="Assets/Media/binary-numbers-data-matrix-on-screen-2025-01-29-08-07-35-utc.jpg" alt="Binary Numbers" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/binary-numbers-data-matrix-on-screen-2025-01-29-08-07-35-utc.jpg" alt="Binary Numbers" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 2: Performing Calculations</h2>
@@ -1845,8 +2029,8 @@
           <p>Microcontroller brains are not wired like human being's. This has consequences for mathematics, variables and input output processes that you need to understand.</p>
           <p>In this worksheet you explore calculations and binary and hexadecimal numbering systems.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/binary.jpg" alt="Binary" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/counter.jpg" alt="Counter" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/binary.jpg" alt="Binary" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/counter.jpg" alt="Counter" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -1929,7 +2113,7 @@
       <!-- ==================== WORKSHEET 3: CONNECTION POINTS ==================== -->
       <div class="worksheet" id="page-ws3">
         <div class="ws-hero">
-          <img src="Assets/Media/traffic lights.jpg" alt="Traffic Lights" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/traffic lights.jpg" alt="Traffic Lights" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 3: Connection Points</h2>
@@ -1956,8 +2140,8 @@
           <p>Load the results of the previous worksheet. You should have a program that lights up the LEDs on a port in sequence going from bit 0 to 7 and then bit 7 to 0.</p>
           <p>Use connection points to make the program run forever.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/close-up-of-a-yellow-construction-sign-for-traffic-2025-02-03-16-16-23-utc.jpg" alt="Traffic Sign" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/view-of-city-traffic-with-traffic-lights-in-the-f-2025-03-16-12-41-45-utc.jpg" alt="Traffic Lights" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/close-up-of-a-yellow-construction-sign-for-traffic-2025-02-03-16-16-23-utc.jpg" alt="Traffic Sign" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/view-of-city-traffic-with-traffic-lights-in-the-f-2025-03-16-12-41-45-utc.jpg" alt="Traffic Lights" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -1998,7 +2182,7 @@
       <!-- ==================== WORKSHEET 4: DIGITAL INPUTS ==================== -->
       <div class="worksheet" id="page-ws4">
         <div class="ws-hero">
-          <img src="Assets/Media/Digital inputs.jpg" alt="Digital Inputs" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Digital inputs.jpg" alt="Digital Inputs" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 4: Digital Inputs</h2>
@@ -2021,7 +2205,7 @@
           </div>
           <p>We need a way of controlling electronic devices locally. Often this is done in a digital context &ndash; with different types of switches. In this case we need to get the input "commands" and then process this to alter the state of the microcontroller or alter its processes.</p>
           <p>In this exercise you look at how to get command data into a microcontroller.</p>
-          <img src="Assets/Media/control panel.jpg" alt="Control Panel" class="single-img" onclick="openLightbox(this)">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/control panel.jpg" alt="Control Panel" class="single-img" onclick="openLightbox(this)">
         </div>
 
         <div class="card">
@@ -2115,7 +2299,7 @@
       <!-- ==================== WORKSHEET 5: MAKING DECISIONS ==================== -->
       <div class="worksheet" id="page-ws5">
         <div class="ws-hero">
-          <img src="Assets/Media/making decisions.jpg" alt="Making Decisions" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/making decisions.jpg" alt="Making Decisions" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 5: Making Decisions</h2>
@@ -2139,8 +2323,8 @@
           <p>The behaviour of a program and its processes will often depend on the choices made by the user via a control panel or input from sensors.  The way we make decisions in a program is through the IF statement and the SWITCH statement.</p>
           <p>In this worksheet you explore how decisions are made in microcontroller programs.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/music panel.jpg" alt="Music Panel" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/red-and-green-round-lamps-and-buttons-on-black-con-2024-12-17-00-11-57-utc.jpg" alt="Control Buttons" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/music panel.jpg" alt="Music Panel" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/red-and-green-round-lamps-and-buttons-on-black-con-2024-12-17-00-11-57-utc.jpg" alt="Control Buttons" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -2195,7 +2379,7 @@
       <!-- ==================== WORKSHEET 6: MACROS / SUBROUTINES ==================== -->
       <div class="worksheet" id="page-ws6">
         <div class="ws-hero">
-          <img src="Assets/Media/Macros.jpg" alt="Macros" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Macros.jpg" alt="Macros" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 6: Macros / Subroutines</h2>
@@ -2218,7 +2402,7 @@
           </div>
           <p>In designing microcontroller systems we use code that is very repetitive and we can simplify the development by using software macros or subroutines. Pre-written libraries of code for hardware modules also save us a lot of time, and help us create more functional systems.</p>
           <p>In this worksheet you explore the use of hardware and software macros.</p>
-          <img src="Assets/Media/electronics board.jpg" alt="Electronics Board" class="single-img" onclick="openLightbox(this)">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/electronics board.jpg" alt="Electronics Board" class="single-img" onclick="openLightbox(this)">
         </div>
 
         <div class="card">
@@ -2302,7 +2486,7 @@
       <!-- ==================== WORKSHEET 7: PROTOTYPE BOARDS ==================== -->
       <div class="worksheet" id="page-ws7">
         <div class="ws-hero">
-          <img src="Assets/Media/prototype board.jpg" alt="Prototype Board" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/prototype board.jpg" alt="Prototype Board" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 7: Using Prototype Boards</h2>
@@ -2327,9 +2511,9 @@
           <p>In this worksheet you explore the use of prototype boards in microcontroller circuits.</p>
           <p>There is no video for this worksheet.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/proto board with parts.png" alt="Proto Board with Parts" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/project diagram.png" alt="Project Diagram" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/protoboard.svg" alt="Protoboard Diagram" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/proto board with parts.png" alt="Proto Board with Parts" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/project diagram.png" alt="Project Diagram" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/protoboard.svg" alt="Protoboard Diagram" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -2371,7 +2555,7 @@
       <!-- ==================== WORKSHEET 8: COLOUR GRAPHICAL DISPLAYS ==================== -->
       <div class="worksheet" id="page-ws8">
         <div class="ws-hero">
-          <img src="Assets/Media/colour touch screen.jpg" alt="Colour Display" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/colour touch screen.jpg" alt="Colour Display" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-silver">Silver</div>
             <h2 class="ws-hero-title">Worksheet 8: Colour Graphical Displays</h2>
@@ -2395,8 +2579,8 @@
           <p>Graphical displays extend the functionality of electronic systems, allow more information about be displayed, and allow information to be displayed in more easily understood formats: tables, graphics, graphs etc.</p>
           <p>In this worksheet you explore how colour graphical displays work.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/hardware control.png" alt="Hardware Control" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/hardware tracker.png" alt="Hardware Tracker" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hardware control.png" alt="Hardware Control" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hardware tracker.png" alt="Hardware Tracker" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -2454,7 +2638,7 @@
       <!-- ==================== WORKSHEET 9: PIN INTERRUPTS ==================== -->
       <div class="worksheet" id="page-ws9">
         <div class="ws-hero">
-          <img src="Assets/Media/pin interrupts.png" alt="Pin Interrupts" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/pin interrupts.png" alt="Pin Interrupts" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-silver">Silver</div>
             <h2 class="ws-hero-title">Worksheet 9: Pin Interrupts</h2>
@@ -2478,8 +2662,8 @@
           <p>In some systems there are possible events that are really important &ndash; like the kill switch on a factory machine. When switches like this are activated you need your program to stop whatever it is doing &ndash; "interrupt" the program - and take action. Interrupts allow us to do this.</p>
           <p>In this worksheet you explore how  pin interrupts work.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/stop switch.jpg" alt="Stop Switch" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/a-red-and-yellow-button-with-a-yellow-box-2025-03-14-19-12-07-utc.jpg" alt="Emergency Button" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/stop switch.jpg" alt="Stop Switch" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/a-red-and-yellow-button-with-a-yellow-box-2025-03-14-19-12-07-utc.jpg" alt="Emergency Button" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -2535,7 +2719,7 @@
       <!-- ==================== WORKSHEET 10: TIMER INTERRUPTS ==================== -->
       <div class="worksheet" id="page-ws10">
         <div class="ws-hero">
-          <img src="Assets/Media/timer interrupts.png" alt="Timer Interrupts" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/timer interrupts.png" alt="Timer Interrupts" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-silver">Silver</div>
             <h2 class="ws-hero-title">Worksheet 10: Timer Interrupts</h2>
@@ -2559,8 +2743,8 @@
           <p>Many microcontroller systems need some kind of timing system. Microcontrollers are designed to help us here as they have dedicated internal hardware that counts the number of internal clock pulses and converts them into time. When activated these internal counters can "interrupt" the program to help you manage time-based code.</p>
           <p>In this worksheet you explore how timer interrupts work.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/stop watch.jpg" alt="Stopwatch" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/hand-holding-a-stopwatch-2025-02-10-06-05-41-utc.jpg" alt="Stopwatch in Hand" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/stop watch.jpg" alt="Stopwatch" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hand-holding-a-stopwatch-2025-02-10-06-05-41-utc.jpg" alt="Stopwatch in Hand" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -2616,7 +2800,7 @@
       <!-- ==================== WORKSHEET 11: TOUCH CONTROL SYSTEMS ==================== -->
       <div class="worksheet" id="page-ws11">
         <div class="ws-hero">
-          <img src="Assets/Media/touch screen control.jpg" alt="Touch Control" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/touch screen control.jpg" alt="Touch Control" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-gold">Gold</div>
             <h2 class="ws-hero-title">Worksheet 11: Touch Control Systems</h2>
@@ -2640,8 +2824,8 @@
           <p>Touchscreen systems are replacing the use of switches, potentiometers, LEDs and other electronic devices. Using a graphical touch screen reduces costs and enhances functionality.</p>
           <p>In this worksheet you learn how to develop a system that uses the touch screen display to control a simple system.</p>
           <div class="image-gallery">
-            <img src="Assets/Media/touch screen.jpg" alt="Touch Screen" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/controlling-smart-devices-with-a-digital-tablet-at-2025-03-14-12-33-14-utc.jpg" alt="Smart Devices" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/touch screen.jpg" alt="Touch Screen" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/controlling-smart-devices-with-a-digital-tablet-at-2025-03-14-12-33-14-utc.jpg" alt="Smart Devices" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -2700,7 +2884,7 @@
       <!-- ==================== WORKSHEET 12: WEB MIRROR ==================== -->
       <div class="worksheet" id="page-ws12">
         <div class="ws-hero">
-          <img src="Assets/Media/web mirror.jpg" alt="Web Mirror" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/web mirror.jpg" alt="Web Mirror" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-gold">Gold</div>
             <h2 class="ws-hero-title">Worksheet 12: Web Mirror</h2>
@@ -2724,8 +2908,8 @@
           <p>Touchscreen systems are replacing the use of switches, potentiometers, LEDs and other electronic devices. Using a graphical touch screen reduces costs and enhances functionality.</p>
           <p>In this worksheet you learn how to develop a more complex touch screen system</p>
           <div class="image-gallery">
-            <img src="Assets/Media/web mirror candy.jpg" alt="Web Mirror Candy" class="gallery-img" onclick="openLightbox(this)">
-            <img src="Assets/Media/holding-digital-tablet-in-cozy-living-room-with-fi-2025-01-08-11-37-09-utc.jpg" alt="Digital Tablet Control" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/web mirror candy.jpg" alt="Web Mirror Candy" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/holding-digital-tablet-in-cozy-living-room-with-fi-2025-01-08-11-37-09-utc.jpg" alt="Digital Tablet Control" class="gallery-img" onclick="openLightbox(this)">
           </div>
         </div>
 
@@ -3199,9 +3383,49 @@ const WORKSHEETS = [
   { id: 'ws12', title: 'Web Mirror',                 tier: 'gold',   challenges: 4 },
 ];
 
-const NAV_ORDER = ['welcome', ...WORKSHEETS.map(w => w.id), 'scorm'];
+// ===== COURSES =====
+const COURSES = [
+  {
+    id: 'cp4807',
+    code: 'CP4807',
+    title: 'Introduction to Microcontrollers',
+    shortTitle: 'Intro to Microcontrollers',
+    description: 'A comprehensive course in microcontroller programming using Flowcode Embedded and E-blocks 3 hardware. Work through 12 worksheets from fundamentals to advanced projects.',
+    heroImage: 'Assets/CP4807 - Introduction to microcontrollers 05 04 26/intro to micros cover.jpg',
+    thumbImage: 'Assets/CP4807 - Introduction to microcontrollers 05 04 26/intro to micros cover.jpg',
+    worksheetIds: WORKSHEETS.map(w => w.id)
+  },
+  {
+    id: 'co0003',
+    code: 'CO0003',
+    title: 'Digital Techniques for Aviation',
+    shortTitle: 'Digital Techniques (EASA Unit 5)',
+    description: 'EASA Unit 5 Digital Techniques microcontrollers course for aviation technicians. Covers the same microcontroller worksheets framed for the EASA curriculum.',
+    heroImage: 'Assets/Digital Techniques for Aviation \u2013/CO0003 - opening.png',
+    thumbImage: 'Assets/Digital Techniques for Aviation \u2013/CO0003 - opening.png',
+    worksheetIds: WORKSHEETS.map(w => w.id)
+  }
+];
 
-let currentPage = 'welcome';
+function getCurrentCourse() {
+  return COURSES.find(c => c.id === currentCourse) || COURSES[0];
+}
+
+function getCourseWorksheets() {
+  const course = getCurrentCourse();
+  return WORKSHEETS.filter(w => course.worksheetIds.indexOf(w.id) !== -1);
+}
+
+function computeNavOrder() {
+  return ['home', 'welcome', ...getCourseWorksheets().map(w => w.id), 'scorm'];
+}
+
+let currentCourse = localStorage.getItem('lms-current-course') || 'cp4807';
+if (!COURSES.find(c => c.id === currentCourse)) currentCourse = 'cp4807';
+
+let NAV_ORDER = computeNavOrder();
+
+let currentPage = 'home';
 
 // ===== SCORM API INTEGRATION =====
 const scormApi = window.ScormAPI ? new window.ScormAPI() : null;
@@ -3312,15 +3536,23 @@ function renderScormStatusTable() {
   container.innerHTML = html;
 }
 
-// ===== STORAGE =====
+// ===== STORAGE (per-course scoped) =====
+function progressKey() { return 'lms-progress-' + currentCourse; }
+
 function getProgress() {
   try {
-    return JSON.parse(localStorage.getItem('lms-progress') || '{}');
+    // Migration: if legacy 'lms-progress' exists and no per-course key, carry it over to cp4807
+    const legacy = localStorage.getItem('lms-progress');
+    if (legacy && !localStorage.getItem('lms-progress-cp4807')) {
+      localStorage.setItem('lms-progress-cp4807', legacy);
+      localStorage.removeItem('lms-progress');
+    }
+    return JSON.parse(localStorage.getItem(progressKey()) || '{}');
   } catch { return {}; }
 }
 
 function saveProgress(progress) {
-  localStorage.setItem('lms-progress', JSON.stringify(progress));
+  localStorage.setItem(progressKey(), JSON.stringify(progress));
 }
 
 function getWSProgress(wsId) {
@@ -3342,9 +3574,10 @@ function setChallenge(wsId, idx, checked) {
 }
 
 function resetProgress() {
-  if (confirm('Reset all progress? This cannot be undone.')) {
-    localStorage.removeItem('lms-progress');
-    localStorage.removeItem('lms-achievements');
+  const course = getCurrentCourse();
+  if (confirm('Reset all progress for "' + course.title + '"? This cannot be undone.')) {
+    localStorage.removeItem(progressKey());
+    localStorage.removeItem('lms-achievements-' + currentCourse);
     document.querySelectorAll('.challenge-check').forEach(c => c.checked = false);
     document.querySelectorAll('.challenge-item').forEach(i => i.classList.remove('done'));
     updateAllUI();
@@ -3384,12 +3617,17 @@ function navigateTo(pageId) {
   // Update breadcrumb
   const ws = WORKSHEETS.find(w => w.id === pageId);
   const breadcrumbSpan = document.querySelector('#breadcrumb span');
-  if (pageId === 'welcome') {
-    breadcrumbSpan.textContent = 'Dashboard';
+  const crumbEl = document.getElementById('breadcrumb');
+  const course = getCurrentCourse();
+  if (pageId === 'home') {
+    crumbEl.innerHTML = '<span>All Courses</span>';
+  } else if (pageId === 'welcome') {
+    crumbEl.innerHTML = course.code + ' &rsaquo; <span>Course Home</span>';
   } else if (pageId === 'scorm') {
-    breadcrumbSpan.textContent = 'SCORM Compliance';
+    crumbEl.innerHTML = course.code + ' &rsaquo; <span>SCORM Compliance</span>';
   } else if (ws) {
-    breadcrumbSpan.textContent = 'Worksheet ' + (WORKSHEETS.indexOf(ws) + 1) + ': ' + ws.title;
+    const wsIndex = WORKSHEETS.indexOf(ws) + 1;
+    crumbEl.innerHTML = course.code + ' &rsaquo; <span>Worksheet ' + wsIndex + ': ' + ws.title + '</span>';
   }
 
   // Update prev/next buttons
@@ -3403,13 +3641,17 @@ function navigateTo(pageId) {
   if (idx > 0) {
     const prevId = NAV_ORDER[idx - 1];
     const prevWs = WORKSHEETS.find(w => w.id === prevId);
-    btnPrev.textContent = prevId === 'welcome' ? '\u2190 Dashboard' : '\u2190 ' + (prevWs ? prevWs.title : '');
+    if (prevId === 'home') btnPrev.textContent = '\u2190 All Courses';
+    else if (prevId === 'welcome') btnPrev.textContent = '\u2190 Course Home';
+    else btnPrev.textContent = '\u2190 ' + (prevWs ? prevWs.title : '');
   }
 
   if (idx < NAV_ORDER.length - 1) {
     const nextId = NAV_ORDER[idx + 1];
     const nextWs = WORKSHEETS.find(w => w.id === nextId);
-    btnNext.textContent = (nextWs ? nextWs.title : 'Dashboard') + ' \u2192';
+    if (nextId === 'welcome') btnNext.textContent = 'Course Home \u2192';
+    else if (nextId === 'scorm') btnNext.textContent = 'SCORM \u2192';
+    else btnNext.textContent = (nextWs ? nextWs.title : 'Dashboard') + ' \u2192';
   }
 
   // Scroll to top
@@ -3439,8 +3681,24 @@ function calcWSPercent(wsId) {
   return Math.round((done / ws.challenges) * 100);
 }
 
+function calcCourseOverall(courseId) {
+  const course = COURSES.find(c => c.id === courseId);
+  if (!course) return { pct: 0, done: 0, total: 0 };
+  let done = 0, total = 0;
+  try {
+    const prog = JSON.parse(localStorage.getItem('lms-progress-' + courseId) || '{}');
+    course.worksheetIds.forEach(wsId => {
+      const ws = WORKSHEETS.find(w => w.id === wsId);
+      if (!ws) return;
+      total += ws.challenges;
+      done += (prog[wsId] || []).filter(Boolean).length;
+    });
+  } catch {}
+  return { pct: total ? Math.round((done / total) * 100) : 0, done: done, total: total };
+}
+
 function updateAllUI() {
-  const progress = getProgress();
+  const activeWsIds = getCourseWorksheets().map(w => w.id);
 
   // Per-worksheet progress
   WORKSHEETS.forEach(ws => {
@@ -3463,28 +3721,24 @@ function updateAllUI() {
     }
   });
 
-  // Overall progress
-  const totalChallenges = WORKSHEETS.reduce((sum, ws) => sum + ws.challenges, 0);
-  let totalDone = 0;
-  WORKSHEETS.forEach(ws => {
-    const prog = getWSProgress(ws.id);
-    totalDone += prog.filter(Boolean).length;
-  });
-  const overallPct = Math.round((totalDone / totalChallenges) * 100);
-  animateNumberText(document.getElementById('overallPct'), overallPct);
-  document.getElementById('overallBar').style.width = overallPct + '%';
+  // Overall progress — only for current course's worksheets
+  const overall = calcCourseOverall(currentCourse);
+  animateNumberText(document.getElementById('overallPct'), overall.pct);
+  document.getElementById('overallBar').style.width = overall.pct + '%';
 
-  // Welcome grid
+  // Welcome grid, course tabs, course picker
   updateWelcomeGrid();
+  renderCourseTabs();
+  renderCoursePicker();
 }
 
 function updateWelcomeGrid() {
   const grid = document.getElementById('welcomeGrid');
   if (!grid) return;
 
-  grid.innerHTML = WORKSHEETS.map((ws, i) => {
+  const sheets = getCourseWorksheets();
+  grid.innerHTML = sheets.map((ws, i) => {
     const pct = calcWSPercent(ws.id);
-    const tierClass = ws.tier === 'bronze' ? 'bronze' : ws.tier === 'silver' ? 'silver' : 'gold';
     const tierColor = ws.tier === 'bronze' ? 'var(--bronze)' : ws.tier === 'silver' ? 'var(--silver)' : 'var(--gold)';
     return `
       <div class="welcome-card" onclick="navigateTo('${ws.id}')">
@@ -3504,6 +3758,101 @@ function updateWelcomeGrid() {
   }).join('');
 }
 
+// ===== COURSE TABS & COURSE PICKER =====
+function renderCourseTabs() {
+  const container = document.getElementById('courseTabs');
+  if (!container) return;
+  // Preserve the label, clear the rest
+  container.innerHTML = '<div class="course-tabs-label">Courses</div>' + COURSES.map(c => {
+    const ov = calcCourseOverall(c.id);
+    const active = c.id === currentCourse ? ' active' : '';
+    return '<div class="course-tab' + active + '" onclick="switchCourse(\'' + c.id + '\')">' +
+             '<img class="course-tab-icon" src="' + c.thumbImage + '" alt="">' +
+             '<div class="course-tab-info">' +
+               '<div class="course-tab-code">' + c.code + '</div>' +
+               '<div class="course-tab-title">' + c.shortTitle + '</div>' +
+               '<div class="course-tab-progress">' + ov.pct + '% &middot; ' + ov.done + '/' + ov.total + '</div>' +
+             '</div>' +
+           '</div>';
+  }).join('');
+}
+
+function renderCoursePicker() {
+  const grid = document.getElementById('coursePickerGrid');
+  if (!grid) return;
+  grid.innerHTML = COURSES.map(c => {
+    const ov = calcCourseOverall(c.id);
+    return '<div class="course-picker-card" onclick="selectCourseAndGoHome(\'' + c.id + '\')">' +
+             '<img class="course-picker-card-img" src="' + c.heroImage + '" alt="">' +
+             '<div class="course-picker-card-body">' +
+               '<div class="course-picker-card-code">' + c.code + '</div>' +
+               '<div class="course-picker-card-title">' + c.title + '</div>' +
+               '<div class="course-picker-card-desc">' + c.description + '</div>' +
+               '<div class="course-picker-card-meta">' +
+                 '<div class="course-picker-card-stat"><strong>' + c.worksheetIds.length + '</strong> worksheets</div>' +
+                 '<div class="course-picker-card-progress">' +
+                   '<div style="display:flex;justify-content:space-between;font-size:10px;color:#6b7280;margin-bottom:4px;">' +
+                     '<span>' + ov.pct + '% complete</span><span>' + ov.done + '/' + ov.total + '</span>' +
+                   '</div>' +
+                   '<div class="progress-bar"><div class="progress-bar-fill" style="width:' + ov.pct + '%;' + (ov.pct === 100 ? 'background:var(--green)' : '') + '"></div></div>' +
+                 '</div>' +
+               '</div>' +
+             '</div>' +
+           '</div>';
+  }).join('');
+}
+
+function selectCourseAndGoHome(courseId) {
+  switchCourse(courseId);
+  navigateTo('welcome');
+}
+
+function switchCourse(courseId) {
+  if (!COURSES.find(c => c.id === courseId)) return;
+  if (courseId === currentCourse) {
+    renderCourseTabs();
+    return;
+  }
+  // End any active SCORM session under the old course
+  if (currentPage && currentPage.startsWith('ws')) {
+    scormEndSession(currentPage);
+  }
+  currentCourse = courseId;
+  localStorage.setItem('lms-current-course', courseId);
+  NAV_ORDER = computeNavOrder();
+
+  // Update sidebar header with new course details
+  const course = getCurrentCourse();
+  document.getElementById('sidebarCourseCode').textContent = course.code;
+  document.getElementById('sidebarCourseTitle').textContent = course.shortTitle;
+
+  // Update course-home hero
+  const heroImg = document.getElementById('welcomeHeroImg');
+  const heroTitle = document.getElementById('welcomeHeroTitle');
+  const heroDesc = document.getElementById('welcomeHeroDesc');
+  if (heroImg) heroImg.src = course.heroImage;
+  if (heroTitle) heroTitle.textContent = course.title;
+  if (heroDesc) heroDesc.textContent = course.description;
+
+  // Re-hydrate the checkbox state from the new course's progress
+  const progress = getProgress();
+  document.querySelectorAll('.challenge-check').forEach(cb => {
+    const wsId = cb.getAttribute('data-ws');
+    const idx = parseInt(cb.getAttribute('data-idx'));
+    const wsProgress = progress[wsId] || [];
+    const shouldBe = !!wsProgress[idx];
+    cb.checked = shouldBe;
+    cb.closest('.challenge-item').classList.toggle('done', shouldBe);
+  });
+
+  // Re-hydrate achievements (quietly) and UI
+  suppressAchievementToasts = true;
+  renderAchievements();
+  checkAchievements();
+  suppressAchievementToasts = false;
+  updateAllUI();
+}
+
 // ===== ACHIEVEMENTS & GAMIFICATION =====
 const ACHIEVEMENTS = [
   { id: 'first_steps',     icon: '\ud83c\udfaf', name: 'First Steps',      desc: 'Tick your first challenge' },
@@ -3520,9 +3869,17 @@ const ACHIEVEMENTS = [
   { id: 'course_master',   icon: '\ud83c\udf93', name: 'Course Master',    desc: 'Reach 100% completion' },
 ];
 
+function achievementsKey() { return 'lms-achievements-' + currentCourse; }
 function getUnlockedAchievements() {
-  try { return JSON.parse(localStorage.getItem('lms-achievements') || '[]'); }
-  catch { return []; }
+  try {
+    // Migration: copy legacy unscoped key to cp4807
+    const legacy = localStorage.getItem('lms-achievements');
+    if (legacy && !localStorage.getItem('lms-achievements-cp4807')) {
+      localStorage.setItem('lms-achievements-cp4807', legacy);
+      localStorage.removeItem('lms-achievements');
+    }
+    return JSON.parse(localStorage.getItem(achievementsKey()) || '[]');
+  } catch { return []; }
 }
 function isUnlocked(id) { return getUnlockedAchievements().includes(id); }
 let suppressAchievementToasts = false;
@@ -3530,7 +3887,7 @@ function unlockAchievement(id) {
   if (isUnlocked(id)) return;
   const list = getUnlockedAchievements();
   list.push(id);
-  localStorage.setItem('lms-achievements', JSON.stringify(list));
+  localStorage.setItem(achievementsKey(), JSON.stringify(list));
   const def = ACHIEVEMENTS.find(a => a.id === id);
   if (def && !suppressAchievementToasts) showAchievementToast(def);
   renderAchievements(id);
@@ -3802,7 +4159,24 @@ document.getElementById('sidebarOverlay').addEventListener('click', function() {
 
 // ===== INIT =====
 function init() {
-  // Restore checkbox states
+  // Apply the course-specific hero and sidebar header
+  const course = getCurrentCourse();
+  document.getElementById('sidebarCourseCode').textContent = course.code;
+  document.getElementById('sidebarCourseTitle').textContent = course.shortTitle;
+  const heroImg = document.getElementById('welcomeHeroImg');
+  const heroTitle = document.getElementById('welcomeHeroTitle');
+  const heroDesc = document.getElementById('welcomeHeroDesc');
+  if (heroImg) heroImg.src = course.heroImage;
+  if (heroTitle) heroTitle.textContent = course.title;
+  if (heroDesc) heroDesc.textContent = course.description;
+
+  // Make sure the home page is the only active page on load
+  document.querySelectorAll('.worksheet').forEach(ws => ws.classList.remove('active'));
+  const homePage = document.getElementById('page-home');
+  if (homePage) homePage.classList.add('active');
+  currentPage = 'home';
+
+  // Restore checkbox states for the current course
   const progress = getProgress();
   document.querySelectorAll('.challenge-check').forEach(cb => {
     const wsId = cb.getAttribute('data-ws');
@@ -3814,13 +4188,22 @@ function init() {
     }
   });
 
+  renderCourseTabs();
+  renderCoursePicker();
   updateAllUI();
+
   // Replay any achievements the user already had — silently — so the grid is correct
   // without showing toasts for things they've already earned in past sessions.
   suppressAchievementToasts = true;
   checkAchievements();
   renderAchievements();
   suppressAchievementToasts = false;
+
+  // Set the initial breadcrumb
+  const crumbEl = document.getElementById('breadcrumb');
+  if (crumbEl) crumbEl.innerHTML = '<span>All Courses</span>';
+  document.getElementById('btnPrev').style.display = 'none';
+  document.getElementById('btnNext').style.display = '';
 
   // SCORM: commit data when leaving the page
   window.addEventListener('beforeunload', function() {

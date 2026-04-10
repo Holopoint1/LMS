@@ -1,8 +1,30 @@
 # Course Builder — Project Context
 
 ## What this project does
-Reads a source Word document (CP4807) and generates course outputs
-from it. Each output type has its own AI instruction block in the doc.
+Reads source Word documents and generates course outputs from them. Each
+output type has its own AI instruction block in the doc.
+
+## Courses currently in the site
+- **CP4807** — Introduction to Microcontrollers (12 worksheets, Bronze/Silver/Gold)
+- **CO0003** — Digital Techniques for Aviation (EASA Unit 5, reuses the CP4807 worksheets)
+
+Each course has its own folder under `Assets/` holding its source `.docx`
+and image files. Progress and achievements are tracked separately per
+course in localStorage (`lms-progress-<courseid>` / `lms-achievements-<courseid>`).
+
+## Folder convention
+```
+Assets/
+  CP4807 - Introduction to microcontrollers 05 04 26/
+    CP4807 - Introduction to microcontrollers 05 04 26.docx
+    <all course images>
+  Digital Techniques for Aviation –/
+    Microcontroller based courses 10 04 26.docx
+    CO0003 - opening.png
+    CO002 - opening.png
+```
+Image src attributes in `index.html` point directly into these folders.
+**Never revert to a flat `Assets/Media/` path** — the Media folder no longer exists.
 
 ## Screen types
 When building the browser course or SCORM course, each row in the
