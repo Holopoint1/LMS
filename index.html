@@ -1273,22 +1273,6 @@
       animation: challenge-flash 850ms ease-out;
     }
 
-    /* Strikethrough draws across the text */
-    .challenge-item .challenge-text {
-      background-image: linear-gradient(currentColor, currentColor);
-      background-position: 0 60%;
-      background-repeat: no-repeat;
-      background-size: 0% 1.5px;
-      transition: background-size 380ms ease-out, color 380ms ease;
-    }
-    .challenge-item.done .challenge-text {
-      background-size: 100% 1.5px;
-      text-decoration: none;
-    }
-
-    /* Override the default strike-through so the animation owns it */
-    .challenge-item.done .challenge-text { text-decoration: none !important; }
-
     /* Progress bar glow when it just advanced */
     .ws-progress-bar.just-advanced .progress-bar-fill {
       animation: progress-glow 1300ms ease-out;
