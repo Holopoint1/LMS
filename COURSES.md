@@ -141,15 +141,73 @@ for CP4807, CO0003 gets the fix automatically.
 
 ### Per-course progress tracking
 
-Although the DOM is shared, progress is scoped per course in localStorage:
+Although the DOM is shared, progress is scoped per course in localStorage.
+Achievements are **global** (shared across all courses) and live on the
+All Courses page rather than on any individual course's Dashboard.
 
-| Key                         | Contents                                         |
-|-----------------------------|--------------------------------------------------|
-| `lms-current-course`        | currently selected course ID (`cp4807` / `co0003`) |
-| `lms-progress-cp4807`       | `{ ws1: [true, false, ...], ws2: [...], ... }`   |
-| `lms-progress-co0003`       | same shape, separate data                        |
-| `lms-achievements-cp4807`   | `["first_steps", "hint_seeker", ...]`            |
-| `lms-achievements-co0003`   | same shape, separate data                        |
+| Key                         | Scope    | Contents                                         |
+|-----------------------------|----------|--------------------------------------------------|
+| `lms-current-course`        | global   | currently selected course ID (`cp4807` / `co0003`) |
+| `lms-progress-cp4807`       | per-course | `{ ws1: [true, false, ...], ws2: [...], ... }` |
+| `lms-progress-co0003`       | per-course | same shape, separate data                      |
+| `lms-achievements`          | global   | `["first_steps", "hint_seeker", ...]` — unlocked badges span all courses |
+
+**Why achievements are global:** a learner shouldn't have to re-earn "First
+Steps" every time they start a new course, and "Bronze Champion" means the
+same thing regardless of which course's Bronze tier they completed. The
+badges live on the All Courses landing page as the learner's overall
+journey, not the current course's progress dashboard.
+
+Aggregation rules used by `checkAchievements()`:
+- **Counting achievements** (First Steps, Getting Started, Dedicated, Century
+  Club, Page Turner): sum across all courses. Ticking 3 challenges in CP4807
+  and 2 in CO0003 unlocks "Getting Started" (5 total).
+- **Tier Champions** (Bronze/Silver/Gold): unlock when *any single course*
+  has that entire tier finished. You can't cherry-pick Bronze worksheets
+  from multiple courses — the learner must commit to a tier in one course.
+- **Halfway There / Perfectionist / Course Master**: unlock when any *one*
+  course hits the relevant threshold, not the aggregate.
+- **Multi-course achievements** (Explorer, Multi-Discipline, Double Trouble):
+  require activity in more than one course. Explorer uses the
+  `lms-visited-courses` localStorage key (populated whenever a course card
+  is clicked from the All Courses page).
+- **Course-specific badges** (Embedded Expert, Aviation Ace): fire only when
+  that specific course is 100% done. Hard-coded by course ID so they won't
+  accidentally unlock for a future course.
+- **Course Collector**: 2+ whole courses complete.
+- **Resetting a course's progress does NOT clear achievements.** Badges are
+  earned once and kept; Reset Progress only wipes the current course's
+  challenge ticks and re-runs the check against the remaining courses.
+
+### Current achievement roster (20 badges)
+
+| # | ID                | Icon | Name              | Trigger                                    |
+|---|-------------------|------|-------------------|--------------------------------------------|
+| 1 | `first_steps`     | 🎯  | First Steps       | First challenge ticked (any course)        |
+| 2 | `getting_started` | ⚡  | Getting Started   | 5 challenges ticked (any course)           |
+| 3 | `page_turner`     | 📘  | Page Turner       | First worksheet completed                  |
+| 4 | `hint_seeker`     | 💡  | Hint Seeker       | Opened a Show Hints panel                  |
+| 5 | `on_a_roll`       | 🔥  | On a Roll         | 3 challenges ticked within 60s (session)   |
+| 6 | `halfway_there`   | 🎯  | Halfway There     | 50% in any single course                   |
+| 7 | `bronze_champion` | 🥉  | Bronze Champion   | All Bronze worksheets done in one course   |
+| 8 | `silver_champion` | 🥈  | Silver Champion   | All Silver worksheets done in one course   |
+| 9 | `gold_champion`   | 🥇  | Gold Champion     | All Gold worksheets done in one course     |
+| 10| `tier_trifecta`   | 🌈  | Tier Trifecta     | A worksheet from each tier (any course)    |
+| 11| `perfectionist`   | 🌟  | Perfectionist     | Every challenge ticked in a course         |
+| 12| `course_master`   | 🎓  | Course Master     | 100% in any course                         |
+| 13| `explorer`        | 🗝  | Explorer          | Opened more than one course                |
+| 14| `multi_discipline`| 🧩  | Multi-Discipline  | Ticked challenges in 2+ courses            |
+| 15| `double_trouble`  | 🔁  | Double Trouble    | Completed a worksheet in 2+ courses        |
+| 16| `embedded_expert` | 🔌  | Embedded Expert   | CP4807 100% complete                       |
+| 17| `aviation_ace`    | ✈  | Aviation Ace      | CO0003 100% complete                       |
+| 18| `course_collector`| 🏛  | Course Collector  | 2+ full courses complete                   |
+| 19| `dedicated`       | 💪  | Dedicated         | 50 challenges ticked across all courses    |
+| 20| `century_club`    | 💯  | Century Club      | 100 challenges ticked across all courses   |
+
+**Adding a course-specific badge for a new course:** add an entry to
+`ACHIEVEMENTS`, then extend the bottom of `checkAchievements()` with a check
+against `fullyCompletedCourseIds.indexOf('<new-course-id>')`. Follow the
+pattern of `embedded_expert` / `aviation_ace`.
 
 Switching courses via the All Courses page:
 
@@ -287,6 +345,113 @@ When these source files become available, follow the "Adding a new course" →
 
 ---
 
+## SCORM structure rules
+
+The LMS is SCORM 1.2 compliant (`scorm/scorm-api.js` implements LMS-RTE3, and
+`imsmanifest.xml` declares the content package). **Every course must respect
+the SCORM structure rules below so packaging the site as a SCORM zip keeps
+working.**
+
+The authoritative reference is [`SCORM-Skills-Document.md`](./SCORM-Skills-Document.md) —
+this section is the short list of things you must not break.
+
+### 1. Each worksheet is a Sharable Content Object (SCO)
+
+Every `<div class="worksheet" id="page-<id>">` block in `index.html` is a
+SCO. The matching manifest resource in `imsmanifest.xml` refers to it via a
+fragment (`<resource href="index.html#ws1">`). This means:
+
+- **Never rename a worksheet ID** (`ws1`, `ws2`, …, `ws12`) without also
+  updating `imsmanifest.xml` *and* the migration path for existing
+  `lms-progress-<course>` localStorage entries.
+- **Never remove a worksheet ID** that appears in `WORKSHEETS` without
+  removing the matching `<item>` and `<resource>` from the manifest.
+- **Never add a worksheet** to `WORKSHEETS` without also adding its manifest
+  item/resource entry. A worksheet that tracks progress in localStorage but
+  isn't declared in the manifest will silently vanish when the course is
+  exported as SCORM.
+
+### 2. Interactions stay 1-to-1 with checkboxes
+
+`scormUpdateChallenge()` in `index.html` writes each ticked challenge as a
+`cmi.interactions.<idx>` entry. The `<idx>` value *is* the checkbox's
+`data-idx` attribute.
+
+- **Checkbox `data-idx` values must be contiguous integers starting at 0**
+  within a worksheet. No gaps, no duplicates. If a worksheet has 6 challenges
+  split across two cards, the first card is `data-idx` 0–3 and the second
+  card is `data-idx` 4–5. See WS6 for the canonical example.
+- **Never reuse a `data-idx`** across cards in the same worksheet.
+- **Never renumber** a worksheet's `data-idx` values in place, because the
+  existing learners' `cmi.interactions.<idx>` records will then point at the
+  wrong challenges. If you need to restructure a worksheet, bump the
+  worksheet ID (`ws4` → `ws4v2`) and add a migration note.
+
+### 3. The `WORKSHEETS[].challenges` count must match the DOM
+
+The `challenges` field in `WORKSHEETS` is the denominator for percentage
+scoring and SCORM `cmi.core.score.raw`. It must equal the number of
+`.challenge-check` inputs inside that worksheet's `<div>`.
+
+When you change the number of challenges in a worksheet (add, remove, split
+a card), update the `WORKSHEETS[].challenges` value in the same commit. This
+was caught during the content audit — WS3 went 4→3, WS4 went 4→6, WS8 went
+6→1, WS11 went 2→3 in that pass.
+
+### 4. Mastery score stays at 40
+
+Every manifest `<item>` uses `<adlcp:masteryscore>40</adlcp:masteryscore>`.
+This matches the Bronze threshold in the Grading Mapping table in
+`SCORM-Skills-Document.md` (40–59 Bronze, 60–79 Silver, 80–100 Gold).
+
+- **Do not change mastery score per item** without updating the grading
+  mapping doc and discussing with John.
+- **Do not drop below 40** on any item — 40 is the pass threshold.
+
+### 5. Suspend data stays JSON-serialisable
+
+The LMS stores per-worksheet state via `cmi.suspend_data`, which in our
+implementation holds `JSON.stringify(progressArray)`. The only thing that
+should ever go in there is the boolean array of ticked challenges.
+
+- **Do not stuff chat history, achievements, theme preferences, or anything
+  else into `cmi.suspend_data`.** Those belong in separate localStorage keys
+  (`lms-achievements-<course>`, etc.).
+- **Keep the array length ≤ the worksheet's challenge count.** A shorter
+  array (partial progress) is fine; a longer one breaks the scoring maths.
+
+### 6. Organization structure mirrors tiers
+
+In `imsmanifest.xml`, worksheets are grouped into three `<item>` folders:
+Bronze / Silver / Gold. This mirrors the `tier` field in `WORKSHEETS` and
+the sidebar nav headings. The three must stay in sync:
+
+| Where           | Field                                    |
+|-----------------|------------------------------------------|
+| `WORKSHEETS`    | `tier: 'bronze' \| 'silver' \| 'gold'`   |
+| Sidebar HTML    | `<div class="nav-tier-label tier-...">`  |
+| Manifest XML    | `<item identifier="ITEM-BRONZE">` etc.   |
+| Dashboard stats | `<div class="welcome-stats">` totals     |
+
+If you move a worksheet between tiers (e.g. promote from Bronze to Silver),
+all four places must change in one commit.
+
+### 7. Assets live inside course folders, not a shared media pool
+
+The SCORM manifest's `<resource>` entries declare every file that's part of
+the package. Because every image path now lives under
+`Assets/<course folder>/`, the manifest resource URLs must match. The old
+`Assets/Media/` folder no longer exists and must never come back.
+
+### 8. Per-course SCORM sessions
+
+The SCORM runtime API is keyed by `student-<id>_<ws id>` in localStorage.
+When a user switches courses, `switchCourse()` calls `scormEndSession()` on
+the current worksheet first. This must stay in place — don't rip it out or
+a mid-worksheet course switch will leave the SCO initialised forever.
+
+---
+
 ## Things you should never do
 
 - **Never revert to a flat `Assets/Media/` path.** That folder no longer
@@ -302,3 +467,10 @@ When these source files become available, follow the "Adding a new course" →
 - **Never delete a user's progress** when switching courses. Progress is
   stored under `lms-progress-<courseid>` and each course's data must be
   preserved independently.
+- **Never rename or renumber a worksheet ID or a challenge `data-idx`** in
+  place — it silently corrupts historical SCORM tracking data. If a
+  restructure is needed, version the ID.
+- **Never add content to `cmi.suspend_data`** beyond the challenge progress
+  array. That field is not a general-purpose KV store.
+- **Never diverge `imsmanifest.xml` from `WORKSHEETS[]`.** Adding, removing
+  or retiering a worksheet means changing both in the same commit.

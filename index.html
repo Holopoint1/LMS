@@ -1786,6 +1786,15 @@
           <h1>Matrix Learning Platform</h1>
           <p>Choose a course to get started. Your progress is saved separately for each course.</p>
         </div>
+
+        <div class="achievements-card">
+          <div class="achievements-header">
+            <div class="achievements-title">&#127942; Achievements</div>
+            <div class="achievements-counter" id="achievementsCounter">0 unlocked</div>
+          </div>
+          <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
+
         <div class="course-picker-grid" id="coursePickerGrid">
           <!-- Populated by JS -->
         </div>
@@ -1797,14 +1806,6 @@
           <img id="welcomeHeroImg" src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/intro to micros cover.jpg" alt="Course Hero">
           <h1 id="welcomeHeroTitle">Introduction to Microcontrollers</h1>
           <p id="welcomeHeroDesc">A comprehensive course in microcontroller programming using Flowcode Embedded and E-blocks 3 hardware. Work through 12 worksheets from fundamentals to advanced projects.</p>
-        </div>
-
-        <div class="achievements-card">
-          <div class="achievements-header">
-            <div class="achievements-title">&#127942; Achievements</div>
-            <div class="achievements-counter" id="achievementsCounter">0 unlocked</div>
-          </div>
-          <div class="achievements-grid" id="achievementsGrid"></div>
         </div>
 
         <div class="welcome-stats">
@@ -3571,13 +3572,16 @@ function setChallenge(wsId, idx, checked) {
 
 function resetProgress() {
   const course = getCurrentCourse();
-  if (confirm('Reset all progress for "' + course.title + '"? This cannot be undone.')) {
+  if (confirm('Reset all progress for "' + course.title + '"? This cannot be undone. Your unlocked achievements will stay.')) {
     localStorage.removeItem(progressKey());
-    localStorage.removeItem('lms-achievements-' + currentCourse);
     document.querySelectorAll('.challenge-check').forEach(c => c.checked = false);
     document.querySelectorAll('.challenge-item').forEach(i => i.classList.remove('done'));
     updateAllUI();
+    // Re-check achievements against the remaining courses' progress
+    suppressAchievementToasts = true;
+    checkAchievements();
     renderAchievements();
+    suppressAchievementToasts = false;
   }
 }
 
@@ -3800,6 +3804,7 @@ function renderCoursePicker() {
 
 function selectCourseAndGoHome(courseId) {
   switchCourse(courseId);
+  markCourseVisited(courseId);
   navigateTo('welcome');
 }
 
@@ -3851,30 +3856,67 @@ function switchCourse(courseId) {
 
 // ===== ACHIEVEMENTS & GAMIFICATION =====
 const ACHIEVEMENTS = [
+  // --- Getting started ---
   { id: 'first_steps',     icon: '\ud83c\udfaf', name: 'First Steps',      desc: 'Tick your first challenge' },
   { id: 'getting_started', icon: '\u26a1',       name: 'Getting Started',  desc: 'Complete 5 challenges' },
   { id: 'page_turner',     icon: '\ud83d\udcd8', name: 'Page Turner',      desc: 'Finish your first worksheet' },
-  { id: 'on_a_roll',       icon: '\ud83d\udd25', name: 'On a Roll',        desc: '3 challenges in 60 seconds' },
   { id: 'hint_seeker',     icon: '\ud83d\udca1', name: 'Hint Seeker',      desc: 'Reveal hints on any worksheet' },
-  { id: 'tier_trifecta',   icon: '\ud83c\udf08', name: 'Tier Trifecta',    desc: 'A worksheet from each tier' },
-  { id: 'halfway_there',   icon: '\ud83c\udfaf', name: 'Halfway There',    desc: 'Reach 50% overall progress' },
+  { id: 'on_a_roll',       icon: '\ud83d\udd25', name: 'On a Roll',        desc: '3 challenges in 60 seconds' },
+  // --- Tiers & single-course milestones ---
+  { id: 'halfway_there',   icon: '\ud83c\udfaf', name: 'Halfway There',    desc: 'Reach 50% in any course' },
   { id: 'bronze_champion', icon: '\ud83e\udd49', name: 'Bronze Champion',  desc: 'All Bronze worksheets done' },
   { id: 'silver_champion', icon: '\ud83e\udd48', name: 'Silver Champion',  desc: 'All Silver worksheets done' },
   { id: 'gold_champion',   icon: '\ud83e\udd47', name: 'Gold Champion',    desc: 'All Gold worksheets done' },
-  { id: 'perfectionist',   icon: '\ud83c\udf1f', name: 'Perfectionist',    desc: 'Tick every challenge in every WS' },
-  { id: 'course_master',   icon: '\ud83c\udf93', name: 'Course Master',    desc: 'Reach 100% completion' },
+  { id: 'tier_trifecta',   icon: '\ud83c\udf08', name: 'Tier Trifecta',    desc: 'A worksheet from each tier' },
+  { id: 'perfectionist',   icon: '\ud83c\udf1f', name: 'Perfectionist',    desc: 'Every challenge ticked in a course' },
+  { id: 'course_master',   icon: '\ud83c\udf93', name: 'Course Master',    desc: 'Reach 100% in any course' },
+  // --- Multi-course achievements ---
+  { id: 'explorer',        icon: '\ud83d\udddd',  name: 'Explorer',         desc: 'Open more than one course' },
+  { id: 'multi_discipline',icon: '\ud83e\udde9', name: 'Multi-Discipline', desc: 'Tick challenges in 2 courses' },
+  { id: 'double_trouble',  icon: '\ud83d\udd01', name: 'Double Trouble',   desc: 'Complete a worksheet in 2 courses' },
+  // --- Course-specific badges ---
+  { id: 'embedded_expert', icon: '\ud83d\udd0c', name: 'Embedded Expert',  desc: 'Finish CP4807 in full' },
+  { id: 'aviation_ace',    icon: '\u2708\ufe0f', name: 'Aviation Ace',     desc: 'Finish CO0003 in full' },
+  { id: 'course_collector',icon: '\ud83c\udfdb\ufe0f', name: 'Course Collector', desc: 'Finish 2 courses' },
+  // --- Volume milestones ---
+  { id: 'dedicated',       icon: '\ud83d\udcaa', name: 'Dedicated',        desc: '50 challenges ticked' },
+  { id: 'century_club',    icon: '\ud83d\udcaf', name: 'Century Club',     desc: '100 challenges ticked' },
 ];
 
-function achievementsKey() { return 'lms-achievements-' + currentCourse; }
+// --- Track which courses the learner has visited (for Explorer) ---
+function getVisitedCourses() {
+  try { return new Set(JSON.parse(localStorage.getItem('lms-visited-courses') || '[]')); }
+  catch { return new Set(); }
+}
+function markCourseVisited(courseId) {
+  const s = getVisitedCourses();
+  if (s.has(courseId)) return;
+  s.add(courseId);
+  localStorage.setItem('lms-visited-courses', JSON.stringify(Array.from(s)));
+  checkAchievements();
+}
+
+// Achievements are GLOBAL - they live on the All Courses page and track the
+// learner's overall journey rather than per-course progress.
+const ACHIEVEMENTS_KEY = 'lms-achievements';
 function getUnlockedAchievements() {
   try {
-    // Migration: copy legacy unscoped key to cp4807
-    const legacy = localStorage.getItem('lms-achievements');
-    if (legacy && !localStorage.getItem('lms-achievements-cp4807')) {
-      localStorage.setItem('lms-achievements-cp4807', legacy);
-      localStorage.removeItem('lms-achievements');
+    // Migration: merge any per-course achievement keys into the single global key
+    const keys = ['lms-achievements-cp4807', 'lms-achievements-co0003'];
+    const merged = new Set(JSON.parse(localStorage.getItem(ACHIEVEMENTS_KEY) || '[]'));
+    let migrated = false;
+    keys.forEach(k => {
+      const val = localStorage.getItem(k);
+      if (val) {
+        try { JSON.parse(val).forEach(a => merged.add(a)); } catch {}
+        localStorage.removeItem(k);
+        migrated = true;
+      }
+    });
+    if (migrated) {
+      localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify(Array.from(merged)));
     }
-    return JSON.parse(localStorage.getItem(achievementsKey()) || '[]');
+    return JSON.parse(localStorage.getItem(ACHIEVEMENTS_KEY) || '[]');
   } catch { return []; }
 }
 function isUnlocked(id) { return getUnlockedAchievements().includes(id); }
@@ -3883,7 +3925,7 @@ function unlockAchievement(id) {
   if (isUnlocked(id)) return;
   const list = getUnlockedAchievements();
   list.push(id);
-  localStorage.setItem(achievementsKey(), JSON.stringify(list));
+  localStorage.setItem(ACHIEVEMENTS_KEY, JSON.stringify(list));
   const def = ACHIEVEMENTS.find(a => a.id === id);
   if (def && !suppressAchievementToasts) showAchievementToast(def);
   renderAchievements(id);
@@ -3907,45 +3949,94 @@ function renderAchievements(justUnlockedId) {
 }
 
 function checkAchievements() {
-  const progress = getProgress();
-  let totalDone = 0, totalChallenges = 0;
-  const tier = {
-    bronze: { done: 0, total: 0, anyComplete: false },
-    silver: { done: 0, total: 0, anyComplete: false },
-    gold:   { done: 0, total: 0, anyComplete: false }
-  };
-  let completedWorksheets = 0;
+  // Achievements are global - aggregate across EVERY course the user has touched.
+  // First Steps, Getting Started and Page Turner count across all courses.
+  // Tier Champions unlock when a single course has all its worksheets of that
+  // tier finished (so you can't cherry-pick bronze worksheets from different
+  // courses). Perfectionist and Course Master fire when at least one course is
+  // 100% done. Halfway There fires when any one course reaches 50%.
+  let totalDoneAllCourses = 0;
+  let anyBronzeCompleteCourse = false;
+  let anySilverCompleteCourse = false;
+  let anyGoldCompleteCourse = false;
+  let anyCourseFullyDone = false;
+  let anyCourseHalfwayOrMore = false;
+  let totalCompletedWorksheets = 0;
+  let coursesWithAtLeastOneTick = 0;
+  let coursesWithAtLeastOneWorksheetComplete = 0;
+  let fullyCompletedCourseIds = [];
 
-  WORKSHEETS.forEach(ws => {
-    const wsDone = (progress[ws.id] || []).filter(Boolean).length;
-    totalDone += wsDone;
-    totalChallenges += ws.challenges;
-    tier[ws.tier].total += ws.challenges;
-    tier[ws.tier].done += wsDone;
-    if (wsDone === ws.challenges) {
-      completedWorksheets++;
-      tier[ws.tier].anyComplete = true;
+  COURSES.forEach(course => {
+    let prog = {};
+    try { prog = JSON.parse(localStorage.getItem('lms-progress-' + course.id) || '{}'); } catch {}
+
+    const courseTier = {
+      bronze: { done: 0, total: 0 },
+      silver: { done: 0, total: 0 },
+      gold:   { done: 0, total: 0 }
+    };
+    let courseDone = 0, courseTotal = 0;
+    let courseCompletedWorksheets = 0;
+
+    course.worksheetIds.forEach(wsId => {
+      const ws = WORKSHEETS.find(w => w.id === wsId);
+      if (!ws) return;
+      const wsDone = (prog[wsId] || []).filter(Boolean).length;
+      courseDone += wsDone;
+      courseTotal += ws.challenges;
+      courseTier[ws.tier].total += ws.challenges;
+      courseTier[ws.tier].done += wsDone;
+      if (wsDone === ws.challenges) {
+        totalCompletedWorksheets++;
+        courseCompletedWorksheets++;
+      }
+    });
+
+    totalDoneAllCourses += courseDone;
+    if (courseDone > 0) coursesWithAtLeastOneTick++;
+    if (courseCompletedWorksheets > 0) coursesWithAtLeastOneWorksheetComplete++;
+
+    if (courseTier.bronze.total > 0 && courseTier.bronze.done === courseTier.bronze.total) anyBronzeCompleteCourse = true;
+    if (courseTier.silver.total > 0 && courseTier.silver.done === courseTier.silver.total) anySilverCompleteCourse = true;
+    if (courseTier.gold.total   > 0 && courseTier.gold.done   === courseTier.gold.total)   anyGoldCompleteCourse = true;
+    if (courseTotal > 0 && courseDone === courseTotal) {
+      anyCourseFullyDone = true;
+      fullyCompletedCourseIds.push(course.id);
     }
+    if (courseTotal > 0 && (courseDone / courseTotal) >= 0.5) anyCourseHalfwayOrMore = true;
   });
 
-  if (totalDone >= 1) unlockAchievement('first_steps');
-  if (totalDone >= 5) unlockAchievement('getting_started');
-  if (completedWorksheets >= 1) unlockAchievement('page_turner');
+  // --- Counting milestones ---
+  if (totalDoneAllCourses >= 1)   unlockAchievement('first_steps');
+  if (totalDoneAllCourses >= 5)   unlockAchievement('getting_started');
+  if (totalDoneAllCourses >= 50)  unlockAchievement('dedicated');
+  if (totalDoneAllCourses >= 100) unlockAchievement('century_club');
+  if (totalCompletedWorksheets >= 1) unlockAchievement('page_turner');
 
-  if (tier.bronze.total > 0 && tier.bronze.done === tier.bronze.total) unlockAchievement('bronze_champion');
-  if (tier.silver.total > 0 && tier.silver.done === tier.silver.total) unlockAchievement('silver_champion');
-  if (tier.gold.total > 0 && tier.gold.done === tier.gold.total) unlockAchievement('gold_champion');
+  // --- Tier champions (single course) ---
+  if (anyBronzeCompleteCourse) unlockAchievement('bronze_champion');
+  if (anySilverCompleteCourse) unlockAchievement('silver_champion');
+  if (anyGoldCompleteCourse)   unlockAchievement('gold_champion');
 
-  const overallPct = totalChallenges ? (totalDone / totalChallenges) * 100 : 0;
-  if (overallPct >= 50) unlockAchievement('halfway_there');
-  if (totalDone === totalChallenges && totalChallenges > 0) {
+  // --- Single-course progression ---
+  if (anyCourseHalfwayOrMore) unlockAchievement('halfway_there');
+  if (anyCourseFullyDone) {
     unlockAchievement('perfectionist');
     unlockAchievement('course_master');
   }
-
-  if (tier.bronze.anyComplete && tier.silver.anyComplete && tier.gold.anyComplete) {
+  if (anyBronzeCompleteCourse && anySilverCompleteCourse && anyGoldCompleteCourse) {
     unlockAchievement('tier_trifecta');
   }
+
+  // --- Multi-course achievements ---
+  if (getVisitedCourses().size >= 2) unlockAchievement('explorer');
+  if (coursesWithAtLeastOneTick >= 2) unlockAchievement('multi_discipline');
+  if (coursesWithAtLeastOneWorksheetComplete >= 2) unlockAchievement('double_trouble');
+
+  // --- Course-specific badges ---
+  if (fullyCompletedCourseIds.indexOf('cp4807') !== -1) unlockAchievement('embedded_expert');
+  if (fullyCompletedCourseIds.indexOf('co0003') !== -1) unlockAchievement('aviation_ace');
+  if (fullyCompletedCourseIds.length >= 2) unlockAchievement('course_collector');
 }
 
 // On-a-Roll streak detection (resets on page refresh — session only)
@@ -4155,6 +4246,10 @@ document.getElementById('sidebarOverlay').addEventListener('click', function() {
 
 // ===== INIT =====
 function init() {
+  // Mark the currently-saved course as visited so Explorer tracking is
+  // honest — if you've used the site before, your current course counts.
+  markCourseVisited(currentCourse);
+
   // Apply the course-specific hero and sidebar header
   const course = getCurrentCourse();
   document.getElementById('sidebarCourseCode').textContent = course.code;
