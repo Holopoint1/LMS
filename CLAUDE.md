@@ -53,6 +53,15 @@ Source document for the full course: `CP4807_master.docx`
 - Reword or paraphrase content from source documents
 - Merge Challenge/Hint blocks — each is a separate card
 - Invent content not present in the source
+- Duplicate a worksheet's DOM block to give each course its own copy —
+  use the `worksheetIds` sharing mechanism instead
+
+## Multi-course rules & architecture
+See **`COURSES.md`** for the full rules, folder convention, per-course
+progress model, and the step-by-step checklist for adding a new course.
+Every new course must follow the same four rules CP4807 follows:
+verbatim content, context→video→challenges→hints layout, separate
+Challenge/Hint cards, no invented content.
 
 ## Instructions inside the Word doc
 Replace John's current red-font AI tag blocks with clearly headed sections like this:
