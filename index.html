@@ -3858,13 +3858,12 @@ init();
 
 <script type="module">
 // ============================================================================
-// COMMUNITY CHAT — Firebase Realtime Database backend
+// COMMUNITY CHAT — Firebase Realtime Database (project: matrixlms-a2b6b)
 // ============================================================================
-// To enable the chat:
-//   1. Go to https://console.firebase.google.com and create a free project
-//   2. Build → Realtime Database → Create Database (choose nearest region,
-//      start in TEST MODE)
-//   3. Rules tab, paste this and Publish:
+// To finish enabling the chat:
+//   1. In Firebase console: Build → Realtime Database → Create Database
+//   2. Pick a region (europe-west1 if you're in the UK), start in TEST MODE
+//   3. Rules tab → paste this and Publish:
 //        {
 //          "rules": {
 //            "chat": {
@@ -3874,12 +3873,18 @@ init();
 //            }
 //          }
 //        }
-//   4. Project settings (gear) → General → Your apps → Add Web app → copy
-//      the `databaseURL` value
-//   5. Paste it into FIREBASE_DB_URL below
-//   6. Commit & push — chat is live
+//   4. The database panel shows a URL at the top — copy it and paste it
+//      into firebaseConfig.databaseURL below, then commit & push.
 // ============================================================================
-const FIREBASE_DB_URL = ""; // <-- PASTE YOUR FIREBASE REALTIME DATABASE URL HERE
+const firebaseConfig = {
+  apiKey: "AIzaSyA0SPOmCxVDzNC11pJPyc8HNa9dlpXnSVs",
+  authDomain: "matrixlms-a2b6b.firebaseapp.com",
+  databaseURL: "", // <-- TODO: paste your Realtime Database URL here
+  projectId: "matrixlms-a2b6b",
+  storageBucket: "matrixlms-a2b6b.firebasestorage.app",
+  messagingSenderId: "550246028145",
+  appId: "1:550246028145:web:eb51d356ee30a38dd81cd0"
+};
 
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
 import { getDatabase, ref, push, onChildAdded, query, limitToLast }
@@ -3887,9 +3892,9 @@ import { getDatabase, ref, push, onChildAdded, query, limitToLast }
 
 let chatRef = null;
 
-if (FIREBASE_DB_URL) {
+if (firebaseConfig.databaseURL) {
   try {
-    const app = initializeApp({ databaseURL: FIREBASE_DB_URL });
+    const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     chatRef = ref(db, 'chat');
     const recent = query(chatRef, limitToLast(100));
