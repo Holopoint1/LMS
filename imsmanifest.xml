@@ -99,26 +99,38 @@
 
       <item identifier="CO-ITEM-BRONZE" isvisible="true">
         <title>Bronze - Fundamentals</title>
-        <item identifier="CO-ITEM-WS1" identifierref="CO-RES-WS1"><title>Worksheet 1: First Program</title></item>
-        <item identifier="CO-ITEM-WS2" identifierref="CO-RES-WS2"><title>Worksheet 2: Performing Calculations</title></item>
-        <item identifier="CO-ITEM-WS3" identifierref="CO-RES-WS3"><title>Worksheet 3: Connection Points</title></item>
-        <item identifier="CO-ITEM-WS4" identifierref="CO-RES-WS4"><title>Worksheet 4: Digital Inputs</title></item>
-        <item identifier="CO-ITEM-WS5" identifierref="CO-RES-WS5"><title>Worksheet 5: Making Decisions</title></item>
-        <item identifier="CO-ITEM-WS6" identifierref="CO-RES-WS6"><title>Worksheet 6: Macros / Subroutines</title></item>
-        <item identifier="CO-ITEM-WS7" identifierref="CO-RES-WS7"><title>Worksheet 7: Prototype Boards</title></item>
+        <item identifier="CO-ITEM-WS1" identifierref="CO-RES-WS1"><title>Worksheet 1: First Program</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS2" identifierref="CO-RES-WS2"><title>Worksheet 2: Performing Calculations</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS3" identifierref="CO-RES-WS3"><title>Worksheet 3: Connection Points</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS4" identifierref="CO-RES-WS4"><title>Worksheet 4: Digital Inputs</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS5" identifierref="CO-RES-WS5"><title>Worksheet 5: Making Decisions</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS6" identifierref="CO-RES-WS6"><title>Worksheet 6: Macros / Subroutines</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS7" identifierref="CO-RES-WS7"><title>Worksheet 7: Prototype Boards</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
       </item>
 
       <item identifier="CO-ITEM-SILVER" isvisible="true">
         <title>Silver - Intermediate</title>
-        <item identifier="CO-ITEM-WS8" identifierref="CO-RES-WS8"><title>Worksheet 8: Colour Graphical Displays</title></item>
-        <item identifier="CO-ITEM-WS9" identifierref="CO-RES-WS9"><title>Worksheet 9: Pin Interrupts</title></item>
-        <item identifier="CO-ITEM-WS10" identifierref="CO-RES-WS10"><title>Worksheet 10: Timer Interrupts</title></item>
+        <item identifier="CO-ITEM-WS8" identifierref="CO-RES-WS8"><title>Worksheet 8: Colour Graphical Displays</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS9" identifierref="CO-RES-WS9"><title>Worksheet 9: Pin Interrupts</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS10" identifierref="CO-RES-WS10"><title>Worksheet 10: Timer Interrupts</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
       </item>
 
       <item identifier="CO-ITEM-GOLD" isvisible="true">
         <title>Gold - Advanced</title>
-        <item identifier="CO-ITEM-WS11" identifierref="CO-RES-WS11"><title>Worksheet 11: Touch Control Systems</title></item>
-        <item identifier="CO-ITEM-WS12" identifierref="CO-RES-WS12"><title>Worksheet 12: Web Mirror</title></item>
+        <item identifier="CO-ITEM-WS11" identifierref="CO-RES-WS11"><title>Worksheet 11: Touch Control Systems</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
+        <item identifier="CO-ITEM-WS12" identifierref="CO-RES-WS12"><title>Worksheet 12: Web Mirror</title>
+          <adlcp:masteryscore>40</adlcp:masteryscore></item>
       </item>
 
     </organization>
@@ -206,40 +218,66 @@
          is authored. They reference the CO0003 opening image only. -->
     <resource identifier="CO-RES-WS1" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws1">
       <file href="index.html"/>
-      <file href="Assets/Digital Techniques for Aviation –/CO0003 - opening.png"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/first program.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/flashing light.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Flowcode Embedded introduction.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS2" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws2">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/binary-numbers-data-matrix-on-screen-2025-01-29-08-07-35-utc.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/binary.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/counter.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS3" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws3">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/traffic lights.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS4" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws4">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Digital inputs.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/electronics board.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS5" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws5">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/making decisions.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/control panel.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS6" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws6">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Macros.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/music panel.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS7" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws7">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/prototype board.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/proto board with parts.png"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/project diagram.png"/>
     </resource>
     <resource identifier="CO-RES-WS8" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws8">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/colour touch screen.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hardware control.png"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hardware tracker.png"/>
     </resource>
     <resource identifier="CO-RES-WS9" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws9">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/pin interrupts.png"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/stop switch.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS10" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws10">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/timer interrupts.png"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/stop watch.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS11" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws11">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/touch screen control.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/touch screen.jpg"/>
     </resource>
     <resource identifier="CO-RES-WS12" type="webcontent" adlcp:scormtype="sco" href="index.html#co-ws12">
       <file href="index.html"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/web mirror.jpg"/>
+      <file href="Assets/CP4807 - Introduction to microcontrollers 05 04 26/web mirror candy.jpg"/>
     </resource>
 
     <!-- Shared Assets -->

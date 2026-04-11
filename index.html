@@ -2931,24 +2931,86 @@
 
       <div class="worksheet" id="page-co-ws1">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/first program.jpg" alt="First Program" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 1: First Program</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">This first program introduces you to several programming commands: OUTPUT, LOOP and DELAY.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header">
+            <span>Section Progress</span>
+            <strong id="co-ws1-pct">0%</strong>
+          </div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws1-bar"></div></div>
+        </div>
+
+        <!-- Information -->
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">Your First Program</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>This first program introduces you to several programming commands: OUTPUT, LOOP and DELAY.</p>
+          <p>In this first program you explore how to get a single output on the microcontroller turning on and off using these commands.</p>
+          <p>Load the file "First program". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+          <p>The program flashes a single LED on the combo board.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/flashing light.jpg" alt="Flashing Light" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Flowcode Embedded introduction.jpg" alt="Flowcode Embedded" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <!-- Video -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: First Program</div>
+            </div>
+          </div>
+          <p>Watch the video "Flowcode Embedded: first program" on the Flowcode YouTube site.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/h8-7BsXBpLc" title="First Program" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- Challenges -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws1" data-idx="0"><span class="challenge-text">Delay: alter the delay period. Make sure you understand how the Delay command works.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws1" data-idx="1"><span class="challenge-text">Output: change the output to work with port A and port B. Output: Select Advanced options and alter the bit that is flashed</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws1" data-idx="2"><span class="challenge-text">Loop: experiment with the loop dialogue box. Flash the LED for only 10 times.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws1" data-idx="3"><span class="challenge-text">Alter the program so that it flashes Port 1 bit 0 for 10 times, then Port 2 bit 1 for 9 times then port 2 bit 2 for 8 times.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>You can use three loops one after the other. Alter the Loop count in each one.</li>
+                <li>Use the Advanced options in the Output icon to control which output bit is used.</li>
+                <li>The examples are available directly from within the Flowcode package. From within Flowcode select: FILE&rarr;NEW PROJECT&rarr;OPEN EXAMPLE OR TEMPLATE&rarr;and select the example you want from the relevant worksheet pack.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('welcome')">&#8592; Dashboard</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws2')">Worksheet 2 &#8594;</button>
@@ -2957,24 +3019,106 @@
 
       <div class="worksheet" id="page-co-ws2">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/binary-numbers-data-matrix-on-screen-2025-01-29-08-07-35-utc.jpg" alt="Binary Numbers" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 2: Performing Calculations</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Explore calculations, binary and hexadecimal numbering systems. Microcontroller brains are not wired like human beings.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws2-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws2-bar"></div></div>
+        </div>
+
+        <!-- Information -->
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Calculations &amp; Number Systems</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>Microcontroller brains are not wired like human being's. This has consequences for mathematics, variables and input output processes that you need to understand.</p>
+          <p>In this worksheet you explore calculations and binary and hexadecimal numbering systems.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/binary.jpg" alt="Binary" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/counter.jpg" alt="Counter" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <!-- Part 1 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Part 1 &mdash; Watch</div>
+              <div class="card-title">Binary, Hex and Magic Numbers</div>
+            </div>
+          </div>
+          <p>Watch the video "Binary, Hex and Magic numbers" on the Flowcode YouTube site.</p>
+          <p>Load the file "Binary Hex and magic numbers". This is a simulation only program.</p>
+          <p>There are some commands in here that you will not yet understand. Don't worry about that for now: just look at the results of the simulation.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/iEkocOsMj6Q" title="Binary, Hex and Magic Numbers" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <!-- Part 2 -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Part 2 &mdash; Watch</div>
+              <div class="card-title">Flowcode Embedded: A Counter</div>
+            </div>
+          </div>
+          <p>Watch the video "Flowcode Embedded: a counter" on the Flowcode YouTube site.</p>
+          <p>Load the file "Counter". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+          <p>The program counts in binary on a port of the microcontroller</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/T7VX-QNLzeQ" title="A Counter" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="callout callout-info">
+          <strong>Note:</strong> If you are using an ESP32 microcontroller this worksheet will present difficulties as the ESP32 is a 32 bit system and chip input output connections are complex.
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="0"><span class="challenge-text">Simulate the program and pause it or slow it down to help you understand.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="1"><span class="challenge-text">Make sure you understand conversion between Binary, Hex and Decimal.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="2"><span class="challenge-text">Test yourself by selecting 3 decimal numbers between 0 and 100 and converting them to binary</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="3"><span class="challenge-text">Repeat the exercise but convert 3 binary 8 bit numbers into decimal.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="4"><span class="challenge-text">Slow down the program by altering a delay. Make sure you understand the counting sequence.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="5"><span class="challenge-text">In the Project Manager click on the variable Count to see the Variable dialogue control. Count is type Byte. Investigate the Types Bool, Int and Uint.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="6"><span class="challenge-text">Alter the program so that initially Count = 1. Alter the calculation in the Loop so that Count = Count * 2 rather than Count = Count +1. Can you explain what happens when you run the program?</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws2" data-idx="7"><span class="challenge-text">Alter the program so that after the 7th LED is lit up the program then lights bit 6, then bit 5 etc.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>The Flowcode Wiki contains information on variable types</li>
+                <li>Use the Loop count so that the first loop executes 7 times. At this point bit 7 is lit up. Add a second loop that executes 7 times but use the divide "/" operator in the calculation command rather than the times "*" operator.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws1')">&#8592; Worksheet 1</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws3')">Worksheet 3 &#8594;</button>
@@ -2983,24 +3127,66 @@
 
       <div class="worksheet" id="page-co-ws3">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/traffic lights.jpg" alt="Traffic Lights" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 3: Connection Points</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Explore two ways of making a program: using connection points and loops.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws3-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws3-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Connection Points</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>There are always multiple ways of making a program. Sometimes this is down to personal preference, sometimes this is down to good programming technique.</p>
+          <p>In this exercise you explore two ways of making a program: using connection points and loops.</p>
+          <p>There is no video for this worksheet.</p>
+          <p>Load the results of the previous worksheet. You should have a program that lights up the LEDs on a port in sequence going from bit 0 to 7 and then bit 7 to 0.</p>
+          <p>Use connection points to make the program run forever.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/close-up-of-a-yellow-construction-sign-for-traffic-2025-02-03-16-16-23-utc.jpg" alt="Traffic Sign" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/view-of-city-traffic-with-traffic-lights-in-the-f-2025-03-16-12-41-45-utc.jpg" alt="Traffic Lights" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws3" data-idx="0"><span class="challenge-text">Using connection points start from scratch and create a traffic light program that forever loops between "Red" for 10 seconds, "Amber" for one second, "Green" for 10 seconds, "Amber" for 1 second. "Red" for 10 seconds and so on.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws3" data-idx="1"><span class="challenge-text">Repeat the exercise without using any connection points &ndash; just use Loops.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws3" data-idx="2"><span class="challenge-text">Which is the easiest program to understand?</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Add a connection point at the start of the program.</li>
+                <li>At the end of the program add a Goto Connection point.</li>
+                <li>Traffic lights: use a single loop with Output commands and delays to achieve the result.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws2')">&#8592; Worksheet 2</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws4')">Worksheet 4 &#8594;</button>
@@ -3009,24 +3195,114 @@
 
       <div class="worksheet" id="page-co-ws4">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Digital inputs.jpg" alt="Digital Inputs" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 4: Digital Inputs</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Learn how to get command data into a microcontroller using different types of switches.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws4-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws4-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Digital Inputs</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>We need a way of controlling electronic devices locally. Often this is done in a digital context &ndash; with different types of switches. In this case we need to get the input "commands" and then process this to alter the state of the microcontroller or alter its processes.</p>
+          <p>In this exercise you look at how to get command data into a microcontroller.</p>
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/control panel.jpg" alt="Control Panel" class="single-img" onclick="openLightbox(this)">
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Digital Inputs</div>
+            </div>
+          </div>
+          <p>Watch the video "Flowcode Embedded: digital inputs" on the Flowcode YouTube site.</p>
+          <p>Load the file "Digital inputs". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+          <p>The program reflects the input on one 8 bit port to another by storing the port status into a variable and then sending that to the output of another port.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/Xvs7-iTPXcQ" title="Digital Inputs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Boolean Inputs</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws4" data-idx="0"><span class="challenge-text">Alter the program so that it works on only the least significant input bit using a Boolean variable.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws4" data-idx="1"><span class="challenge-text">Alter the program so that the state of the least significant bit input is reflected to the most significant bit of the same port.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Setup a new variable called "input_bit0" of Type Boolean.</li>
+                <li>Use the Advanced options of the Input command to read the state of the switch on bit 0 into "input_bit0".</li>
+                <li>Change the Output icon using Advanced options so that it outputs "input_bit0" to bit 7 of the same port as the input: so now you have an output LED on bit7 and an input switch on bit 0.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Two Inputs and AND</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws4" data-idx="2"><span class="challenge-text">Alter the program again so that the state of the second bit input switch is placed in a Boolean variable "input_bit1"</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws4" data-idx="3"><span class="challenge-text">Alter the program so that bit 7 of the same port only lights up when both "input_bit0" and "input_bit1" are logic high &ndash; or 1.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use the AND operator in the Output statement: input_bit0 AND input_bit1</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Other Operators</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws4" data-idx="4"><span class="challenge-text">Look up Mathematical operators in the Flowcode Wiki: select HELP&rarr;WIKI</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws4" data-idx="5"><span class="challenge-text">Experiment with operators OR, XOR, and NOT and make sure you understand how they are used.</span></li>
+          </ul>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws3')">&#8592; Worksheet 3</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws5')">Worksheet 5 &#8594;</button>
@@ -3035,24 +3311,77 @@
 
       <div class="worksheet" id="page-co-ws5">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/making decisions.jpg" alt="Making Decisions" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 5: Making Decisions</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Explore how decisions are made in microcontroller programs using IF and SWITCH statements.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws5-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws5-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Making Decisions</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>The behaviour of a program and its processes will often depend on the choices made by the user via a control panel or input from sensors.  The way we make decisions in a program is through the IF statement and the SWITCH statement.</p>
+          <p>In this worksheet you explore how decisions are made in microcontroller programs.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/music panel.jpg" alt="Music Panel" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/red-and-green-round-lamps-and-buttons-on-black-con-2024-12-17-00-11-57-utc.jpg" alt="Control Buttons" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Making Decisions</div>
+            </div>
+          </div>
+          <p>Watch the video "Flowcode Embedded: making decisions" on the Flowcode YouTube site.</p>
+          <p>Load the file "Making decisions". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/jBTPa4wSFsI" title="Making Decisions" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws5" data-idx="0"><span class="challenge-text">Alter the program so that when switch A.0 and switch A.4 are pressed all the LEDs on port B are lit.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws5" data-idx="1"><span class="challenge-text">Use a SWITCH command icon with 8 branches so that when the switch on A.0 is pressed the LED on B.7 is lit, when switch A.1 is pressed the LED on B.6 is lit etc.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use your knowledge of binary to work out the input when A0 AND A4 are pressed.</li>
+                <li>Write down the binary input for each switch press</li>
+                <li>Set up a SWITCH statement with 8 branches which tests for each switch press</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws4')">&#8592; Worksheet 4</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws6')">Worksheet 6 &#8594;</button>
@@ -3061,24 +3390,104 @@
 
       <div class="worksheet" id="page-co-ws6">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/Macros.jpg" alt="Macros" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
             <h2 class="ws-hero-title">Worksheet 6: Macros / Subroutines</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Simplify development with software macros, subroutines, and pre-written hardware libraries.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws6-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws6-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Macros &amp; Subroutines</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>In designing microcontroller systems we use code that is very repetitive and we can simplify the development by using software macros or subroutines. Pre-written libraries of code for hardware modules also save us a lot of time, and help us create more functional systems.</p>
+          <p>In this worksheet you explore the use of hardware and software macros.</p>
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/electronics board.jpg" alt="Electronics Board" class="single-img" onclick="openLightbox(this)">
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Macros</div>
+            </div>
+          </div>
+          <p>Watch the video "Macros" on the Flowcode YouTube site.</p>
+          <p>Load the file "how to use macros". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/hNBSxdb72v4" title="Macros" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Software Macros &amp; Strings</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws6" data-idx="0"><span class="challenge-text">Alter the program so that it Prints "Count is: " then the count number</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws6" data-idx="1"><span class="challenge-text">Alter the program so that it prints the number on the second line of the display rather than the first</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws6" data-idx="2"><span class="challenge-text">Assign the text "Count is: " to a variable and use the string variable in your program.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws6" data-idx="3"><span class="challenge-text">Add a second software macro to the program called "Initialise". Move the Start command to this macro and then call it from the Main routine.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use the hardware macro PrintString to print a string (you need to use inverted commas in the dialogue box)</li>
+                <li>Add a new variable "mystring" of Type String and length 20. Use PrintString to print this.</li>
+                <li>Use the Cursor hardware macro to alter the print position.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">7-Segment Display &amp; Documentation</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws6" data-idx="4"><span class="challenge-text">Develop a program that uses the 7-segment displays on the Combo board to display the value of Count.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws6" data-idx="5"><span class="challenge-text">Create a document that tells someone new to your project how it works.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use a BL0114 Combo board component from the Hardware group and the Seg_Showdigit macro</li>
+                <li>Use three variables: Units, Tens Hundreds.</li>
+                <li>Use some maths to convert Count into Units, Tens and Hundreds - Investigate the MOD mathematical function &ndash; see the Wiki for details.</li>
+                <li>Use the FILE&rarr;.EXPORT&rarr;as HTML option to create a HTML document of your project. There is a lot of information here. Identify the parts you want and use copy and paste to assemble a report on what you have done.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws5')">&#8592; Worksheet 5</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws7')">Worksheet 7 &#8594;</button>
@@ -3087,24 +3496,66 @@
 
       <div class="worksheet" id="page-co-ws7">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/prototype board.jpg" alt="Prototype Board" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-bronze">Bronze</div>
-            <h2 class="ws-hero-title">Worksheet 7: Prototype Boards</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <h2 class="ws-hero-title">Worksheet 7: Using Prototype Boards</h2>
+            <p class="ws-hero-desc">Create your own circuits with prototype boards that link to E-Blocks for connections and power.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws7-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws7-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Prototype Boards</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>So far you have developed programs using boards which are manufactured for you. At some point you will need to create your own circuits. You can do this with a prototype board. This links to E-Blocks very easily to provide you with the connections and power supplies that you need.</p>
+          <p>In this worksheet you explore the use of prototype boards in microcontroller circuits.</p>
+          <p>There is no video for this worksheet.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/proto board with parts.png" alt="Proto Board with Parts" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/project diagram.png" alt="Project Diagram" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/protoboard.svg" alt="Protoboard Diagram" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Build &amp; Program</div>
+            </div>
+          </div>
+          <p style="margin-bottom:12px;">The diagrams above show you a circuit that you need to build. Two switches (active high and active low), a single LED and a buzzer.</p>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws7" data-idx="0"><span class="challenge-text">Build this circuit and add it to your upstream E-blocks system on any port.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws7" data-idx="1"><span class="challenge-text">Develop a program that: When both switches are pressed activates the buzzer.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws7" data-idx="2"><span class="challenge-text">Flashes the LED once a second</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>You can start from scratch of start from a previous program &ndash; perhaps the one on Digital inputs</li>
+                <li>The main problem here is that there are two functions which need to be carried out at the same time. It is difficult to do both at once. (later you will learn how to use interrupts for this situation). Set up a loop with a 10ms delay. 100 of these loops gives you 1 second. Set up a variable to track a second has elapsed. Use this to change the state of the LED output.</li>
+                <li>Use the &amp;&amp; operator for the logic of both switches being pressed at once. One of your switches is active high and the other active low.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws6')">&#8592; Worksheet 6</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws8')">Worksheet 8 &#8594;</button>
@@ -3113,24 +3564,80 @@
 
       <div class="worksheet" id="page-co-ws8">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/colour touch screen.jpg" alt="Colour Display" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-silver">Silver</div>
             <h2 class="ws-hero-title">Worksheet 8: Colour Graphical Displays</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Extend functionality with graphical displays &mdash; tables, graphics, and graphs.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws8-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws8-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Colour Graphical Displays</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>Graphical displays extend the functionality of electronic systems, allow more information about be displayed, and allow information to be displayed in more easily understood formats: tables, graphics, graphs etc.</p>
+          <p>In this worksheet you explore how colour graphical displays work.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hardware control.png" alt="Hardware Control" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hardware tracker.png" alt="Hardware Tracker" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Colour Graphical Displays</div>
+            </div>
+          </div>
+          <p>Watch the video "Colour graphical displays" on the Flowcode YouTube site.</p>
+          <p>Load the program "Colour graphical displays". Set up the hardware appropriately, download it, and make sure you understand how the program works.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/wBFTZGid_Ck" title="Colour Graphical Displays" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws8" data-idx="0"><span class="challenge-text">Create a program that uses the colour graphical display to show the status of 8 of the switches on the Combo board and the value of a potentiometer on an XY graph.</span></li>
+          </ul>
+          <p style="margin-top:12px;">Your display will look something like this:</p>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use 8 ellipses to show the state of the switches. Each ellipse has a ModifyColour macro you can use to change ellipse colour &ndash; use red (255,0,0) for switch off and green (0, 255, 0) for switch on.</li>
+                <li>Use the graph component to show the value of the potentiometer. You may need to complete the first worksheet in Sensors and Microcontrollers to understand how to do get a value from a potentiometer.</li>
+                <li>Use text fields appropriately to label your components.</li>
+                <li>Modify colours on all components to make your screen look great.</li>
+                <li>If you can; create a bitmap using a graphics package and use the Bitmap drawer component to display it.</li>
+                <li>Refresh the graph every 60 seconds &ndash; you don't need to clear the whole display.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws7')">&#8592; Worksheet 7</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws9')">Worksheet 9 &#8594;</button>
@@ -3139,24 +3646,78 @@
 
       <div class="worksheet" id="page-co-ws9">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/pin interrupts.png" alt="Pin Interrupts" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-silver">Silver</div>
             <h2 class="ws-hero-title">Worksheet 9: Pin Interrupts</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">When critical events happen &mdash; like a kill switch &mdash; interrupts let your program stop and take action immediately.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws9-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws9-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Pin Interrupts</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>In some systems there are possible events that are really important &ndash; like the kill switch on a factory machine. When switches like this are activated you need your program to stop whatever it is doing &ndash; "interrupt" the program - and take action. Interrupts allow us to do this.</p>
+          <p>In this worksheet you explore how  pin interrupts work.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/stop switch.jpg" alt="Stop Switch" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/a-red-and-yellow-button-with-a-yellow-box-2025-03-14-19-12-07-utc.jpg" alt="Emergency Button" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Pin Interrupts</div>
+            </div>
+          </div>
+          <p>Watch the video "Flowcode Embedded: pin interrupts" on the Flowcode YouTube site.</p>
+          <p>Load the file "pin interrupts". Set up the hardware appropriately, download it, and make sure you understand it.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/imTq19jX408" title="Pin Interrupts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws9" data-idx="0"><span class="challenge-text">Alter the program so that a LED output flashes during normal operation.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws9" data-idx="1"><span class="challenge-text">Alter the program so that once the "stop switch" on the interrupt pin is activated the program waits until a "clear" switch is pushed before continuing the program.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Put a flashing LED routine in the main loop.</li>
+                <li>In the Interrupt routine insert a While&hellip;until loop.</li>
+                <li>Use a variable to track the status of the "clear" switch.</li>
+                <li>In the loop test for the "clear" switch being pressed.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws8')">&#8592; Worksheet 8</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws10')">Worksheet 10 &#8594;</button>
@@ -3165,24 +3726,78 @@
 
       <div class="worksheet" id="page-co-ws10">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/timer interrupts.png" alt="Timer Interrupts" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-silver">Silver</div>
             <h2 class="ws-hero-title">Worksheet 10: Timer Interrupts</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Dedicated internal hardware counts clock pulses and converts them into time. Master timer-based code.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws10-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws10-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Timer Interrupts</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>Many microcontroller systems need some kind of timing system. Microcontrollers are designed to help us here as they have dedicated internal hardware that counts the number of internal clock pulses and converts them into time. When activated these internal counters can "interrupt" the program to help you manage time-based code.</p>
+          <p>In this worksheet you explore how timer interrupts work.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/stop watch.jpg" alt="Stopwatch" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/hand-holding-a-stopwatch-2025-02-10-06-05-41-utc.jpg" alt="Stopwatch in Hand" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Flowcode Embedded: Timer Interrupts</div>
+            </div>
+          </div>
+          <p>Watch the video "Flowcode Embedded: timer interrupts" on the Flowcode YouTube site.</p>
+          <p>Load the file "timer interrupts". Set up the hardware appropriately.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/E5SWKxIjvno" title="Timer Interrupts" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws10" data-idx="0"><span class="challenge-text">Alter the program so that it calculates the hours, minutes and seconds that have elapsed.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws10" data-idx="1"><span class="challenge-text">Use a switch and a pin interrupt to clear the timer.</span></li>
+          </ul>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Create variables hour_count and minute_count</li>
+                <li>In the main loop use IF statements to track when second_count is more then 60 and reset it to 0 and increment minute_count Similarly for hour_count.</li>
+                <li>Keep the programming in the interrupt routine to a minimum &ndash; it is good practice</li>
+                <li>Create a new routine for a pin interrupt and use the code from the previous exercise to create the reset function.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws9')">&#8592; Worksheet 9</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws11')">Worksheet 11 &#8594;</button>
@@ -3191,24 +3806,81 @@
 
       <div class="worksheet" id="page-co-ws11">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/touch screen control.jpg" alt="Touch Control" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-gold">Gold</div>
             <h2 class="ws-hero-title">Worksheet 11: Touch Control Systems</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Touchscreen systems replace switches, potentiometers and LEDs &mdash; reducing costs and enhancing functionality.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws11-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws11-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About Touch Control Systems</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>Touchscreen systems are replacing the use of switches, potentiometers, LEDs and other electronic devices. Using a graphical touch screen reduces costs and enhances functionality.</p>
+          <p>In this worksheet you learn how to develop a system that uses the touch screen display to control a simple system.</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/touch screen.jpg" alt="Touch Screen" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/controlling-smart-devices-with-a-digital-tablet-at-2025-03-14-12-33-14-utc.jpg" alt="Smart Devices" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Touch Screen Control</div>
+            </div>
+          </div>
+          <p>Watch the video "Touch screen control" on the Flowcode YouTube site.</p>
+          <p>Load the file "Touch screen control". Set up the hardware appropriately.</p>
+          <p>Download the file and make sure you understand how the program works.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/vS7P8RzybKc" title="Touch Screen Control" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws11" data-idx="0"><span class="challenge-text">Take the program you wrote in the Colour Graphical Displays program.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws11" data-idx="1"><span class="challenge-text">Modify it so that it has two touch buttons: "+" and "-" and a text field</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws11" data-idx="2"><span class="challenge-text">Use these to control an output variable and show this variable (between 0 and 255) on a port of 8 LEDs.</span></li>
+          </ul>
+          <p style="margin-top:12px;">Your display will look something like this:</p>
+
+          <button class="hints-toggle" onclick="toggleHints(this)">
+            <span class="arrow">&#9654;</span> Show Hints
+          </button>
+          <div class="hints-content">
+            <div class="hints-content-inner">
+              <ul>
+                <li>Use a new variable: Output</li>
+                <li>Use the touch screen routine to detect when the "+" and "-" text fields are touched and modify the variable Output accordingly</li>
+                <li>Write the Output variable to a port to show its value.</li>
+                <li>Note that the DC_touched macro is called by each display primitive as it is touched &ndash; this is set in the Touch callback property</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws10')">&#8592; Worksheet 10</button>
           <button class="btn btn-primary" onclick="navigateTo('co-ws12')">Worksheet 12 &#8594;</button>
@@ -3217,24 +3889,68 @@
 
       <div class="worksheet" id="page-co-ws12">
         <div class="ws-hero">
-          <img src="Assets/Digital Techniques for Aviation –/CO0003 - opening.png" alt="" class="ws-hero-img">
+          <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/web mirror.jpg" alt="Web Mirror" class="ws-hero-img">
           <div class="ws-hero-overlay">
             <div class="ws-hero-tier tier-badge-gold">Gold</div>
             <h2 class="ws-hero-title">Worksheet 12: Web Mirror</h2>
-            <p class="ws-hero-desc">Digital techniques for aviation technicians — awaiting source content.</p>
+            <p class="ws-hero-desc">Develop a complex touch screen system with web connectivity &mdash; control hardware from your mobile phone over the internet.</p>
           </div>
         </div>
+
+        <div class="ws-progress-bar">
+          <div class="ws-progress-header"><span>Section Progress</span><strong id="co-ws12-pct">0%</strong></div>
+          <div class="progress-bar"><div class="progress-bar-fill" id="co-ws12-bar"></div></div>
+        </div>
+
         <div class="card">
           <div class="card-header">
             <div class="card-icon info">&#9432;</div>
             <div>
-              <div class="card-label">Coming soon</div>
-              <div class="card-title">Source content awaiting authoring</div>
+              <div class="card-label">Information</div>
+              <div class="card-title">About the Web Mirror</div>
             </div>
           </div>
-          <p>This worksheet for the <strong>CO0003 Digital techniques for aviation technicians</strong> course is a placeholder. The source document specifies it should follow the same structure as the matching CP4807 worksheet, but the EASA-specific content hasn't been authored yet.</p>
-          <p>When the source file is ready, this page will be built following the same rules as the other worksheets: context text + photograph, then video, then challenges and hints — verbatim from the source.</p>
+          <p>Touchscreen systems are replacing the use of switches, potentiometers, LEDs and other electronic devices. Using a graphical touch screen reduces costs and enhances functionality.</p>
+          <p>In this worksheet you learn how to develop a more complex touch screen system</p>
+          <div class="image-gallery">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/web mirror candy.jpg" alt="Web Mirror Candy" class="gallery-img" onclick="openLightbox(this)">
+            <img src="Assets/CP4807 - Introduction to microcontrollers 05 04 26/holding-digital-tablet-in-cozy-living-room-with-fi-2025-01-08-11-37-09-utc.jpg" alt="Digital Tablet Control" class="gallery-img" onclick="openLightbox(this)">
+          </div>
         </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon video">&#9654;</div>
+            <div>
+              <div class="card-label">Watch</div>
+              <div class="card-title">Web Mirror</div>
+            </div>
+          </div>
+          <p>Watch the video "Web mirror" on the Flowcode YouTube site.</p>
+          <p>Load the file "Web mirror". Set up the hardware appropriately. Change the EB3 Web Mirror settings of the Touch screen component and enter the name and password of your local server.</p>
+          <p>Download the file and make sure you understand how the program works.</p>
+          <p>Use your mobile phone camera to grab the URL of the remote server from the displayed QR code that allows you to control the system over the internet.</p>
+          <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/rdSOYW6AXn0" title="Web Mirror" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon task">&#10003;</div>
+            <div>
+              <div class="card-label">Challenges</div>
+              <div class="card-title">Complete the Tasks</div>
+            </div>
+          </div>
+          <ul class="challenge-list">
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws12" data-idx="0"><span class="challenge-text">Take the program you wrote in the Touch control systems worksheet.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws12" data-idx="1"><span class="challenge-text">Change the EB3 Web Mirror settings of the Touch screen component to "Yes" and enter the name and password of your local server.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws12" data-idx="2"><span class="challenge-text">Compile the program to hardware.</span></li>
+            <li class="challenge-item"><input type="checkbox" class="challenge-check" data-ws="co-ws12" data-idx="3"><span class="challenge-text">Make sure that you can use your program on your mobile phone to control and monitor your hardware.</span></li>
+          </ul>
+        </div>
+
         <div class="ws-nav-buttons">
           <button class="btn btn-ghost" onclick="navigateTo('co-ws11')">&#8592; Worksheet 11</button>
           <button class="btn btn-success" onclick="navigateTo('welcome')">Back to Dashboard</button>
@@ -3676,18 +4392,18 @@ const WORKSHEETS = [
   // source material. challenges: 0 means no progress to track until content
   // arrives. Titles and tiers mirror CP4807 because the source CO0003 doc
   // says this course follows the same Bronze/Silver/Gold structure.
-  { id: 'co-ws1',  title: 'First Program',             tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws2',  title: 'Performing Calculations',   tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws3',  title: 'Connection Points',         tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws4',  title: 'Digital Inputs',            tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws5',  title: 'Making Decisions',          tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws6',  title: 'Macros / Subroutines',      tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws7',  title: 'Prototype Boards',          tier: 'bronze', challenges: 0, placeholder: true },
-  { id: 'co-ws8',  title: 'Colour Graphical Displays', tier: 'silver', challenges: 0, placeholder: true },
-  { id: 'co-ws9',  title: 'Pin Interrupts',            tier: 'silver', challenges: 0, placeholder: true },
-  { id: 'co-ws10', title: 'Timer Interrupts',          tier: 'silver', challenges: 0, placeholder: true },
-  { id: 'co-ws11', title: 'Touch Control Systems',     tier: 'gold',   challenges: 0, placeholder: true },
-  { id: 'co-ws12', title: 'Web Mirror',                tier: 'gold',   challenges: 0, placeholder: true },
+  { id: 'co-ws1',  title: 'First Program',             tier: 'bronze', challenges: 4 },
+  { id: 'co-ws2',  title: 'Performing Calculations',   tier: 'bronze', challenges: 8 },
+  { id: 'co-ws3',  title: 'Connection Points',         tier: 'bronze', challenges: 3 },
+  { id: 'co-ws4',  title: 'Digital Inputs',            tier: 'bronze', challenges: 6 },
+  { id: 'co-ws5',  title: 'Making Decisions',          tier: 'bronze', challenges: 2 },
+  { id: 'co-ws6',  title: 'Macros / Subroutines',      tier: 'bronze', challenges: 6 },
+  { id: 'co-ws7',  title: 'Prototype Boards',          tier: 'bronze', challenges: 3 },
+  { id: 'co-ws8',  title: 'Colour Graphical Displays', tier: 'silver', challenges: 1 },
+  { id: 'co-ws9',  title: 'Pin Interrupts',            tier: 'silver', challenges: 2 },
+  { id: 'co-ws10', title: 'Timer Interrupts',          tier: 'silver', challenges: 2 },
+  { id: 'co-ws11', title: 'Touch Control Systems',     tier: 'gold',   challenges: 3 },
+  { id: 'co-ws12', title: 'Web Mirror',                tier: 'gold',   challenges: 4 },
 ];
 
 const CP4807_IDS = ['ws1','ws2','ws3','ws4','ws5','ws6','ws7','ws8','ws9','ws10','ws11','ws12'];
