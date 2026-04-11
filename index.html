@@ -1592,6 +1592,77 @@
       margin-left: 14px;
     }
     .course-picker-card-progress .progress-bar { height: 6px; }
+
+    /* Collapsible course groups in the sidebar */
+    .course-nav-group {
+      border-top: 1px solid var(--border);
+      margin: 0 -16px;
+    }
+    .course-nav-group:last-child { border-bottom: 1px solid var(--border); }
+    .course-nav-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      background: transparent;
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .course-nav-header:hover { background: var(--bg-hover); }
+    .course-nav-header.active-course {
+      background: linear-gradient(90deg, var(--accent-glow) 0%, transparent 100%);
+    }
+    .course-nav-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+    }
+    .course-nav-info { flex: 1; min-width: 0; }
+    .course-nav-code {
+      font-size: 9px;
+      font-weight: 800;
+      color: var(--accent);
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+    .course-nav-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 3px;
+    }
+    .course-nav-progress {
+      font-size: 10px;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+    .course-nav-arrow {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.25s ease;
+      color: #9ca3af;
+      flex-shrink: 0;
+    }
+    .course-nav-group.expanded .course-nav-arrow { transform: rotate(90deg); }
+    .course-nav-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .course-nav-group.expanded .course-nav-body { max-height: 1500px; }
+    .course-nav-body .nav-tier { padding: 8px 16px 4px; }
+    .course-nav-body .nav-tier-label {
+      font-size: 9px;
+      letter-spacing: 1.2px;
+      margin-bottom: 4px;
+    }
   </style>
 </head>
 <body>
@@ -1646,104 +1717,8 @@
         </a>
       </div>
 
-      <!-- Bronze -->
-      <div class="nav-tier">
-        <div class="nav-tier-label tier-bronze"><span class="tier-dot"></span> Bronze</div>
-        <a class="nav-item" data-ws="ws1" onclick="navigateTo('ws1')">
-          <div class="nav-item-num">1</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">First Program</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws1"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws2" onclick="navigateTo('ws2')">
-          <div class="nav-item-num">2</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Performing Calculations</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws2"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws3" onclick="navigateTo('ws3')">
-          <div class="nav-item-num">3</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Connection Points</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws3"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws4" onclick="navigateTo('ws4')">
-          <div class="nav-item-num">4</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Digital Inputs</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws4"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws5" onclick="navigateTo('ws5')">
-          <div class="nav-item-num">5</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Making Decisions</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws5"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws6" onclick="navigateTo('ws6')">
-          <div class="nav-item-num">6</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Macros / Subroutines</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws6"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws7" onclick="navigateTo('ws7')">
-          <div class="nav-item-num">7</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Prototype Boards</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws7"></div></div></div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Silver -->
-      <div class="nav-tier">
-        <div class="nav-tier-label tier-silver"><span class="tier-dot"></span> Silver</div>
-        <a class="nav-item" data-ws="ws8" onclick="navigateTo('ws8')">
-          <div class="nav-item-num">8</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Colour Graphical Displays</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws8"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws9" onclick="navigateTo('ws9')">
-          <div class="nav-item-num">9</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Pin Interrupts</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws9"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws10" onclick="navigateTo('ws10')">
-          <div class="nav-item-num">10</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Timer Interrupts</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws10"></div></div></div>
-          </div>
-        </a>
-      </div>
-
-      <!-- Gold -->
-      <div class="nav-tier">
-        <div class="nav-tier-label tier-gold"><span class="tier-dot"></span> Gold</div>
-        <a class="nav-item" data-ws="ws11" onclick="navigateTo('ws11')">
-          <div class="nav-item-num">11</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Touch Control Systems</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws11"></div></div></div>
-          </div>
-        </a>
-        <a class="nav-item" data-ws="ws12" onclick="navigateTo('ws12')">
-          <div class="nav-item-num">12</div>
-          <div class="nav-item-info">
-            <div class="nav-item-title">Web Mirror</div>
-            <div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-ws12"></div></div></div>
-          </div>
-        </a>
-      </div>
+      <!-- Per-course collapsible nav (rendered by renderCourseNav()) -->
+      <div id="courseNav"></div>
 
       <!-- SCORM Info -->
       <div class="nav-tier" style="margin-top: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
@@ -3609,9 +3584,17 @@ function navigateTo(pageId) {
   const target = document.getElementById('page-' + pageId);
   if (target) target.classList.add('active');
 
-  // Update nav items
+  // Update nav items — match by both data-ws AND current course (worksheet rows
+  // are duplicated per course in the sidebar). Items without a data-course are
+  // top-level (Dashboard, All Courses, SCORM) and use just data-ws.
   document.querySelectorAll('.nav-item').forEach(n => {
-    n.classList.toggle('active', n.getAttribute('data-ws') === pageId);
+    const wsAttr = n.getAttribute('data-ws');
+    const courseAttr = n.getAttribute('data-course');
+    if (courseAttr) {
+      n.classList.toggle('active', wsAttr === pageId && courseAttr === currentCourse);
+    } else {
+      n.classList.toggle('active', wsAttr === pageId);
+    }
   });
 
   // Update breadcrumb
@@ -3698,27 +3681,25 @@ function calcCourseOverall(courseId) {
 }
 
 function updateAllUI() {
-  const activeWsIds = getCourseWorksheets().map(w => w.id);
-
-  // Per-worksheet progress
+  // Per-worksheet progress for the CURRENT course (in-page section bars)
   WORKSHEETS.forEach(ws => {
     const pct = calcWSPercent(ws.id);
-
-    // Section progress bar
     const bar = document.getElementById(ws.id + '-bar');
     const pctEl = document.getElementById(ws.id + '-pct');
     if (bar) bar.style.width = pct + '%';
     if (pctEl) animateNumberText(pctEl, pct);
+  });
 
-    // Nav progress bar
-    const navBar = document.getElementById('nav-bar-' + ws.id);
-    if (navBar) navBar.style.width = pct + '%';
-
-    // Nav completed state
-    const navItem = document.querySelector('.nav-item[data-ws="' + ws.id + '"]');
-    if (navItem) {
-      navItem.classList.toggle('completed', pct === 100);
-    }
+  // Per-course nav progress bars (every course's worksheets in the sidebar)
+  COURSES.forEach(course => {
+    course.worksheetIds.forEach(wsId => {
+      const navBar = document.getElementById('nav-bar-' + course.id + '-' + wsId);
+      if (!navBar) return;
+      const pct = calcWSPercentForCourse(course.id, wsId);
+      navBar.style.width = pct + '%';
+      const navItem = document.querySelector('.nav-item[data-course="' + course.id + '"][data-ws="' + wsId + '"]');
+      if (navItem) navItem.classList.toggle('completed', pct === 100);
+    });
   });
 
   // Overall progress — only for current course's worksheets
@@ -3726,10 +3707,11 @@ function updateAllUI() {
   animateNumberText(document.getElementById('overallPct'), overall.pct);
   document.getElementById('overallBar').style.width = overall.pct + '%';
 
-  // Welcome grid, course tabs, course picker
+  // Welcome grid, course tabs (no-op now), course picker, sidebar nav
   updateWelcomeGrid();
   renderCourseTabs();
   renderCoursePicker();
+  renderCourseNav();
 }
 
 function updateWelcomeGrid() {
@@ -3756,6 +3738,95 @@ function updateWelcomeGrid() {
       </div>
     `;
   }).join('');
+}
+
+// ===== PER-COURSE COLLAPSIBLE SIDEBAR NAV =====
+function getExpandedCourses() {
+  try { return new Set(JSON.parse(localStorage.getItem('lms-sidebar-expanded') || '[]')); }
+  catch { return new Set(); }
+}
+function setCourseExpanded(courseId, expanded) {
+  const s = getExpandedCourses();
+  if (expanded) s.add(courseId); else s.delete(courseId);
+  localStorage.setItem('lms-sidebar-expanded', JSON.stringify(Array.from(s)));
+}
+
+function calcWSPercentForCourse(courseId, wsId) {
+  const ws = WORKSHEETS.find(w => w.id === wsId);
+  if (!ws) return 0;
+  let prog = {};
+  try { prog = JSON.parse(localStorage.getItem('lms-progress-' + courseId) || '{}'); } catch {}
+  const done = (prog[wsId] || []).filter(Boolean).length;
+  return Math.round((done / ws.challenges) * 100);
+}
+
+function renderCourseNav() {
+  const container = document.getElementById('courseNav');
+  if (!container) return;
+  const expanded = getExpandedCourses();
+  // Auto-expand the active course on first render if nothing is saved
+  if (expanded.size === 0) expanded.add(currentCourse);
+
+  let html = '';
+  COURSES.forEach(course => {
+    const ov = calcCourseOverall(course.id);
+    const isExpanded = expanded.has(course.id);
+    const isActiveCourse = course.id === currentCourse;
+    const sheets = WORKSHEETS.filter(w => course.worksheetIds.indexOf(w.id) !== -1);
+    const tiers = { bronze: [], silver: [], gold: [] };
+    sheets.forEach(ws => tiers[ws.tier].push(ws));
+
+    html += '<div class="course-nav-group' + (isExpanded ? ' expanded' : '') + '" data-course="' + course.id + '">';
+    html += '<div class="course-nav-header' + (isActiveCourse ? ' active-course' : '') + '" onclick="toggleCourseNav(\'' + course.id + '\')">';
+    html += '<img class="course-nav-icon" src="' + course.thumbImage + '" alt="">';
+    html += '<div class="course-nav-info">';
+    html += '<div class="course-nav-code">' + course.code + '</div>';
+    html += '<div class="course-nav-title">' + course.shortTitle + '</div>';
+    html += '<div class="course-nav-progress">' + ov.pct + '% &middot; ' + ov.done + '/' + ov.total + '</div>';
+    html += '</div>';
+    html += '<svg class="course-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>';
+    html += '</div>';
+    html += '<div class="course-nav-body">';
+
+    [['bronze', 'Bronze'], ['silver', 'Silver'], ['gold', 'Gold']].forEach(([tier, label]) => {
+      if (!tiers[tier].length) return;
+      html += '<div class="nav-tier">';
+      html += '<div class="nav-tier-label tier-' + tier + '"><span class="tier-dot"></span> ' + label + '</div>';
+      tiers[tier].forEach(ws => {
+        const num = ws.id.replace('ws', '');
+        const pct = calcWSPercentForCourse(course.id, ws.id);
+        const completedClass = pct === 100 ? ' completed' : '';
+        const activeClass = (isActiveCourse && currentPage === ws.id) ? ' active' : '';
+        html += '<a class="nav-item' + completedClass + activeClass + '" data-ws="' + ws.id + '" data-course="' + course.id + '" onclick="navigateToInCourse(\'' + course.id + '\', \'' + ws.id + '\')">';
+        html += '<div class="nav-item-num">' + num + '</div>';
+        html += '<div class="nav-item-info">';
+        html += '<div class="nav-item-title">' + ws.title + '</div>';
+        html += '<div class="nav-item-progress"><div class="progress-bar"><div class="progress-bar-fill" id="nav-bar-' + course.id + '-' + ws.id + '" style="width:' + pct + '%"></div></div></div>';
+        html += '</div>';
+        html += '</a>';
+      });
+      html += '</div>';
+    });
+
+    html += '</div>'; // .course-nav-body
+    html += '</div>'; // .course-nav-group
+  });
+  container.innerHTML = html;
+}
+
+function toggleCourseNav(courseId) {
+  const group = document.querySelector('.course-nav-group[data-course="' + courseId + '"]');
+  if (!group) return;
+  const isExpanded = group.classList.toggle('expanded');
+  setCourseExpanded(courseId, isExpanded);
+}
+
+function navigateToInCourse(courseId, wsId) {
+  if (courseId !== currentCourse) {
+    switchCourse(courseId);
+    markCourseVisited(courseId);
+  }
+  navigateTo(wsId);
 }
 
 // ===== COURSE TABS & COURSE PICKER =====
@@ -3812,8 +3883,11 @@ function switchCourse(courseId) {
   if (!COURSES.find(c => c.id === courseId)) return;
   if (courseId === currentCourse) {
     renderCourseTabs();
+    renderCourseNav();
     return;
   }
+  // Switching course should auto-expand the new course in the sidebar
+  setCourseExpanded(courseId, true);
   // End any active SCORM session under the old course
   if (currentPage && currentPage.startsWith('ws')) {
     scormEndSession(currentPage);
