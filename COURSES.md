@@ -121,23 +121,55 @@ const COURSES = [
 ];
 ```
 
-### How `worksheetIds` enables safe content sharing
+### How `worksheetIds` works
 
-The `WORKSHEETS` array defines each worksheet **once** — `ws1`, `ws2`, `ws3`,
-etc. Each one has a single `<div id="page-ws1">…</div>` block in the DOM.
-There is **no duplicate copy** of any worksheet anywhere in `index.html`.
+The `WORKSHEETS` array defines every worksheet once. Each entry has a unique
+`id` and a matching `<div id="page-<id>">…</div>` block in the DOM. A course
+declares which worksheets it owns via its `worksheetIds` array.
 
-When a course's `worksheetIds` includes `'ws1'`, it means "when the user is on
-this course, show them the one `page-ws1` that already exists in the DOM."
+- **CP4807** has `worksheetIds: CP4807_IDS` → `ws1`, `ws2`, …, `ws12`.
+- **CO0003** has `worksheetIds: CO0003_IDS` → `co-ws1`, `co-ws2`, …, `co-ws12`
+  (placeholder pages — see Placeholder worksheets below).
 
-- **CP4807** has `worksheetIds: ['ws1', 'ws2', ..., 'ws12']` — all 12.
-- **CO0003** currently has the same 12, because the source document for CO0003
-  explicitly lists `CP4807-1.docx` through `CP4807-12.docx` as its `Document`
-  screens — i.e. the source *itself* says to reuse the exact same files.
+Each course points at its own worksheet IDs, so navigating between courses
+shows different content in the body. Two courses *can* share an ID if you
+deliberately want shared content (e.g. an "Introduction" page used by every
+course) — just include the same ID in both courses' `worksheetIds`. Progress
+on shared IDs is still per-course because the storage key is per-course.
 
-**This means verbatim-content drift is impossible between these two courses.**
-They are literally rendering the same DOM. If you fix a typo in the WS3 hints
-for CP4807, CO0003 gets the fix automatically.
+### Placeholder worksheets
+
+Some worksheets are placeholders — they exist in the navigation and have a
+DOM block, but the body just says "Coming soon — source content awaiting
+authoring". They're declared in `WORKSHEETS` with two extra fields:
+
+```js
+{ id: 'co-ws1', title: 'First Program', tier: 'bronze', challenges: 0, placeholder: true }
+```
+
+- `challenges: 0` — no checkboxes, no scoring math, no SCORM interactions.
+- `placeholder: true` — flagged so future tooling can spot them.
+
+The maths functions (`calcWSPercent`, `calcCourseOverall`, `checkAchievements`)
+all guard against `challenges: 0` so a placeholder worksheet is silently skipped
+from progress percentages and achievement counts.
+
+In `imsmanifest.xml`, placeholder worksheets get their own organization
+(`CO0003-org` separate from `CP4807-org`) and use `CO-ITEM-WSn` / `CO-RES-WSn`
+identifiers so they don't collide with the real `ITEM-WSn` / `RES-WSn` SCOs.
+Placeholder items deliberately have **no** `<adlcp:masteryscore>` because
+there's nothing to score yet.
+
+**To replace a placeholder with real content** when source files arrive:
+1. In the `WORKSHEETS` entry, set the real `challenges` count and remove
+   `placeholder: true`.
+2. Replace the `<div id="page-co-wsN">` block with a full worksheet body
+   following the layout rule (context → video → challenges → hints) using
+   verbatim text from the source `.docx`.
+3. Add `<adlcp:masteryscore>40</adlcp:masteryscore>` to the matching
+   `CO-ITEM-WSN` in the manifest.
+4. Run `python audit.py` (regenerate it from this doc if needed) to confirm
+   no rules broken.
 
 ### Per-course progress tracking
 
@@ -311,10 +343,14 @@ add it to every course by default.
 ### CO0003 — Digital techniques for aviation technicians
 
 - **Source**: `Assets/Digital Techniques for Aviation –/Microcontroller based courses 10 04 26.docx`
-- **Worksheets**: 12 (reuses ws1–ws12 by reference — source doc explicitly
-  lists `CP4807-1.docx` through `CP4807-12.docx` in its screen list)
-- **Status**: course home and progress tracking live. The source also lists
-  additional screens not yet built (see "Not yet built" below).
+- **Worksheets**: 12 placeholder pages (`co-ws1` … `co-ws12`)
+- **Status**: course home and progress tracking live. Worksheet pages are
+  placeholders with no challenges (`challenges: 0`, `placeholder: true`)
+  until source content is authored. Each placeholder shows a "Coming soon"
+  card explaining what's needed. This is what makes CO0003 visibly distinct
+  from CP4807 in the body — even though the original source doc says CO0003
+  reuses CP4807 worksheet files, the practical reality is each course needs
+  its own pages.
 
 #### Not yet built for CO0003
 
