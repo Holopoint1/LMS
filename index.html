@@ -964,7 +964,13 @@
       }
 
       .ws-hero-title {
-        font-size: 24px;
+        font-size: 22px;
+      }
+      .ws-hero-desc {
+        font-size: 13px;
+      }
+      .ws-hero-img {
+        height: 220px;
       }
 
       .welcome-stats {
@@ -975,8 +981,115 @@
         grid-template-columns: 1fr;
       }
 
+      .welcome-hero {
+        padding: 32px 16px 24px;
+      }
       .welcome-hero h1 {
+        font-size: 24px;
+      }
+      .welcome-hero p {
+        font-size: 14px;
+      }
+      .welcome-hero > img {
+        max-height: 200px;
+      }
+
+      /* Topbar — stack the prev/next buttons under the breadcrumb */
+      .topbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 10px 16px;
+      }
+      .topbar-left {
+        flex: 1 1 100%;
+        min-width: 0;
+      }
+      .breadcrumb {
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        min-width: 0;
+        flex: 1;
+      }
+      .topbar-right {
+        flex: 1 1 100%;
+        justify-content: space-between;
+      }
+      .topbar-right .btn {
+        flex: 1;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 12px;
+        padding: 8px 12px;
+      }
+
+      /* Welcome cards: any flex card with inline display:flex needs to wrap */
+      .card[style*="display: flex"],
+      .card[style*="display:flex"] {
+        flex-wrap: wrap;
+      }
+      .card[style*="display: flex"] > div[style*="flex:1"],
+      .card[style*="display:flex"] > div[style*="flex:1"] {
+        flex: 1 1 100% !important;
+      }
+      .card[style*="display: flex"] .btn,
+      .card[style*="display:flex"] .btn {
+        flex: 1 1 100%;
+      }
+
+      /* Hero text overlay should sit fully readable on small screens */
+      .ws-hero-overlay {
+        padding: 16px;
+      }
+
+      /* Cards generally want a tighter padding */
+      .card {
+        padding: 18px;
+      }
+
+      /* Image galleries reflow to one per row on phone */
+      .image-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      /* Achievements grid: tighter columns so they don't go single-column */
+      .achievements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 8px;
+      }
+      .achievement-badge {
+        padding: 12px 8px 10px;
+      }
+      .achievement-icon {
         font-size: 26px;
+      }
+
+      /* Course picker cards stack vertically */
+      .course-picker-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .course-picker-card-img {
+        height: 140px;
+      }
+
+      /* Sticky progress bar should sit just below the (now taller) topbar */
+      .ws-progress-bar {
+        top: 110px;
+      }
+
+      /* Chat toggle - smaller on phone so it doesn't dominate */
+      .chat-toggle {
+        padding: 11px 16px;
+        font-size: 13px;
+      }
+
+      /* Welcome cards inline-styled grid for the wiki links column gets too narrow */
+      .card div[style*="grid-template-columns: repeat(auto-fill, minmax(200px"] {
+        grid-template-columns: 1fr 1fr !important;
       }
     }
 
