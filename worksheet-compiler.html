@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Worksheet Compiler &middot; LMS</title>
+<style>
+  :root{
+    --accent:#4f46e5; --accent-hover:#4338ca; --text:#0f172a; --muted:#64748b;
+    --border:#e2e8f0; --bg:#f8fafc; --card:#ffffff; --danger:#dc2626; --ok:#059669;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);}
+  .wrap{max-width:880px;margin:0 auto;padding:32px 24px 80px;}
+  .back{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:14px;margin-bottom:16px;}
+  .back:hover{color:var(--accent);}
+  h1{font-size:26px;margin:0 0 6px;}
+  .sub{color:var(--muted);margin:0 0 24px;font-size:14px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:16px;}
+  .card h2{font-size:15px;margin:0 0 12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);}
+  label{display:block;font-size:13px;font-weight:600;margin-bottom:6px;}
+  input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;}
+  input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(79,70,229,.15);}
+  .drop{border:2px dashed var(--border);border-radius:10px;padding:28px;text-align:center;cursor:pointer;transition:.15s;background:#fafbff;}
+  .drop:hover,.drop.drag{border-color:var(--accent);background:#eef2ff;}
+  .drop p{margin:4px 0;color:var(--muted);font-size:13px;}
+  .drop strong{color:var(--text);font-size:14px;}
+  .file-list{margin-top:14px;display:flex;flex-direction:column;gap:6px;}
+  .file-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f8fafc;border:1px solid var(--border);border-radius:8px;font-size:13px;}
+  .file-row .idx{width:22px;height:22px;border-radius:6px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:0 0 auto;}
+  .file-row .name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .file-row .size{color:var(--muted);font-size:11px;flex:0 0 auto;}
+  .file-row button{border:1px solid var(--border);background:#fff;padding:4px 8px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--muted);}
+  .file-row button:hover:not(:disabled){background:var(--bg);color:var(--text);}
+  .file-row button:disabled{opacity:.35;cursor:not-allowed;}
+  .actions{display:flex;gap:10px;align-items:center;margin-top:20px;}
+  .btn{padding:11px 20px;border-radius:8px;font-weight:600;font-size:14px;border:0;cursor:pointer;font-family:inherit;}
+  .btn-primary{background:var(--accent);color:#fff;}
+  .btn-primary:hover:not(:disabled){background:var(--accent-hover);}
+  .btn-primary:disabled{opacity:.5;cursor:not-allowed;}
+  .btn-ghost{background:transparent;color:var(--muted);}
+  .btn-ghost:hover{color:var(--text);}
+  .status{margin-top:14px;font-size:13px;color:var(--muted);min-height:18px;}
+  .status.err{color:var(--danger);}
+  .status.ok{color:var(--ok);}
+  .progress{height:6px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:10px;display:none;}
+  .progress.active{display:block;}
+  .progress-bar{height:100%;background:var(--accent);width:0;transition:width .25s;}
+  /* Hidden render sandbox used to paint each docx to canvas */
+  #render-sandbox{position:fixed;left:-10000px;top:0;width:794px;background:#fff;padding:40px;font-family:Calibri,"Segoe UI",Arial,sans-serif;font-size:12pt;line-height:1.4;color:#000;}
+  #render-sandbox h1{font-size:20pt;margin:16px 0 8px;}
+  #render-sandbox h2{font-size:16pt;margin:14px 0 6px;}
+  #render-sandbox h3{font-size:13pt;margin:12px 0 4px;}
+  #render-sandbox p{margin:6px 0;}
+  #render-sandbox table{border-collapse:collapse;width:100%;margin:8px 0;}
+  #render-sandbox td,#render-sandbox th{border:1px solid #333;padding:4px 6px;vertical-align:top;}
+  #render-sandbox img{max-width:100%;height:auto;}
+  #render-sandbox ul,#render-sandbox ol{margin:6px 0 6px 22px;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Back to LMS</a>
+    <h1>Worksheet Compiler</h1>
+    <p class="sub">Merge multiple Word documents into a single, continuously paginated PDF. Content is preserved verbatim &mdash; no extra headers, footers, or cover pages.</p>
+
+    <div class="card">
+      <h2>1. Output filename</h2>
+      <label for="filename">PDF filename</label>
+      <input id="filename" type="text" value="CP4807-worksheets.pdf" spellcheck="false">
+    </div>
+
+    <div class="card">
+      <h2>2. Source documents</h2>
+      <div class="drop" id="drop">
+        <strong>Click to select .docx files</strong>
+        <p>or drag them here</p>
+        <p>Files will merge in the order shown below. Use the arrows to reorder.</p>
+      </div>
+      <input id="fileInput" type="file" accept=".docx" multiple style="display:none;">
+      <div class="file-list" id="fileList"></div>
+    </div>
+
+    <div class="actions">
+      <button id="compile" class="btn btn-primary" disabled>Compile PDF</button>
+      <button id="clear" class="btn btn-ghost">Clear</button>
+    </div>
+    <div class="progress" id="progress"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="status" id="status"></div>
+  </div>
+
+  <div id="render-sandbox"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.2/dist/html2pdf.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script>
+  (function(){
+    const fileInput = document.getElementById('fileInput');
+    const drop = document.getElementById('drop');
+    const list = document.getElementById('fileList');
+    const compileBtn = document.getElementById('compile');
+    const clearBtn = document.getElementById('clear');
+    const status = document.getElementById('status');
+    const progress = document.getElementById('progress');
+    const progressBar = document.getElementById('progressBar');
+    const filenameInput = document.getElementById('filename');
+    const sandbox = document.getElementById('render-sandbox');
+
+    let files = [];
+
+    function fmtSize(b){ if(b<1024)return b+' B'; if(b<1048576)return (b/1024).toFixed(1)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
+    function setStatus(msg, kind){ status.textContent = msg || ''; status.className = 'status' + (kind ? ' '+kind : ''); }
+    function setProgress(pct){ progress.classList.toggle('active', pct > 0 && pct < 100); progressBar.style.width = pct + '%'; }
+
+    function render(){
+      list.innerHTML = '';
+      files.forEach((f, i) => {
+        const row = document.createElement('div');
+        row.className = 'file-row';
+        row.innerHTML =
+          '<div class="idx">'+(i+1)+'</div>'+
+          '<div class="name"></div>'+
+          '<div class="size">'+fmtSize(f.size)+'</div>'+
+          '<button data-a="up" '+(i===0?'disabled':'')+'>&uarr;</button>'+
+          '<button data-a="down" '+(i===files.length-1?'disabled':'')+'>&darr;</button>'+
+          '<button data-a="rm">&times;</button>';
+        row.querySelector('.name').textContent = f.name;
+        row.querySelector('[data-a=up]').onclick = () => { [files[i-1],files[i]]=[files[i],files[i-1]]; render(); };
+        row.querySelector('[data-a=down]').onclick = () => { [files[i+1],files[i]]=[files[i],files[i+1]]; render(); };
+        row.querySelector('[data-a=rm]').onclick = () => { files.splice(i,1); render(); };
+        list.appendChild(row);
+      });
+      compileBtn.disabled = files.length === 0;
+    }
+
+    function addFiles(fl){
+      for (const f of fl){
+        if (!f.name.toLowerCase().endsWith('.docx')){
+          setStatus('Skipped '+f.name+' — only .docx files are supported.', 'err');
+          continue;
+        }
+        files.push(f);
+      }
+      render();
+    }
+
+    drop.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', e => { addFiles(e.target.files); fileInput.value=''; });
+    drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('drag'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('drag'));
+    drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('drag'); addFiles(e.dataTransfer.files); });
+    clearBtn.addEventListener('click', () => { files = []; render(); setStatus(''); setProgress(0); });
+
+    async function docxToPdfBytes(file){
+      const arrayBuffer = await file.arrayBuffer();
+      const { value: html } = await mammoth.convertToHtml({ arrayBuffer });
+      sandbox.innerHTML = html;
+      const opts = {
+        margin: [15, 15, 20, 15],
+        filename: 'tmp.pdf',
+        image: { type: 'jpeg', quality: 0.95 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff' },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'] }
+      };
+      const blob = await html2pdf().set(opts).from(sandbox).output('blob');
+      sandbox.innerHTML = '';
+      return new Uint8Array(await blob.arrayBuffer());
+    }
+
+    async function mergeAndPaginate(partBytesList){
+      const { PDFDocument, StandardFonts, rgb } = PDFLib;
+      const merged = await PDFDocument.create();
+      for (const bytes of partBytesList){
+        const src = await PDFDocument.load(bytes);
+        const pages = await merged.copyPages(src, src.getPageIndices());
+        pages.forEach(p => merged.addPage(p));
+      }
+      const font = await merged.embedFont(StandardFonts.Helvetica);
+      const pages = merged.getPages();
+      const total = pages.length;
+      pages.forEach((p, i) => {
+        const label = (i+1) + ' / ' + total;
+        const size = 9;
+        const width = font.widthOfTextAtSize(label, size);
+        const { width: pw } = p.getSize();
+        p.drawText(label, { x: (pw - width) / 2, y: 12, size, font, color: rgb(0.3,0.3,0.3) });
+      });
+      return await merged.save();
+    }
+
+    function download(bytes, name){
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = name;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    }
+
+    compileBtn.addEventListener('click', async () => {
+      const outName = (filenameInput.value || 'worksheets.pdf').trim();
+      if (!outName.toLowerCase().endsWith('.pdf')){
+        setStatus('Filename must end with .pdf', 'err'); return;
+      }
+      if (files.length === 0){ setStatus('Add at least one .docx file.', 'err'); return; }
+
+      compileBtn.disabled = true; clearBtn.disabled = true;
+      setStatus('Converting documents…'); setProgress(1);
+      try{
+        const parts = [];
+        for (let i=0;i<files.length;i++){
+          setStatus('Converting '+(i+1)+' of '+files.length+': '+files[i].name);
+          parts.push(await docxToPdfBytes(files[i]));
+          setProgress(Math.round(((i+1)/files.length) * 85));
+        }
+        setStatus('Merging and numbering pages…'); setProgress(92);
+        const finalBytes = await mergeAndPaginate(parts);
+        setProgress(100);
+        download(finalBytes, outName);
+        setStatus('Done — '+outName+' downloaded.', 'ok');
+      } catch(err){
+        console.error(err);
+        setStatus('Error: '+(err.message || err), 'err');
+      } finally {
+        compileBtn.disabled = files.length === 0;
+        clearBtn.disabled = false;
+        setTimeout(() => setProgress(0), 1500);
+      }
+    });
+  })();
+  </script>
+</body>
+</html>
