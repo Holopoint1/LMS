@@ -4935,7 +4935,7 @@ function renderCourseNav() {
   if (expanded.size === 0) expanded.add(currentCourse);
 
   let html = '';
-  COURSES.forEach(course => {
+  COURSES.filter(c => c.id === currentCourse).forEach(course => {
     const ov = calcCourseOverall(course.id);
     const isExpanded = expanded.has(course.id);
     const isActiveCourse = course.id === currentCourse;
